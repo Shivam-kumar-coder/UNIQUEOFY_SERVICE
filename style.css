@@ -1,6 +1,6 @@
-/* --- 1. Global Styles and Reset (UX: Readability) --- */
+/* --- 1. Global Styles and Reset (Mobile-First Base) --- */
 :root {
-    --primary-color: #007bff; /* Deep Blue, jaisa ki image mein hai */
+    --primary-color: #007bff; /* Deep Blue */
     --accent-color: #ff6f00; /* Bright Orange/Accent for CTA */
     --text-color: #333;
     --light-bg: #f8f9fa;
@@ -26,231 +26,273 @@ a {
 }
 
 section {
-    padding: 40px 20px;
+    padding: 30px 15px; /* Reduced padding for mobile optimization */
     text-align: center;
 }
 
 h1 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
+    font-size: 2.2rem;
+    color: white;
     margin-bottom: 0.5rem;
     font-weight: 700;
 }
 
 h2 {
-    font-size: 2rem;
-    margin-bottom: 30px;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
     font-weight: 600;
-}
-
-
-/* --- 2. Header and Navigation --- */
-.main-header {
-    background-color: white;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    position: sticky; /* Always visible */
-    top: 0;
-    z-index: 100;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
     color: var(--primary-color);
 }
 
 .btn {
     padding: 10px 20px;
-    border-radius: 50px; /* Rounded corners (UX) */
+    border-radius: 50px;
     font-weight: 600;
     text-transform: uppercase;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
     border: none;
     cursor: pointer;
 }
 
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+/* --- 2. Header and Navigation --- */
+.main-header {
+    background-color: white;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky; 
+    top: 0;
+    z-index: 100;
+}
+
+.logo-img {
+    height: 40px; 
+    width: auto;
+}
+
 .btn-call {
-    background-color: var(--accent-color); /* Prominent Color (UX: Action) */
+    background-color: var(--accent-color); 
+    color: white;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+}
+
+/* --- 3. Floating WhatsApp Button (UX) --- */
+.whatsapp-float {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 25px;
+    line-height: 50px;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* --- 4. Hero Section (Image Background) --- */
+.hero-section {
+    padding: 40px 15px;
+    height: 50vh; 
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/hero-bg.jpg') no-repeat center center; 
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     color: white;
 }
 
-.btn-call:hover {
-    background-color: #e65c00;
-}
-
-/* --- 3. Hero Section (The Booking Focus) --- */
-.hero-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 50px 20px;
-    background: var(--light-bg); /* Light background */
-}
-
-.hero-content {
-    max-width: 600px;
-    margin-bottom: 30px;
-}
-
 .sub-headline {
-    font-size: 1.2rem;
-    color: #555;
-}
-
-/* Form Styling (UX: Clean and Simple) */
-.booking-form-container {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    max-width: 450px;
-    width: 100%;
-}
-
-.booking-form-container h3 {
-    margin-top: 0;
-    color: var(--primary-color);
+    font-size: 1.1rem;
+    color: #ddd;
     margin-bottom: 20px;
 }
 
-#serviceRequestForm input, 
-#serviceRequestForm select, 
-#serviceRequestForm textarea {
+.btn-primary-cta {
+    background-color: var(--accent-color);
+    color: white;
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1rem;
+}
+
+/* --- 5. Services List (Swiggy/Zomato Style Cards) --- */
+.services-overview {
+    background-color: var(--light-bg);
+}
+
+.service-card-v2 {
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.service-card-v2:hover {
+    transform: translateY(-5px); /* Lift effect */
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-details {
+    padding: 15px;
+    text-align: left;
+}
+
+.card-title {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.card-description {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 15px;
+    min-height: 40px; /* Ensures consistent look */
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.btn-card-call {
+    flex: 1; 
+    background-color: #3cb05d; /* Green for Call */
+    color: white;
+    font-size: 0.95rem;
+    padding: 10px 10px;
+    border-radius: 6px;
+}
+
+.btn-card-book {
+    flex: 1;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.95rem;
+    padding: 10px 10px;
+    border-radius: 6px;
+}
+
+
+/* --- 6. Modal Styling (The Popup Form) --- */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 2000; /* High Z-index to be on top of everything */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10vh auto; /* Adjusted margin for better mobile view */
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%; 
+    max-width: 400px; 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    position: relative;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover, .close-btn:focus {
+    color: #000;
+}
+
+/* Modal Form Fields Styling */
+#serviceModalForm input, #serviceModalForm textarea {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
-    border-radius: 6px; /* Soft edges (UX) */
-    font-size: 1rem;
+    border-radius: 6px;
     font-family: var(--font-family);
-    transition: border-color 0.3s;
+    font-size: 1rem;
 }
 
-#serviceRequestForm input:focus,
-#serviceRequestForm select:focus,
-#serviceRequestForm textarea:focus {
-    border-color: var(--accent-color);
-    outline: none;
+#serviceModalForm textarea {
+    resize: vertical;
 }
 
-.btn-submit {
+.btn-submit-modal {
     width: 100%;
-    background-color: var(--primary-color);
+    background-color: var(--accent-color);
     color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
     font-size: 1.1rem;
-    padding: 15px;
-    margin-top: 10px;
 }
 
-.btn-submit:hover {
-    background-color: #0056b3;
-}
-
-.small-text {
-    font-size: 0.8rem;
-    color: #888;
-    margin-top: 10px;
-}
-
-/* --- 4. Services Overview --- */
-.services-overview {
-    background-color: white;
-}
-
-.service-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.service-card {
-    background: var(--light-bg);
-    padding: 25px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s;
-}
-
-.service-card:hover {
-    transform: translateY(-5px); /* Lift effect (UX) */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-.icon-bg {
-    font-size: 2.5rem;
-    color: var(--accent-color);
-    margin-bottom: 15px;
-}
-
-.service-card h4 {
-    color: var(--primary-color);
-    margin-bottom: 8px;
-    font-size: 1.2rem;
-}
-
-.service-card p {
-    font-size: 0.95rem;
-    color: #666;
-}
-
-/* --- 5. Footer --- */
+/* --- 7. Footer --- */
 .main-footer {
     background-color: #333;
     color: white;
     padding: 20px;
     font-size: 0.9rem;
+    text-align: center;
 }
 
 .main-footer a {
     color: #ffc107;
 }
 
-/* --- 6. Floating WhatsApp Button (Mobile UX) --- */
-.whatsapp-float {
-    position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 20px;
-    right: 20px;
-    background-color: #25d366;
-    color: #FFF;
-    border-radius: 50px;
-    text-align: center;
-    font-size: 30px;
-    line-height: 60px;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.whatsapp-float:hover {
-    background-color: #128c7e;
-}
-
-/* --- 7. Mobile Responsiveness (UX) --- */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2rem;
+/* --- 8. Desktop Adjustments --- */
+@media (min-width: 769px) {
+    section {
+        padding: 50px 40px;
     }
-    .main-header {
-        flex-direction: column;
-        gap: 10px;
+    h1 {
+        font-size: 3rem;
+    }
+    h2 {
+        font-size: 2.2rem;
     }
     .hero-section {
-        flex-direction: column;
-        padding: 40px 15px;
+        height: 60vh;
     }
-    .service-grid {
-        grid-template-columns: 1fr;
+    /* Grid for desktop service cards */
+    .services-overview {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
     }
-    .btn-call {
-        width: 100%;
-        text-align: center;
+    .service-card-v2 {
+        margin-bottom: 0;
     }
 }
