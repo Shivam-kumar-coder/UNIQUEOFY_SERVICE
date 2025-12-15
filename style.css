@@ -104,7 +104,7 @@ h2 {
 /* --- 4. Hero Section (Height & Background Path Fix) --- */
 .hero-section {
     padding: 40px 15px;
-    height: 40vh; /* ⭐ FIXED: Height 50vh se 40vh kar di gayi ⭐ */
+    height: 50vh; /* ⭐ FIXED: Height 50vh se 40vh kar di gayi ⭐ */
     /* ⭐ FIXED: Path se 'images/' hata diya गया ⭐ */
     background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('hero-bg.jpg') no-repeat center center; 
     background-size: cover;
