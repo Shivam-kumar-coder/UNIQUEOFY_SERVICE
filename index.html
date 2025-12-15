@@ -27,10 +27,10 @@
 
     <section class="services-overview" id="services-list">
         <div id="service-list-title" class="section-title">
-        </div>
+            </div>
         
         <div id="services-list-container" class="category-icon-grid">
-        </div>
+            </div>
     </section>
 
     <footer class="main-footer">
@@ -49,7 +49,13 @@
 
                 <input type="text" name="entry.406987541" placeholder="Apka Pura Naam *" required>
                 <input type="tel" name="entry.1596700010" placeholder="Mobile Number *" required>
-                <textarea name="entry.1012170305" placeholder="Aapka Location/Address aur Zarurat (Brief mein) *" rows="3" required></textarea>
+                
+                <textarea name="entry.1012170305" id="userAddress" placeholder="Pura Address, Landmark, aur City Name *" rows="3" required></textarea>
+                
+                <button type="button" id="getLocationBtn" class="btn btn-location-fetch">
+                    <i class="fas fa-location-arrow"></i> Use My Current Location
+                </button>
+                <div id="locationStatus" class="location-status-text"></div> 
                 
                 <button type="submit" class="btn btn-submit-modal">CONFIRM BOOKING</button>
             </form>
