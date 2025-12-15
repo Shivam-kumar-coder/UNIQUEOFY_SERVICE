@@ -1,9 +1,9 @@
 /* --- 1. Global Styles and Reset --- */
 :root {
-    --primary-color: #007bff; /* Deep Blue (Book Now) */
-    --accent-color: #ff6f00; /* Bright Orange (CTA/Submit) */
-    --success-color: #28a745; /* Green (Call Now) */
-    --light-bg: #f5f7f9; /* Lighter background for cards */
+    --primary-color: #007bff; 
+    --accent-color: #ff6f00; 
+    --success-color: #28a745; 
+    --light-bg: #f5f7f9; 
     --font-family: 'Poppins', sans-serif;
 }
 
@@ -26,7 +26,7 @@ section { padding: 30px 15px; text-align: center; }
 h1 { 
     font-size: 2rem; 
     color: white; 
-    margin-bottom: 25px; /* Increased spacing */
+    margin-bottom: 25px; 
     font-weight: 700; 
     text-align: left;
     line-height: 1.2;
@@ -55,9 +55,8 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
 /* --- 2. Hero Section (Fitted and Focused) --- */
 .hero-section {
     padding: 20px 20px 30px 20px; 
-    height: auto; /* Auto height for better fit */
+    height: auto; 
     
-    /* Image fix and fit */
     background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('hero-bg.jpg') no-repeat center center; 
     background-size: cover;
     background-position: center; 
@@ -75,7 +74,7 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
     text-align: center;
 }
 
-/* Mock Header (For clean start) */
+/* Mock Header */
 .app-header-mock {
     width: 100%;
     display: flex;
@@ -93,11 +92,11 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
 }
 
 
-/* Search Bar Finish (Cute and Stylish) */
+/* Search Bar Finish */
 .hero-search-container {
     display: flex;
     background: white;
-    border-radius: 10px; /* Less rounded than 50px */
+    border-radius: 10px; 
     overflow: hidden;
     margin: 15px 0 20px 0;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
@@ -122,11 +121,11 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
     border-radius: 0;
 }
 
-/* Explore Link (Cute and Big) */
+/* Explore Link */
 .hero-explore-link {
-    color: #ffc107; /* Brighter accent color */
+    color: #ffc107; 
     font-weight: 600;
-    font-size: 1.1rem; /* ⭐ Bigger size ⭐ */
+    font-size: 1.1rem; 
     padding: 8px 15px;
     border: 1px solid #ffc107;
     border-radius: 20px;
@@ -138,38 +137,18 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
     margin-right: 8px;
     color: var(--accent-color);
 }
-.hero-explore-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
 
 
 /* --- 3. Services List Containers (Tier 1 and Tier 2) --- */
-
 .services-overview {
     background-color: white;
     padding-top: 20px;
 }
 
-.section-title {
-    padding: 10px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.back-btn {
-    background: none;
-    border: none;
-    color: var(--primary-color);
-    font-size: 1.5rem;
-    margin-right: 15px;
-    cursor: pointer;
-}
-
-/* TIER 1: Category Icons (Cute Grid) */
+/* TIER 1: Category Icons (3D Images) */
 .category-icon-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* ⭐ 2 icons per row for bigger cards ⭐ */
+    grid-template-columns: repeat(2, 1fr); 
     gap: 15px;
     padding: 15px 0;
 }
@@ -178,10 +157,10 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
     background: white;
     border-radius: 12px; 
     padding: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Better shadow */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
-    text-align: left; /* Text alignment fix */
+    text-align: left; 
 }
 
 .category-icon-card:hover {
@@ -189,28 +168,25 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* AI Generated Image placeholder style */
 .category-img {
     width: 100%;
-    height: 100px; /* Fixed height for image area */
-    object-fit: cover;
+    height: 100px; 
+    object-fit: contain; /* ⭐ 3D image fit 'contain' for best look ⭐ */
     border-radius: 8px;
     margin-bottom: 10px;
-    /* This style will simulate the AI image placeholder */
-    background-color: #e0e0e0; 
 }
 
 .category-name {
-    font-size: 1.0rem; /* Bigger text */
+    font-size: 1.0rem; 
     font-weight: 600;
     color: var(--primary-color);
 }
 
 
-/* TIER 2: Service Cards (Finished Look) */
+/* TIER 2: Service Cards (Video Embed) */
 .service-card-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Stacked list on mobile */
+    grid-template-columns: 1fr; 
     gap: 20px;
     padding: 10px 0;
 }
@@ -227,13 +203,15 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
 .card-image {
     width: 100%;
     height: 200px;
-    background-size: cover;
-    background-position: center;
+    position: relative; 
+    overflow: hidden;
 }
 
-.card-details {
-    padding: 15px;
-    text-align: left;
+/* Video Fit CSS */
+.service-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Video fills the entire container */
 }
 
 .card-title {
@@ -242,30 +220,23 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
     margin-bottom: 5px;
 }
 
-.card-description {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 15px;
-}
-
 .card-actions {
     display: flex;
-    justify-content: flex-start; /* Buttons start from left */
+    justify-content: flex-start; 
     gap: 10px;
 }
 
-/* ⭐ Card Button Finish ⭐ */
 .btn-card-call, .btn-card-book {
     padding: 8px 15px;
     font-size: 0.85rem;
     text-transform: none;
-    flex-grow: 0; /* No stretching */
+    flex-grow: 0; 
 }
 .btn-card-call { background-color: var(--success-color); color: white; }
 .btn-card-book { background-color: var(--primary-color); color: white; }
 
 
-/* --- 4. Modal Styling --- (Including Location Feature Styles) */
+/* --- 4. Modal Styling --- (Location Feature Styles) */
 .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); }
 .modal-content { background-color: #fefefe; margin: 10vh auto; padding: 25px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); position: relative; }
 .close-btn { color: #aaa; float: right; font-size: 30px; font-weight: bold; cursor: pointer; }
@@ -302,9 +273,7 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
     section { padding: 50px 40px; }
     .hero-section { height: 45vh; } 
     .hero-content { max-width: 800px; }
-    .app-header-mock, .hero-search-container, h1, .hero-explore-link { max-width: 600px; margin-left: auto; margin-right: auto; }
     
-    /* Desktop TIER 1: 4 icons per row */
     .category-icon-grid { 
         grid-template-columns: repeat(4, 1fr); 
         gap: 25px; 
@@ -312,7 +281,6 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
         margin: 0 auto;
     }
     
-    /* Desktop TIER 2: 2 cards per row */
     .service-card-grid { 
         grid-template-columns: repeat(2, 1fr);
         gap: 30px;
