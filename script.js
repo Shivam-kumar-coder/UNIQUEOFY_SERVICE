@@ -1,25 +1,39 @@
 // --- 1. SERVICE DATA (Tiered System: Categories -> Services) ---
-// Note: Category 'img' names and Service 'imgUrl' names ko aapke AI generated image names se replace karna hoga.
 
 const CATEGORIES = [
-    { id: 'home', name: 'Home Control', img: 'cat-home.png' }, // Example Image Name
-    { id: 'hospital', name: 'Hospital Maint.', img: 'cat-hospital.png' },
-    { id: 'industrial', name: 'Industrial Maint.', img: 'cat-industry.png' },
-    { id: 'repairing', name: 'Appliance Repair', img: 'cat-repair.png' },
-    { id: 'painting', name: 'Painting & Civil', img: 'cat-painting.png' },
-    { id: 'cleaning', name: 'Deep Cleaning', img: 'cat-cleaning.png' }
+    // ⭐ IMPORTANT: Use these file names (3D Images) ⭐
+    { id: 'home', name: 'Home Control', img: '3d-home-control.png' }, 
+    { id: 'hospital', name: 'Hospital Maint.', img: '3d-hospital-maint.png' },
+    { id: 'industrial', name: 'Industrial Maint.', img: '3d-industrial-maint.png' },
+    { id: 'repairing', name: 'Appliance Repair', img: '3d-repair-service.png' },
+    { id: 'painting', name: 'Painting & Civil', img: '3d-painting.png' },
+    { id: 'cleaning', name: 'Deep Cleaning', img: '3d-deep-cleaning.png' }
 ];
 
 const SERVICES_BY_CATEGORY = {
     'home': [
-        { name: 'Deep Home Cleaning', desc: 'Full house deep cleaning.', imgUrl: 'service-home-clean.jpg' },
-        { name: 'Pest Control', desc: 'Cockroach, Termite, and Mosquito.', imgUrl: 'service-pest.jpg' },
-        { name: 'Plumbing & Electric', desc: 'Urgent repairs and installation.', imgUrl: 'service-plumb.jpg' }
+        // ⭐ IMPORTANT: Use these file names (AI Videos .mp4) ⭐
+        { name: 'Deep Home Cleaning', desc: 'Full house deep cleaning service.', fileUrl: 'deep-cleaning-video.mp4' }, 
+        { name: 'Pest Control', desc: 'Cockroach, Termite, and Mosquito solutions.', fileUrl: 'pest-control-video.mp4' },
+        { name: 'Plumbing & Electric', desc: 'Urgent repairs and new installation.', fileUrl: 'plumbing-electric-video.mp4' }
     ],
     'hospital': [
-        { name: 'Equipment AMC', desc: 'Annual Maintenance Contracts.', imgUrl: 'service-hosp-amc.jpg' },
+        { name: 'Equipment AMC', desc: 'Annual Maintenance Contracts for devices.', fileUrl: 'hosp-amc-video.mp4' },
+        { name: 'Sanitization Service', desc: 'High-grade hospital sanitization.', fileUrl: 'hosp-sanit-video.mp4' }
     ],
-    // ... Add all other category services here
+    'industrial': [
+        { name: 'Heavy Machinery Repair', desc: 'Specialized machine maintenance.', fileUrl: 'ind-mach-repair.mp4' },
+        { name: 'Facility Management', desc: 'Complete industrial facility upkeep.', fileUrl: 'ind-mgmt-video.mp4' }
+    ],
+    'repairing': [
+        { name: 'AC Repair & Service', desc: 'All types of AC repair and gas refilling.', fileUrl: 'ac-repair-video.mp4' }
+    ],
+    'painting': [
+        { name: 'Interior Painting', desc: 'Professional wall painting and texture work.', fileUrl: 'interior-paint-video.mp4' }
+    ],
+    'cleaning': [
+        { name: 'Commercial Cleaning', desc: 'Office and store deep cleaning.', fileUrl: 'commercial-clean-video.mp4' }
+    ]
 };
 
 // --- 2. CORE JAVASCRIPT LOGIC ---
@@ -36,15 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const addressTextarea = document.getElementById('userAddress');
     const locationStatus = document.getElementById('locationStatus');
     
-    // --- Render Tier 1 (Category Icons) ---
+    // --- Render Tier 1 (Category Icons - 3D Image Load) ---
     function renderCategories() {
         serviceTitle.innerHTML = '<h2>Choose a Category</h2>';
         servicesListContainer.className = 'category-icon-grid';
         
-        // Rendering the cute category cards
         servicesListContainer.innerHTML = CATEGORIES.map(cat => `
             <div class="category-icon-card" data-category-id="${cat.id}">
-                <div class="category-img" style="background-image: url('${cat.img}'); background-size: cover; background-position: center;"></div> 
+                <img src="${cat.img}" alt="${cat.name}" class="category-img">
                 <p class="category-name">${cat.name}</p>
             </div>
         `).join('');
@@ -52,9 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
         attachCategoryListeners();
     }
 
-    // --- Render Tier 2 (Service Cards) ---
+    // --- Render Tier 2 (Service Cards - Video Load) ---
     function renderServiceCards(categoryId) {
-        const categoryName = CATEGORIES.find(c => c.id === categoryId).name;
+        const categoryName = CATEGORIES.find(c => c.id === categoryId)?.name || 'Services';
         const services = SERVICES_BY_CATEGORY[categoryId] || [];
         
         serviceTitle.innerHTML = `<h2><button class="back-btn"><i class="fas fa-arrow-left"></i></button> ${categoryName} Services</h2>`;
@@ -65,26 +78,46 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Rendering the finished service cards
-        servicesListContainer.innerHTML = services.map(service => `
-            <div class="service-card-v2">
-                <div class="card-image" style="background-image: url('${service.imgUrl}');"></div> 
-                <div class="card-details">
-                    <h4 class="card-title">${service.name}</h4>
-                    <p class="card-description">${service.desc}</p>
-                    <div class="card-actions">
-                        <a href="tel:7870066085" class="btn btn-card-call"><i class="fas fa-phone-alt"></i> Call</a>
-                        <button class="btn btn-card-book" data-service-name="${service.name}">Book</button> 
+        servicesListContainer.innerHTML = services.map(service => {
+            
+            const fileExtension = service.fileUrl.split('.').pop().toLowerCase();
+            let mediaHTML;
+
+            if (fileExtension === 'mp4' || fileExtension === 'webm') {
+                // Video Logic: Autoplay, Loop, Muted
+                mediaHTML = `
+                    <div class="card-image">
+                        <video class="service-video" autoplay loop muted playsinline>
+                            <source src="${service.fileUrl}" type="video/${fileExtension}">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                `;
+            } else {
+                // Image Fallback (If fileUrl is not video)
+                mediaHTML = `<div class="card-image" style="background-image: url('${service.fileUrl}');"></div>`;
+            }
+
+            return `
+                <div class="service-card-v2">
+                    ${mediaHTML}
+                    <div class="card-details">
+                        <h4 class="card-title">${service.name}</h4>
+                        <p class="card-description">${service.desc}</p>
+                        <div class="card-actions">
+                            <a href="tel:7870066085" class="btn btn-card-call"><i class="fas fa-phone-alt"></i> Call</a>
+                            <button class="btn btn-card-book" data-service-name="${service.name}">Book</button> 
+                        </div>
                     </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
         
         attachServiceButtonListeners();
         document.getElementById('services-list').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // --- Attach Listeners (Same Logic) ---
+    // --- Attach Listeners & Modal Logic (Same as before) ---
     function attachCategoryListeners() {
         document.querySelectorAll('.category-icon-card').forEach(card => {
             card.addEventListener('click', function() {
@@ -100,10 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const hiddenServiceName = form.querySelector('#hiddenServiceName');
                 
                 serviceNameDisplay.textContent = serviceName;
-                hiddenServiceName.name = 'entry.2005620554'; 
+                hiddenServiceName.name = 'entry.2005620554'; // Google Form Entry ID
                 hiddenServiceName.value = serviceName;
                 
-                // Reset location on modal open
                 locationStatus.textContent = '';
                 addressTextarea.value = '';
 
@@ -114,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.back-btn')?.addEventListener('click', renderCategories);
     }
     
-    // --- Geolocation Logic (The Location Fix) ---
+    // --- Geolocation Logic ---
     if (locationBtn) {
         locationBtn.addEventListener('click', () => {
             locationStatus.textContent = 'Fetching location...';
@@ -150,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Modal and Form Logic ---
+    // --- Final Initialisation ---
     if (closeBtn) closeBtn.addEventListener('click', () => modal.style.display = "none");
     window.addEventListener('click', (event) => {
         if (event.target === modal) modal.style.display = "none";
@@ -161,20 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitButton = form.querySelector('.btn-submit-modal');
             submitButton.textContent = 'Submitting...';
             submitButton.disabled = true;
-
             await new Promise(resolve => setTimeout(resolve, 1000));
-            
             alert(`Thank you for your request! We will call you shortly.`);
-            
             form.reset(); 
             modal.style.display = "none";
-            
             submitButton.textContent = 'CONFIRM BOOKING';
             submitButton.disabled = false;
         });
     }
     
-    // INITIAL RENDER and Smooth scroll
     renderCategories();
     document.querySelector('.hero-explore-link')?.addEventListener('click', function(e) {
         e.preventDefault();
