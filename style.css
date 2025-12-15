@@ -1,23 +1,248 @@
 /* --- 1. Global Styles and Reset --- */
-/* ... (Same as previous final version) ... */
+:root {
+    --primary-color: #007bff; 
+    --accent-color: #ff6f00; 
+    --text-color: #333;
+    --light-bg: #f8f9fa;
+    --font-family: 'Poppins', sans-serif;
+}
 
-/* --- 2. Header and Navigation (REMOVED) --- */
-/* .main-header, .logo-img, .btn-call CSS is deleted */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/* --- 3. Floating WhatsApp Button (Same) --- */
-/* ... (Same as previous final version) ... */
+body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: white;
+}
 
-/* --- 4. Hero Section with Search (Slightly adjusted top padding) --- */
+a { text-decoration: none; color: var(--primary-color); }
+
+section { padding: 30px 15px; text-align: center; }
+
+h1 { font-size: 2.2rem; color: white; margin-bottom: 10px; font-weight: 700; }
+h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--primary-color); }
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 6px; 
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: background-color 0.3s, transform 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover { transform: translateY(-1px); }
+
+/* --- 2. Hero Section (Full Top Fix) --- */
 .hero-section {
-    padding: 60px 15px 40px 15px; /* ⭐ Increased top padding since header is gone ⭐ */
-    height: 45vh; 
+    padding: 80px 15px 40px 15px; /* Top padding increased */
+    height: 60vh; 
+    
+    /* Image fix and fit */
     background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('hero-bg.jpg') no-repeat center center; 
     background-size: cover;
-    background-position: center bottom;
+    background-position: center bottom; 
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: white;
 }
-/* ... (Rest of the CSS is the same for search, tiers, and cards) ... */
+
+.hero-content {
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Search Bar Styling */
+.hero-search-container {
+    display: flex;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 20px 0 15px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.hero-explore-link {
+    color: #ffd700; 
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+/* --- 3. Services List Containers (Tier 1 and Tier 2) --- */
+
+.services-overview {
+    background-color: white;
+    padding-top: 15px;
+}
+
+.section-title {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+/* TIER 1: Category Icons */
+.category-icon-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 15px;
+    padding: 15px 0;
+}
+
+.category-icon-card {
+    background: var(--light-bg);
+    border-radius: 8px;
+    padding: 15px 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.category-img {
+    width: 45px; 
+    height: 45px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+.category-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+
+/* TIER 2: Service Cards */
+.service-card-grid {
+    display: flex;
+    flex-direction: column; 
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.service-card-v2 {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.card-image {
+    width: 100%;
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.btn-card-call { background-color: #3cb05d; color: white; }
+.btn-card-book { background-color: var(--primary-color); color: white; }
+
+
+/* --- 4. Modal Styling --- */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); }
+.modal-content { background-color: #fefefe; margin: 10vh auto; padding: 25px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); position: relative; }
+.close-btn { color: #aaa; float: right; font-size: 30px; font-weight: bold; cursor: pointer; }
+#serviceModalForm input, #serviceModalForm textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; font-family: var(--font-family); font-size: 1rem; }
+.btn-submit-modal { width: 100%; background-color: var(--accent-color); color: white; padding: 14px; border: none; border-radius: 6px; font-weight: 600; font-size: 1.1rem; }
+
+
+/* --- NEW LOCATION BUTTON STYLE --- */
+.btn-location-fetch {
+    background-color: #5bc0de; 
+    color: white;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-location-fetch i {
+    margin-right: 8px;
+}
+
+.location-status-text {
+    font-size: 0.8rem;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 10px;
+    min-height: 20px;
+}
+
+
+/* --- 5. Footer & Desktop Adjustments --- */
+.main-footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+@media (min-width: 769px) {
+    section { padding: 50px 40px; }
+    h1 { font-size: 3rem; }
+    .hero-section { height: 70vh; } 
+    .hero-content { max-width: 600px; }
+
+    .category-icon-grid { grid-template-columns: repeat(6, 1fr); gap: 25px; }
+    .service-card-grid { 
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+}
