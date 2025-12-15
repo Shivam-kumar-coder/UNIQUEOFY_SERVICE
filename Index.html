@@ -33,28 +33,29 @@
         
         <div class="booking-form-container">
             <h3>Quick Service Request (Free Quote)</h3>
-            <form id="serviceRequestForm" action="YOUR_FORM_SUBMISSION_URL" method="POST">
-                <input type="text" name="name" placeholder="Apka Pura Naam *" required>
-                <input type="tel" name="phone" placeholder="Mobile Number *" required>
+            
+            <form id="serviceRequestForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfM-FYo-Sdfw1wPntYEZ_h9KOjL-IadFeeGwXgvghXVHbrGoQ/formResponse" method="POST" target="_blank">
                 
-                <select name="service" required>
+                <input type="text" name="entry.12345678" placeholder="Apka Pura Naam *" required>
+                <input type="tel" name="entry.12345678" placeholder="Mobile Number *" required>
+                
+                <select name="entry.12345678" required>
                     <option value="" disabled selected>Kis Service ki Zarurat hai? *</option>
-                    <option value="Home Services">🏠 HOME Services (Cleaning, Repair, Maintenance)</option>
-                    <option value="Industrial Services">🏭 INDUSTRIAL Services (Machinery, Facility)</option>
-                    <option value="Hospital Services">🏥 HOSPITAL Services (Equipment, Upkeep)</option>
+                    <option value="Home Services">🏠 HOME Services</option>
+                    <option value="Industrial Services">🏭 INDUSTRIAL Services</option>
+                    <option value="Hospital Services">🏥 HOSPITAL Services</option>
                     <option value="Repairing">🔧 REPAIRING Services</option>
                     <option value="Painting">🎨 PAINTING Services</option>
                     <option value="Cleaning">🧹 CLEANING Services</option>
-                    <option value="Hotels">🏨 HOTELS Services (Facility Management)</option>
                     <option value="Part-Time Work">👥 PART-TIME WORK Staff</option>
                 </select>
                 
-                <textarea name="address_details" placeholder="Aapka Location/Address aur Zarurat (Brief mein) *" rows="3" required></textarea>
+                <textarea name="entry.12345678" placeholder="Aapka Location/Address aur Zarurat (Brief mein) *" rows="3" required></textarea>
                 
                 <button type="submit" class="btn btn-submit">REQUEST A CALLBACK</button>
                 <p class="small-text">Our team will call you within 15 minutes.</p>
             </form>
-        </div>
+            </div>
     </section>
 
     <section class="services-overview">
@@ -103,7 +104,7 @@
     <footer class="main-footer">
         <p>CALL/WHATSAPP: <a href="tel:YOUR_PHONE_NUMBER">[Your Number Here]</a></p>
         <p>&copy; 2025 UNIQUEOFY SERVICES. All rights reserved.</p>
-        </footer>
+    </footer>
 
     <script src="script.js"></script>
 </body>
