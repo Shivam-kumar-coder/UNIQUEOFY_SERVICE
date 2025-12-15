@@ -1,12 +1,12 @@
 // --- 1. SERVICE DATA (The Zomato/Swiggy Variable System) ---
 
-// ⭐ FIXED: Image paths se 'images/' hata diya gaya hai ⭐
+// ⭐ FIXED: Image paths root level par set hain ⭐
 const SERVICE_DATA = [
     { 
         id: 'home', 
         name: '🏠 HOME Services', 
         desc: 'Deep Cleaning, Pest Control, Plumbing, Electrician, and complete Home Maintenance Solutions.', 
-        imgUrl: 'service-home.jpg' // Ab root se load hoga
+        imgUrl: 'service-home.jpg' 
     },
     { 
         id: 'hospital', 
@@ -20,9 +20,130 @@ const SERVICE_DATA = [
         desc: 'Machinery Repair, Heavy Equipment Maintenance, and Industrial Facility Management solutions.', 
         imgUrl: 'service-industrial.jpg'
     },
-    // ... baki services bhi isi tarah 'images/' prefix ke bina honge
+    { 
+        id: 'repairing', 
+        name: '🔧 REPAIRING Services', 
+        desc: 'All types of appliance and machinery repair services by certified technicians.', 
+        imgUrl: 'service-repair.jpg'
+    },
+    { 
+        id: 'painting', 
+        name: '🎨 PAINTING Services', 
+        desc: 'Professional interior and exterior painting, polishing, and waterproofing solutions.', 
+        imgUrl: 'service-painting.jpg'
+    },
+    { 
+        id: 'cleaning', 
+        name: '🧹 CLEANING Services', 
+        desc: 'Commercial and Residential deep cleaning services using eco-friendly products.', 
+        imgUrl: 'service-cleaning.jpg'
+    }
 ];
 
 
 // --- 2. CORE JAVASCRIPT LOGIC ---
-// ... (Rest of the code is the same) ...
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Elements Setup
+    const servicesListContainer = document.getElementById('services-list-container');
+    const modal = document.getElementById("bookingModal");
+    const closeBtn = document.querySelector(".close-btn");
+    const serviceNameDisplay = document.getElementById("modalServiceName");
+    const form = document.getElementById("serviceModalForm");
+    
+    // --- FUNCTION 1: Auto-Generate Service Cards ---
+    function renderServiceCards() {
+        if (!servicesListContainer) return;
+
+        servicesListContainer.innerHTML = SERVICE_DATA.map(service => `
+            <div class="service-card-v2" data-service-id="${service.id}">
+                <div class="card-image" style="background-image: url('${service.imgUrl}');"></div> 
+                <div class="card-details">
+                    <h4 class="card-title">${service.name}</h4>
+                    <p class="card-description">${service.desc}</p>
+                    <div class="card-actions">
+                        <a href="tel:7870066085" class="btn btn-card-call"><i class="fas fa-phone-alt"></i> Call Now</a>
+                        <button class="btn btn-card-book" data-service-name="${service.name}">Book Now</button> 
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        
+        // Attach event listeners to the new 'Book Now' buttons
+        attachBookNowListeners();
+    }
+    
+    // --- FUNCTION 2: Attach Listeners to 'Book Now' Buttons ---
+    function attachBookNowListeners() {
+        document.querySelectorAll('.btn-card-book').forEach(button => {
+            button.addEventListener('click', function() {
+                const serviceName = this.getAttribute('data-service-name');
+                const hiddenServiceName = form.querySelector('#hiddenServiceName');
+                
+                serviceNameDisplay.textContent = serviceName;
+                
+                // ⭐ UPDATE: Google Form Entry ID for the Service Name field ⭐
+                hiddenServiceName.name = 'entry.2005620554'; 
+                hiddenServiceName.value = serviceName;
+                
+                modal.style.display = "block"; // Show the modal
+            });
+        });
+    }
+
+    // --- FUNCTION 3: Modal and UX Logic ---
+    
+    // Close Modal when 'x' is clicked
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = "none";
+        });
+    }
+
+    // Close Modal when clicking outside the modal box
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    // Form Submission Handling (UX: Success message and close)
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            
+            const submitButton = form.querySelector('.btn-submit-modal');
+            const serviceName = form.querySelector('#hiddenServiceName').value || "your requested service";
+
+            submitButton.textContent = 'Submitting...';
+            submitButton.disabled = true;
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            alert(`Thank you for your request for ${serviceName}! We will call you shortly.`);
+            
+            form.reset(); 
+            modal.style.display = "none";
+            
+            submitButton.textContent = 'CONFIRM BOOKING';
+            submitButton.disabled = false;
+        });
+    }
+
+    // Run the function to build the service list when the page loads
+    renderServiceCards();
+
+    // Smooth scroll for 'Explore All Services' button (Better UX)
+    const ctaButton = document.querySelector('.btn-primary-cta');
+    if (ctaButton) {
+        ctaButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            document.querySelector(targetId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    }
+    
+    console.log("UNIQUEOFY Services System Initialized.");
+});
