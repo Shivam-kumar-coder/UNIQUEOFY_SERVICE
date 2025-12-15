@@ -1,47 +1,81 @@
-// --- Form Submission Handling (UX: No Page Refresh) ---
+// --- Modal (Popup Form) Logic ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('serviceRequestForm');
     
-    // Check if the form exists before trying to add event listener
+    const modal = document.getElementById("bookingModal");
+    const closeBtn = document.querySelector(".close-btn");
+    const serviceNameDisplay = document.getElementById("modalServiceName");
+    const hiddenServiceName = document.getElementById("hiddenServiceName");
+    const form = document.getElementById("serviceModalForm");
+    const ctaButton = document.querySelector('.btn-primary-cta');
+    
+    // Smooth scroll for 'Explore All Services' button (Better UX)
+    if (ctaButton) {
+        ctaButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            document.querySelector(targetId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // 1. Open Modal when 'Book Now' is clicked (The core functionality)
+    document.querySelectorAll('.btn-card-book').forEach(button => {
+        button.addEventListener('click', function() {
+            const serviceName = this.getAttribute('data-service');
+            
+            // Set the Service Name in the Modal header
+            serviceNameDisplay.textContent = serviceName; 
+            
+            // Set the hidden field value which goes to Google Sheet
+            // NOTE: 'entry.12345678' ko Google Form ki Sahi Entry ID se badalna hai.
+            hiddenServiceName.name = 'entry.12345678'; 
+            hiddenServiceName.value = serviceName; 
+            
+            modal.style.display = "block"; // Show the modal
+        });
+    });
+
+    // 2. Close Modal when 'x' is clicked
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = "none";
+        });
+    }
+
+    // 3. Close Modal when clicking outside the modal box
+    window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+    
+    // 4. Form Submission Handling (UX: Success message and close)
     if (form) {
         form.addEventListener('submit', async (e) => {
-            // Agar aap Google Forms ya kisi aur service ka use kar rahe hain
-            // jisme page refresh zaroori hai, toh neeche ki lines hata dein.
+            // Because we are using target="_blank" in HTML, the form will submit 
+            // to Google Forms in a new tab without refreshing the main page. 
+            // We just provide a good UX feedback here.
             
-            // Lekin agar aap AJAX (jaise Formspree/Netlify Forms) use kar rahe hain,
-            // toh ye code page refresh ko rokega aur smooth experience dega.
-            
-            e.preventDefault(); 
-            
-            const submitButton = form.querySelector('.btn-submit');
-            submitButton.textContent = 'Sending...';
+            const submitButton = form.querySelector('.btn-submit-modal');
+            submitButton.textContent = 'Submitting...';
             submitButton.disabled = true;
 
-            // Simple data submission example (Formspree/Fetch ke liye)
-            // Aapko apni zaroorat ke hisaab se yahan code adjust karna hoga.
+            // Simulate small delay for better feel
+            await new Promise(resolve => setTimeout(resolve, 1000));
             
-            try {
-                // Agar aap Google Forms ya Formspree use kar rahe hain toh yahan
-                // "fetch" API ka use karke data submit karein. 
-                // Abhi ke liye, hum sirf UX message dikha rahe hain:
-                
-                // Simulate network delay
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                // Show Success Message
-                alert('Aapka request safaltapoorvak bhej diya gaya hai! Hum jald hi aapse call par sampark karenge.');
-                form.reset(); // Form ko clear kar dega
-                
-            } catch (error) {
-                alert('Request bhejte samay koi error aa gayi. Kripya seedhe call karein.');
-            }
+            // Show Success Message
+            alert(`Thank you for your request for ${hiddenServiceName.value}! We will call you shortly.`);
             
-            submitButton.textContent = 'REQUEST A CALLBACK';
+            // Reset and close the form
+            form.reset(); 
+            modal.style.display = "none";
+            
+            submitButton.textContent = 'CONFIRM BOOKING';
             submitButton.disabled = false;
         });
     }
-    
-    console.log("UNIQUEOFY SERVICES Website Loaded!");
-});
 
+    console.log("UNIQUEOFY Services Modal System Initialized.");
+});
