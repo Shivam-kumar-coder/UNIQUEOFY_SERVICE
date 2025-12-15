@@ -1,4 +1,4 @@
-/* --- 1. Global Styles and Reset (Mobile-First Base) --- */
+/* --- 1. Global Styles and Reset --- */
 :root {
     --primary-color: #007bff; /* Deep Blue */
     --accent-color: #ff6f00; /* Bright Orange/Accent for CTA */
@@ -26,7 +26,7 @@ a {
 }
 
 section {
-    padding: 30px 15px; /* Reduced padding for mobile optimization */
+    padding: 30px 15px; 
     text-align: center;
 }
 
@@ -104,6 +104,7 @@ h2 {
 .hero-section {
     padding: 40px 15px;
     height: 50vh; 
+    /* ⭐ UPDATE: Image path for hero background (Add hero-bg.jpg to images/ folder) ⭐ */
     background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/hero-bg.jpg') no-repeat center center; 
     background-size: cover;
     display: flex;
@@ -127,22 +128,29 @@ h2 {
     font-size: 1rem;
 }
 
-/* --- 5. Services List (Swiggy/Zomato Style Cards) --- */
+/* --- 5. Services List (Zomato Style Cards) --- */
 .services-overview {
     background-color: var(--light-bg);
+}
+
+.service-grid-container {
+    display: flex;
+    flex-direction: column; /* Mobile Default: Stacked Cards */
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .service-card-v2 {
     background: white;
     border-radius: 10px;
-    margin-bottom: 25px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
 }
 
 .service-card-v2:hover {
-    transform: translateY(-5px); /* Lift effect */
+    transform: translateY(-5px); 
 }
 
 .card-image {
@@ -167,7 +175,7 @@ h2 {
     font-size: 0.95rem;
     color: #666;
     margin-bottom: 15px;
-    min-height: 40px; /* Ensures consistent look */
+    min-height: 40px; 
 }
 
 .card-actions {
@@ -199,7 +207,7 @@ h2 {
 .modal {
     display: none; 
     position: fixed;
-    z-index: 2000; /* High Z-index to be on top of everything */
+    z-index: 2000; 
     left: 0;
     top: 0;
     width: 100%;
@@ -210,7 +218,7 @@ h2 {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 10vh auto; /* Adjusted margin for better mobile view */
+    margin: 10vh auto; 
     padding: 25px;
     border-radius: 10px;
     width: 90%; 
@@ -285,14 +293,9 @@ h2 {
         height: 60vh;
     }
     /* Grid for desktop service cards */
-    .services-overview {
+    .service-grid-container {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 30px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    .service-card-v2 {
-        margin-bottom: 0;
     }
 }
