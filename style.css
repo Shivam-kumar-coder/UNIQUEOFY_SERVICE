@@ -1,7 +1,8 @@
 /* --- 1. Global Styles and Reset --- */
 :root {
-    --primary-color: #007bff; 
-    --accent-color: #ff6f00; 
+    --primary-color: #007bff; /* Deep Blue (Book Now) */
+    --accent-color: #ff6f00; /* Bright Orange (CTA/Submit) */
+    --success-color: #28a745; /* Green (Call Now) */
     --text-color: #333;
     --light-bg: #f8f9fa;
     --font-family: 'Poppins', sans-serif;
@@ -24,30 +25,42 @@ a { text-decoration: none; color: var(--primary-color); }
 
 section { padding: 30px 15px; text-align: center; }
 
-h1 { font-size: 2.2rem; color: white; margin-bottom: 10px; font-weight: 700; }
+h1 { 
+    font-size: 1.8rem; /* ⭐ Adjusted: Thoda kam kiya for compact look ⭐ */
+    color: white; 
+    margin-bottom: 8px; 
+    font-weight: 700; 
+}
 h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--primary-color); }
 
+/* --- Button Global Finish --- */
 .btn {
-    padding: 10px 20px;
-    border-radius: 6px; 
+    padding: 10px 18px; /* Slightly refined padding */
+    border-radius: 8px; /* Slightly more rounded corners */
     font-weight: 600;
     text-transform: uppercase;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: all 0.3s ease; /* Smoother transitions */
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
-.btn:hover { transform: translateY(-1px); }
+.btn:hover { 
+    transform: translateY(-2px); 
+    opacity: 0.9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-/* --- 2. Hero Section (Full Top Fix) --- */
+
+/* --- 2. Hero Section (Compact and Fitted) --- */
 .hero-section {
-    padding: 80px 15px 40px 15px; /* Top padding increased */
-    height: 60vh; 
+    padding: 60px 15px 30px 15px; /* ⭐ Adjusted: Padding kam kiya ⭐ */
+    height: 50vh; /* ⭐ Adjusted: Height kam kiya ⭐ */
     
     /* Image fix and fit */
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('hero-bg.jpg') no-repeat center center; 
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('hero-bg.jpg') no-repeat center center; 
     background-size: cover;
-    background-position: center bottom; 
+    background-position: center; /* Center hi rakhenge taaki professional lage */
     
     display: flex;
     flex-direction: column;
@@ -62,31 +75,34 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
     text-align: center;
 }
 
-/* Search Bar Styling */
+/* --- Search Bar Finish (Cute and Stylish) --- */
 .hero-search-container {
     display: flex;
     background: white;
-    border-radius: 8px;
+    border-radius: 50px; /* ⭐ Extra Cute: Fully Rounded Search Bar ⭐ */
     overflow: hidden;
-    margin: 20px 0 15px 0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    margin: 15px 0 10px 0;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25); /* ⭐ Deep Shadow: For cute lift-up effect ⭐ */
+    border: 1px solid #eee;
 }
 
 .search-input {
     flex: 1;
-    padding: 12px 15px;
+    padding: 10px 20px;
     border: none;
     font-size: 1rem;
     outline: none;
+    border-radius: 50px 0 0 50px; 
 }
 
 .search-btn {
     background-color: var(--primary-color);
     color: white;
-    padding: 12px 15px;
+    padding: 10px 15px;
     border: none;
     cursor: pointer;
     font-size: 1rem;
+    border-radius: 0 50px 50px 0;
 }
 
 .hero-explore-link {
@@ -129,7 +145,7 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
 
 .category-icon-card {
     background: var(--light-bg);
-    border-radius: 8px;
+    border-radius: 12px; /* Smoother card corners */
     padding: 15px 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     cursor: pointer;
@@ -174,6 +190,11 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
     background-position: center;
 }
 
+.card-details {
+    padding: 15px;
+    text-align: left;
+}
+
 .card-title {
     font-size: 1.2rem;
     color: var(--primary-color);
@@ -186,7 +207,8 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
     gap: 10px;
 }
 
-.btn-card-call { background-color: #3cb05d; color: white; }
+/* ⭐ Card Button Finish ⭐ */
+.btn-card-call { background-color: var(--success-color); color: white; }
 .btn-card-book { background-color: var(--primary-color); color: white; }
 
 
@@ -194,11 +216,22 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
 .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); }
 .modal-content { background-color: #fefefe; margin: 10vh auto; padding: 25px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); position: relative; }
 .close-btn { color: #aaa; float: right; font-size: 30px; font-weight: bold; cursor: pointer; }
-#serviceModalForm input, #serviceModalForm textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; font-family: var(--font-family); font-size: 1rem; }
-.btn-submit-modal { width: 100%; background-color: var(--accent-color); color: white; padding: 14px; border: none; border-radius: 6px; font-weight: 600; font-size: 1.1rem; }
+
+/* Form Field Styling */
+#serviceModalForm input, #serviceModalForm textarea { 
+    width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; 
+    border-radius: 6px; font-family: var(--font-family); font-size: 1rem; 
+}
+
+/* ⭐ Modal Submit Button Finish ⭐ */
+.btn-submit-modal { 
+    width: 100%; background-color: var(--accent-color); color: white; 
+    padding: 14px; border: none; border-radius: 8px; font-weight: 600; 
+    font-size: 1.1rem; 
+}
 
 
-/* --- NEW LOCATION BUTTON STYLE --- */
+/* NEW LOCATION BUTTON STYLE */
 .btn-location-fetch {
     background-color: #5bc0de; 
     color: white;
@@ -209,6 +242,11 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.btn-location-fetch:hover {
+    transform: translateY(-1px);
 }
 
 .btn-location-fetch i {
@@ -217,7 +255,7 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
 
 .location-status-text {
     font-size: 0.8rem;
-    color: #007bff;
+    color: var(--primary-color);
     text-align: center;
     margin-bottom: 10px;
     min-height: 20px;
@@ -235,8 +273,8 @@ h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--prim
 
 @media (min-width: 769px) {
     section { padding: 50px 40px; }
-    h1 { font-size: 3rem; }
-    .hero-section { height: 70vh; } 
+    h1 { font-size: 2.8rem; }
+    .hero-section { height: 60vh; } /* Desktop height bhi kam kiya */
     .hero-content { max-width: 600px; }
 
     .category-icon-grid { grid-template-columns: repeat(6, 1fr); gap: 25px; }
