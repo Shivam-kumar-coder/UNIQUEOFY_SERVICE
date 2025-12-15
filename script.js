@@ -1,6 +1,5 @@
 // --- 1. SERVICE DATA (Tiered System: Categories -> Services) ---
 
-// Tier 1: Categories (Icons)
 const CATEGORIES = [
     { id: 'home', name: 'Home Services', icon: 'fas fa-home', img: 'cat-home.png' },
     { id: 'hospital', name: 'Hospital Maint.', icon: 'fas fa-hospital', img: 'cat-hospital.png' },
@@ -10,7 +9,6 @@ const CATEGORIES = [
     { id: 'cleaning', name: 'Deep Cleaning', icon: 'fas fa-broom', img: 'cat-cleaning.png' }
 ];
 
-// Tier 2: Services (Cards - Jo Category click karne par dikhenge)
 const SERVICES_BY_CATEGORY = {
     'home': [
         { name: 'Deep Home Cleaning', desc: 'Full house deep cleaning.', imgUrl: 'service-home-clean.jpg' },
@@ -38,7 +36,6 @@ const SERVICES_BY_CATEGORY = {
 
 // --- 2. CORE JAVASCRIPT LOGIC ---
 document.addEventListener('DOMContentLoaded', () => {
-    const mainContent = document.getElementById('main-content');
     const servicesListContainer = document.getElementById('services-list-container');
     const serviceTitle = document.getElementById('service-list-title');
     const modal = document.getElementById("bookingModal");
@@ -46,12 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceNameDisplay = document.getElementById("modalServiceName");
     const form = document.getElementById("serviceModalForm");
     
+    // ⭐ New Location Elements ⭐
+    const locationBtn = document.getElementById('getLocationBtn');
+    const addressTextarea = document.getElementById('userAddress');
+    const locationStatus = document.getElementById('locationStatus');
+    
     let currentCategory = null;
 
     // --- FUNCTION 1: Render Tier 1 (Category Icons) ---
     function renderCategories() {
         serviceTitle.innerHTML = '<h2>Top Service Categories</h2>';
-        servicesListContainer.className = 'category-icon-grid'; // Use icon grid CSS
+        servicesListContainer.className = 'category-icon-grid';
         
         servicesListContainer.innerHTML = CATEGORIES.map(cat => `
             <div class="category-icon-card" data-category-id="${cat.id}">
@@ -70,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const services = SERVICES_BY_CATEGORY[categoryId] || [];
         
         serviceTitle.innerHTML = `<h2><button class="back-btn"><i class="fas fa-arrow-left"></i></button> ${categoryName} Services</h2>`;
-        servicesListContainer.className = 'service-card-grid'; // Use card grid CSS
+        servicesListContainer.className = 'service-card-grid';
 
         if (services.length === 0) {
             servicesListContainer.innerHTML = `<p class="no-service-msg">Sorry, no services found in ${categoryName}.</p>`;
@@ -92,12 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
         
         attachServiceButtonListeners();
-        
-        // Scroll to the list after rendering
         document.getElementById('services-list').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // --- FUNCTION 3: Attach Category Click Listeners ---
+    // --- FUNCTION 3: Attach Listeners ---
     function attachCategoryListeners() {
         document.querySelectorAll('.category-icon-card').forEach(card => {
             card.addEventListener('click', function() {
@@ -107,26 +107,67 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // --- FUNCTION 4: Attach Service Button Listeners (Book Now & Back Button) ---
     function attachServiceButtonListeners() {
-        // Book Now Button Logic (Opens Modal)
         document.querySelectorAll('.btn-card-book').forEach(button => {
             button.addEventListener('click', function() {
                 const serviceName = this.getAttribute('data-service-name');
                 const hiddenServiceName = form.querySelector('#hiddenServiceName');
                 
                 serviceNameDisplay.textContent = serviceName;
-                hiddenServiceName.name = 'entry.2005620554'; // ⭐ Google Form Entry ID
+                hiddenServiceName.name = 'entry.2005620554'; // Google Form Entry ID
                 hiddenServiceName.value = serviceName;
                 
+                // Modal open hone par location status reset karo
+                locationStatus.textContent = '';
+                addressTextarea.value = '';
+
                 modal.style.display = "block";
             });
         });
 
-        // Back Button Logic (Goes back to Tier 1)
         document.querySelector('.back-btn')?.addEventListener('click', renderCategories);
     }
     
+    // --- FUNCTION 4: Geolocation Logic (The Fix) ---
+    if (locationBtn) {
+        locationBtn.addEventListener('click', () => {
+            locationStatus.textContent = 'Fetching location...';
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        
+                        // Address field mein Location data fill karein
+                        addressTextarea.value = `Live Location: Latitude ${lat}, Longitude ${lon}. (Please specify full address if needed)`;
+                        
+                        locationStatus.textContent = '✅ Location Fetched Successfully!';
+                        
+                        // Button state update
+                        locationBtn.disabled = true;
+                        locationBtn.textContent = 'Location Added';
+                        setTimeout(() => {
+                             locationBtn.disabled = false;
+                             locationBtn.innerHTML = '<i class="fas fa-location-arrow"></i> Use My Current Location';
+                        }, 5000);
+                    },
+                    (error) => {
+                        console.error("Geolocation Error: ", error);
+                        if (error.code === error.PERMISSION_DENIED) {
+                            locationStatus.textContent = '❌ Location access denied. Please enter address manually.';
+                        } else {
+                            locationStatus.textContent = '❌ Could not get location. Please enter address.';
+                        }
+                    },
+                    { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                );
+            } else {
+                locationStatus.textContent = '❌ Geolocation is not supported by this browser.';
+            }
+        });
+    }
+
     // --- FUNCTION 5: Modal and Form Logic ---
     if (closeBtn) closeBtn.addEventListener('click', () => modal.style.display = "none");
     window.addEventListener('click', (event) => {
@@ -153,11 +194,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // --- INITIAL RENDER ---
+    // INITIAL RENDER
     renderCategories();
 
-    // Smooth scroll for Search/Explore CTA
-    document.querySelector('.hero-search-container a')?.addEventListener('click', function(e) {
+    document.querySelector('.hero-explore-link')?.addEventListener('click', function(e) {
         e.preventDefault();
         document.getElementById('services-list').scrollIntoView({ behavior: 'smooth' });
     });
