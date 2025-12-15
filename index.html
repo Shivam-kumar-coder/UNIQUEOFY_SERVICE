@@ -1,110 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNIQUEOFY SERVICES - India's Trusted Professionals</title>
-    <meta name="description" content="One Stop Solution For All Your Needs: Home, Industrial, Hospital, Repairing, Painting, and Cleaning Services across India.">
-    
     <link rel="stylesheet" href="style.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
     <header class="main-header">
-        <div class="logo">UNIQUEOFY SERVICES</div>
+        <div class="logo">
+            <img src="your-logo.png" alt="UNIQUEOFY Logo" class="logo-img"> 
+        </div>
         <div class="contact-info">
-            <a href="tel:YOUR_PHONE_NUMBER" class="btn btn-call"><i class="fas fa-phone-alt"></i> CALL NOW</a>
+            <a href="tel:YOUR_PHONE_NUMBER" class="btn btn-call"><i class="fas fa-phone-alt"></i> CALL</a>
         </div>
     </header>
-    
+
     <a href="https://wa.me/YOUR_PHONE_NUMBER" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <section class="hero-section">
         <div class="hero-content">
-            <h1>Need Service? Get **India's Trusted Professionals** in Minutes!</h1>
-            <p class="sub-headline">UNIQUEOFY SERVICES: One Stop Solution For All Your Needs.</p>
+            <h1>Need Service? Get India's Trusted Professionals in Minutes!</h1>
+            <p class="sub-headline">Book Home, Industrial, Hospital services and more, right from your phone.</p>
+            <a href="#services-list" class="btn btn-primary-cta">Explore All Services <i class="fas fa-arrow-down"></i></a> 
+        </div>
+    </section>
+
+    <section class="services-overview" id="services-list">
+        <h2>Service Categories</h2>
+        
+        <div class="service-card-v2">
+            <div class="card-image" style="background-image: url('images/service-home.jpg');"></div> 
+            <div class="card-details">
+                <h4 class="card-title">🏠 HOME Services</h4>
+                <p class="card-description">Deep Cleaning, Pest Control, Plumbing, Electrician, and complete Home Maintenance Solutions.</p>
+                <div class="card-actions">
+                    <a href="tel:YOUR_PHONE_NUMBER" class="btn btn-card-call"><i class="fas fa-phone-alt"></i> Call Now</a>
+                    <button class="btn btn-card-book" data-service="Home Services">Book Now</button> 
+                </div>
+            </div>
+        </div>
+
+        <div class="service-card-v2">
+            <div class="card-image" style="background-image: url('images/service-hospital.jpg');"></div>
+            <div class="card-details">
+                <h4 class="card-title">🏥 HOSPITAL Services</h4>
+                <p class="card-description">Specialized Medical Equipment Maintenance, Facility Upkeep, and High-Grade Sanitization services.</p>
+                <div class="card-actions">
+                    <a href="tel:YOUR_PHONE_NUMBER" class="btn btn-card-call"><i class="fas fa-phone-alt"></i> Call Now</a>
+                    <button class="btn btn-card-book" data-service="Hospital Services">Book Now</button>
+                </div>
+            </div>
         </div>
         
-        <div class="booking-form-container">
-            <h3>Quick Service Request (Free Quote)</h3>
-            
-            <form id="serviceRequestForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfM-FYo-Sdfw1wPntYEZ_h9KOjL-IadFeeGwXgvghXVHbrGoQ/formResponse" method="POST" target="_blank">
-                
+        </section>
+
+    <footer class="main-footer">
+        </footer>
+
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Book Service: <span id="modalServiceName"></span></h3>
+            <form id="serviceModalForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfM-FYo-Sdfw1wPntYEZ_h9KOjL-IadFeeGwXgvghXVHbrGoQ/formResponse" method="POST" target="_blank">
+                <input type="hidden" name="entry.12345678" id="hiddenServiceName"> 
+
                 <input type="text" name="entry.12345678" placeholder="Apka Pura Naam *" required>
                 <input type="tel" name="entry.12345678" placeholder="Mobile Number *" required>
-                
-                <select name="entry.12345678" required>
-                    <option value="" disabled selected>Kis Service ki Zarurat hai? *</option>
-                    <option value="Home Services">🏠 HOME Services</option>
-                    <option value="Industrial Services">🏭 INDUSTRIAL Services</option>
-                    <option value="Hospital Services">🏥 HOSPITAL Services</option>
-                    <option value="Repairing">🔧 REPAIRING Services</option>
-                    <option value="Painting">🎨 PAINTING Services</option>
-                    <option value="Cleaning">🧹 CLEANING Services</option>
-                    <option value="Part-Time Work">👥 PART-TIME WORK Staff</option>
-                </select>
-                
                 <textarea name="entry.12345678" placeholder="Aapka Location/Address aur Zarurat (Brief mein) *" rows="3" required></textarea>
                 
-                <button type="submit" class="btn btn-submit">REQUEST A CALLBACK</button>
-                <p class="small-text">Our team will call you within 15 minutes.</p>
+                <button type="submit" class="btn btn-submit-modal">CONFIRM BOOKING</button>
             </form>
-            </div>
-    </section>
-
-    <section class="services-overview">
-        <h2>Our Main Services</h2>
-        <div class="service-grid">
-            
-            <div class="service-card">
-                <i class="fas fa-home icon-bg"></i> 
-                <h4>HOME</h4>
-                <p>Deep Cleaning, Pest Control, Plumbing, Electrician, and Maintenance Services.</p>
-            </div>
-            
-            <div class="service-card">
-                <i class="fas fa-industry icon-bg"></i>
-                <h4>INDUSTRIAL</h4>
-                <p>Machinery Repair, Heavy Equipment Maintenance, and Industrial Facility Management.</p>
-            </div>
-            
-            <div class="service-card">
-                <i class="fas fa-hospital icon-bg"></i>
-                <h4>HOSPITAL</h4>
-                <p>Specialized Medical Equipment Maintenance, Facility Upkeep, and Sanitization.</p>
-            </div>
-            
-             <div class="service-card">
-                <i class="fas fa-tools icon-bg"></i>
-                <h4>REPAIRING</h4>
-                <p>All types of appliance and machinery repair services by certified technicians.</p>
-            </div>
-            
-             <div class="service-card">
-                <i class="fas fa-paint-roller icon-bg"></i>
-                <h4>PAINTING</h4>
-                <p>Professional interior and exterior painting, polishing, and waterproofing solutions.</p>
-            </div>
-            
-             <div class="service-card">
-                <i class="fas fa-broom icon-bg"></i>
-                <h4>CLEANING</h4>
-                <p>Commercial and Residential deep cleaning services using eco-friendly products.</p>
-            </div>
-
         </div>
-    </section>
+    </div>
     
-    <footer class="main-footer">
-        <p>CALL/WHATSAPP: <a href="tel:7870066085">[Your Number Here]</a></p>
-        <p>&copy; 2025 UNIQUEOFY SERVICES. All rights reserved.</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
