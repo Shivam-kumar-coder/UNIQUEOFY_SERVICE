@@ -1,63 +1,84 @@
-// --- 1. SERVICE DATA (The Zomato/Swiggy Variable System) ---
+// --- 1. SERVICE DATA (Tiered System: Categories -> Services) ---
 
-// ⭐ FIXED: Image paths root level par set hain ⭐
-const SERVICE_DATA = [
-    { 
-        id: 'home', 
-        name: '🏠 HOME Services', 
-        desc: 'Deep Cleaning, Pest Control, Plumbing, Electrician, and complete Home Maintenance Solutions.', 
-        imgUrl: 'service-home.jpg' 
-    },
-    { 
-        id: 'hospital', 
-        name: '🏥 HOSPITAL Services', 
-        desc: 'Specialized Medical Equipment Maintenance, Facility Upkeep, and High-Grade Sanitization services.', 
-        imgUrl: 'service-hospital.jpg'
-    },
-    { 
-        id: 'industrial', 
-        name: '🏭 INDUSTRIAL Services', 
-        desc: 'Machinery Repair, Heavy Equipment Maintenance, and Industrial Facility Management solutions.', 
-        imgUrl: 'service-industrial.jpg'
-    },
-    { 
-        id: 'repairing', 
-        name: '🔧 REPAIRING Services', 
-        desc: 'All types of appliance and machinery repair services by certified technicians.', 
-        imgUrl: 'service-repair.jpg'
-    },
-    { 
-        id: 'painting', 
-        name: '🎨 PAINTING Services', 
-        desc: 'Professional interior and exterior painting, polishing, and waterproofing solutions.', 
-        imgUrl: 'service-painting.jpg'
-    },
-    { 
-        id: 'cleaning', 
-        name: '🧹 CLEANING Services', 
-        desc: 'Commercial and Residential deep cleaning services using eco-friendly products.', 
-        imgUrl: 'service-cleaning.jpg'
-    }
+// Tier 1: Categories (Icons)
+const CATEGORIES = [
+    { id: 'home', name: 'Home Services', icon: 'fas fa-home', img: 'cat-home.png' },
+    { id: 'hospital', name: 'Hospital Maint.', icon: 'fas fa-hospital', img: 'cat-hospital.png' },
+    { id: 'industrial', name: 'Industrial Maint.', icon: 'fas fa-industry', img: 'cat-industry.png' },
+    { id: 'repairing', name: 'Appliance Repair', icon: 'fas fa-wrench', img: 'cat-repair.png' },
+    { id: 'painting', name: 'Painting & Civil', icon: 'fas fa-paint-roller', img: 'cat-painting.png' },
+    { id: 'cleaning', name: 'Deep Cleaning', icon: 'fas fa-broom', img: 'cat-cleaning.png' }
 ];
 
+// Tier 2: Services (Cards - Jo Category click karne par dikhenge)
+const SERVICES_BY_CATEGORY = {
+    'home': [
+        { name: 'Deep Home Cleaning', desc: 'Full house deep cleaning.', imgUrl: 'service-home-clean.jpg' },
+        { name: 'Pest Control', desc: 'Cockroach, Termite, and Mosquito.', imgUrl: 'service-pest.jpg' },
+        { name: 'Plumbing & Electric', desc: 'Urgent repairs and installation.', imgUrl: 'service-plumb.jpg' }
+    ],
+    'hospital': [
+        { name: 'Equipment AMC', desc: 'Annual Maintenance Contracts for Medical Equipment.', imgUrl: 'service-hosp-amc.jpg' },
+        { name: 'Sanitization', desc: 'High-grade hospital sanitization.', imgUrl: 'service-hosp-sanit.jpg' }
+    ],
+    'industrial': [
+        { name: 'Heavy Machinery Repair', desc: 'Specialized industrial machine maintenance.', imgUrl: 'service-ind-mach.jpg' },
+        { name: 'Facility Management', desc: 'Complete facility upkeep.', imgUrl: 'service-ind-mgmt.jpg' }
+    ],
+    'repairing': [
+        { name: 'AC Repair & Service', desc: 'All types of AC repair.', imgUrl: 'service-ac.jpg' }
+    ],
+    'painting': [
+        { name: 'Interior Painting', desc: 'Professional wall painting.', imgUrl: 'service-paint.jpg' }
+    ],
+    'cleaning': [
+        { name: 'Commercial Cleaning', desc: 'Office and store deep cleaning.', imgUrl: 'service-comm-clean.jpg' }
+    ]
+};
 
 // --- 2. CORE JAVASCRIPT LOGIC ---
-
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Elements Setup
+    const mainContent = document.getElementById('main-content');
     const servicesListContainer = document.getElementById('services-list-container');
+    const serviceTitle = document.getElementById('service-list-title');
     const modal = document.getElementById("bookingModal");
     const closeBtn = document.querySelector(".close-btn");
     const serviceNameDisplay = document.getElementById("modalServiceName");
     const form = document.getElementById("serviceModalForm");
     
-    // --- FUNCTION 1: Auto-Generate Service Cards ---
-    function renderServiceCards() {
-        if (!servicesListContainer) return;
+    let currentCategory = null;
 
-        servicesListContainer.innerHTML = SERVICE_DATA.map(service => `
-            <div class="service-card-v2" data-service-id="${service.id}">
+    // --- FUNCTION 1: Render Tier 1 (Category Icons) ---
+    function renderCategories() {
+        serviceTitle.innerHTML = '<h2>Top Service Categories</h2>';
+        servicesListContainer.className = 'category-icon-grid'; // Use icon grid CSS
+        
+        servicesListContainer.innerHTML = CATEGORIES.map(cat => `
+            <div class="category-icon-card" data-category-id="${cat.id}">
+                <img src="${cat.img}" alt="${cat.name}" class="category-img">
+                <p class="category-name">${cat.name}</p>
+            </div>
+        `).join('');
+        
+        attachCategoryListeners();
+    }
+
+    // --- FUNCTION 2: Render Tier 2 (Service Cards) ---
+    function renderServiceCards(categoryId) {
+        currentCategory = categoryId;
+        const categoryName = CATEGORIES.find(c => c.id === categoryId).name;
+        const services = SERVICES_BY_CATEGORY[categoryId] || [];
+        
+        serviceTitle.innerHTML = `<h2><button class="back-btn"><i class="fas fa-arrow-left"></i></button> ${categoryName} Services</h2>`;
+        servicesListContainer.className = 'service-card-grid'; // Use card grid CSS
+
+        if (services.length === 0) {
+            servicesListContainer.innerHTML = `<p class="no-service-msg">Sorry, no services found in ${categoryName}.</p>`;
+            return;
+        }
+
+        servicesListContainer.innerHTML = services.map(service => `
+            <div class="service-card-v2">
                 <div class="card-image" style="background-image: url('${service.imgUrl}');"></div> 
                 <div class="card-details">
                     <h4 class="card-title">${service.name}</h4>
@@ -70,48 +91,50 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `).join('');
         
-        // Attach event listeners to the new 'Book Now' buttons
-        attachBookNowListeners();
+        attachServiceButtonListeners();
+        
+        // Scroll to the list after rendering
+        document.getElementById('services-list').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // --- FUNCTION 3: Attach Category Click Listeners ---
+    function attachCategoryListeners() {
+        document.querySelectorAll('.category-icon-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const categoryId = this.getAttribute('data-category-id');
+                renderServiceCards(categoryId);
+            });
+        });
     }
     
-    // --- FUNCTION 2: Attach Listeners to 'Book Now' Buttons ---
-    function attachBookNowListeners() {
+    // --- FUNCTION 4: Attach Service Button Listeners (Book Now & Back Button) ---
+    function attachServiceButtonListeners() {
+        // Book Now Button Logic (Opens Modal)
         document.querySelectorAll('.btn-card-book').forEach(button => {
             button.addEventListener('click', function() {
                 const serviceName = this.getAttribute('data-service-name');
                 const hiddenServiceName = form.querySelector('#hiddenServiceName');
                 
                 serviceNameDisplay.textContent = serviceName;
-                
-                // ⭐ UPDATE: Google Form Entry ID for the Service Name field ⭐
-                hiddenServiceName.name = 'entry.2005620554'; 
+                hiddenServiceName.name = 'entry.2005620554'; // ⭐ Google Form Entry ID
                 hiddenServiceName.value = serviceName;
                 
-                modal.style.display = "block"; // Show the modal
+                modal.style.display = "block";
             });
         });
-    }
 
-    // --- FUNCTION 3: Modal and UX Logic ---
+        // Back Button Logic (Goes back to Tier 1)
+        document.querySelector('.back-btn')?.addEventListener('click', renderCategories);
+    }
     
-    // Close Modal when 'x' is clicked
-    if (closeBtn) {
-        closeBtn.addEventListener('click', function() {
-            modal.style.display = "none";
-        });
-    }
-
-    // Close Modal when clicking outside the modal box
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
+    // --- FUNCTION 5: Modal and Form Logic ---
+    if (closeBtn) closeBtn.addEventListener('click', () => modal.style.display = "none");
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) modal.style.display = "none";
     });
 
-    // Form Submission Handling (UX: Success message and close)
     if (form) {
         form.addEventListener('submit', async (e) => {
-            
             const submitButton = form.querySelector('.btn-submit-modal');
             const serviceName = form.querySelector('#hiddenServiceName').value || "your requested service";
 
@@ -129,21 +152,13 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.disabled = false;
         });
     }
-
-    // Run the function to build the service list when the page loads
-    renderServiceCards();
-
-    // Smooth scroll for 'Explore All Services' button (Better UX)
-    const ctaButton = document.querySelector('.btn-primary-cta');
-    if (ctaButton) {
-        ctaButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            document.querySelector(targetId).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    }
     
-    console.log("UNIQUEOFY Services System Initialized.");
+    // --- INITIAL RENDER ---
+    renderCategories();
+
+    // Smooth scroll for Search/Explore CTA
+    document.querySelector('.hero-search-container a')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('services-list').scrollIntoView({ behavior: 'smooth' });
+    });
 });
