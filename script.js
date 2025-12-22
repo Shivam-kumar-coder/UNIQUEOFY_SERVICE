@@ -1,41 +1,106 @@
-/* Zomato Style List */
-.service-list-item {
-    display: flex; justify-content: space-between;
-    padding: 20px; border-bottom: 1px solid #eee; background: #fff;
-}
-.s-info { flex: 1; padding-right: 15px; }
-.s-info h4 { font-size: 1.1rem; color: #1c1c1c; margin-bottom: 4px; }
-.price { font-weight: 700; color: #333; display: block; margin-bottom: 8px; }
-.limit-text { font-size: 0.85rem; color: #666; line-height: 1.4; }
+// Data remain the same as your code
+const CATEGORIES = [
+    { id: 'home', name: 'Home Control', img: '3d-home-control.png' },
+    { id: 'repairing', name: 'Appliance Repair', img: '3d-repair-service.png' }
+];
 
-.s-img { position: relative; width: 110px; height: 110px; }
-.s-img img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; }
-.add-btn {
-    position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
-    background: #fff; color: var(--primary); border: 1px solid #ddd;
-    padding: 5px 25px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+const SERVICES = {
+    'repairing': [{ name: 'AC Repair', desc: 'Gas refilling & Service', fileUrl: 'ac.mp4' }]
+};
 
-/* Detail Modal Full Screen */
-.modal-content.full-screen {
-    width: 100%; height: 100%; margin: 0; border-radius: 0; overflow-y: auto;
-}
-#detailImg { width: 100%; height: 250px; object-fit: cover; }
-.detail-info { padding: 20px; }
-.sticky-book-btn {
-    position: fixed; bottom: 20px; left: 5%; width: 90%;
-    background: #e03d4e; color: #fff; padding: 15px; border: none;
-    border-radius: 12px; font-size: 1.1rem; font-weight: bold;
-}
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Check Login Status
+    let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    updateProfileUI();
 
-/* Tracking Mini Card */
-.tracking-mini-card {
-    background: #1c1c1c; color: #fff; padding: 15px;
-    display: flex; justify-content: space-between; align-items: center;
-    position: sticky; top: 0; z-index: 100;
-}
-.pulse {
-    height: 10px; width: 10px; background: #4caf50; border-radius: 50%;
-    display: inline-block; margin-right: 8px; animation: blink 1s infinite;
-}
-@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+    // 2. Auth Logic (OTP Mockup)
+    const authModal = document.getElementById('authModal');
+    const sendOTPBtn = document.getElementById('sendOTP');
+    const verifyOTPBtn = document.getElementById('verifyOTP');
+
+    sendOTPBtn.onclick = () => {
+        const phone = document.getElementById('userMobile').value;
+        if(phone.length === 10) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('otpSection').style.display = 'block';
+            document.getElementById('sentNumber').innerText = "+91 " + phone;
+            console.log("OTP Sent: 1234"); // For testing
+        } else { alert("Enter valid 10-digit number"); }
+    };
+
+    verifyOTPBtn.onclick = () => {
+        const otp = document.getElementById('otpValue').value;
+        if(otp === '1234') { // Mock OTP
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('uPhone', document.getElementById('userMobile').value);
+            location.reload();
+        } else { alert("Invalid OTP! Try 1234"); }
+    };
+
+    // 3. Booking & Address Logic
+    const finalConfirmBtn = document.getElementById('finalConfirmBtn');
+    finalConfirmBtn.onclick = () => {
+        const address = document.getElementById('fullAddress').value;
+        if(address.length < 10) {
+            alert("Please enter a complete address for service.");
+            return;
+        }
+
+        const payMode = document.querySelector('input[name="pay"]:checked').value;
+        const orderID = "UNIQ-" + Date.now().toString().slice(-6);
+
+        if(payMode === 'ONLINE') {
+            alert("Redirecting to Secure Payment Gateway...");
+            // Integrate Razorpay here
+        }
+        
+        // Save Order & Show Tracking
+        const order = { id: orderID, service: document.getElementById('modalServiceName').innerText, status: 'Placed' };
+        localStorage.setItem('activeOrder', JSON.stringify(order));
+        alert("Success! Your booking ID is " + orderID);
+        location.reload();
+    };
+
+    // UI Helpers
+    function updateProfileUI() {
+        if(isLoggedIn) {
+            document.getElementById('sidebarName').innerText = "Verified User";
+            document.getElementById('sidebarPhone').innerText = localStorage.getItem('uPhone');
+            document.getElementById('authBtnSidebar').innerText = "Logout";
+            document.getElementById('authBtnSidebar').onclick = () => { localStorage.clear(); location.reload(); };
+        } else {
+            document.getElementById('authBtnSidebar').onclick = () => authModal.style.display = 'block';
+        }
+    }
+
+    // --- RENDER CATEGORIES ---
+    const container = document.getElementById('services-list-container');
+    container.innerHTML = CATEGORIES.map(c => `
+        <div class="category-icon-card" onclick="openCat('${c.id}')">
+            <img src="${c.img}" class="category-img">
+            <p>${c.name}</p>
+        </div>
+    `).join('');
+
+    window.openCat = (id) => {
+        if(!isLoggedIn) { authModal.style.display = 'block'; return; }
+        // Service render logic...
+        const modal = document.getElementById('bookingModal');
+        document.getElementById('modalServiceName').innerText = "General Service";
+        modal.style.display = 'block';
+    };
+
+    // Sidebar
+    document.getElementById('sidebarToggle').onclick = () => document.getElementById('sideMenu').style.width = '250px';
+    document.querySelectorAll('.close-modal').forEach(b => b.onclick = () => {
+        authModal.style.display = 'none';
+        document.getElementById('bookingModal').style.display = 'none';
+    });
+    
+    // Check Active Order
+    const order = JSON.parse(localStorage.getItem('activeOrder'));
+    if(order) {
+        document.getElementById('orderStatusCard').style.display = 'block';
+        document.getElementById('displayOrderID').innerText = order.id;
+    }
+});
