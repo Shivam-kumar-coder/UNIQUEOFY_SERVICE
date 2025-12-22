@@ -1,74 +1,290 @@
+/* --- 1. Global Styles and Reset --- */
 :root {
-    --primary: #007bff;
-    --accent: #ffc107;
-    --dark: #1a1a1a;
+    --primary-color: #007bff; 
+    --accent-color: #ff6f00; 
+    --success-color: #28a745; 
+    --light-bg: #f5f7f9; 
+    --font-family: 'Poppins', sans-serif;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/* HERO DESIGN FIX */
+body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+    background-color: white;
+}
+
+a { text-decoration: none; color: var(--primary-color); }
+
+section { padding: 30px 15px; text-align: center; }
+
+h1 { 
+    font-size: 2rem; 
+    color: white; 
+    margin-bottom: 25px; 
+    font-weight: 700; 
+    text-align: left;
+    line-height: 1.2;
+}
+h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--primary-color); }
+
+/* --- Button Global Finish --- */
+.btn {
+    padding: 10px 18px; 
+    border-radius: 8px; 
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease; 
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover { 
+    transform: translateY(-2px); 
+    opacity: 0.95;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* --- 2. Hero Section (Fitted and Focused) --- */
 .hero-section {
-    padding: 30px 20px;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('hero-bg.jpg') center/cover;
-    color: white; text-align: left;
+    padding: 20px 20px 30px 20px; 
+    height: auto; 
+    
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('hero-bg.jpg') no-repeat center center; 
+    background-size: cover;
+    background-position: center; 
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    text-align: left;
 }
-.app-header-mock { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-.app-logo { font-weight: 700; font-size: 1.4rem; letter-spacing: 1px; }
 
+.hero-content {
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Mock Header */
+.app-header-mock {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    margin-bottom: 20px;
+}
+.app-logo {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+.menu-icon {
+    font-size: 1.5rem;
+}
+
+
+/* Search Bar Finish */
 .hero-search-container {
-    display: flex; background: white; border-radius: 8px; overflow: hidden; margin: 20px 0;
+    display: flex;
+    background: white;
+    border-radius: 10px; 
+    overflow: hidden;
+    margin: 15px 0 20px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+    width: 100%;
 }
-.search-input { flex: 1; padding: 12px; border: none; outline: none; font-size: 1rem; }
-.search-btn { background: var(--primary); color: white; border: none; padding: 0 20px; }
 
+.search-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 0;
+}
+
+/* Explore Link */
 .hero-explore-link {
-    display: inline-block; padding: 8px 15px; border: 1px solid var(--accent);
-    border-radius: 20px; color: var(--accent); text-decoration: none; font-size: 0.9rem;
+    color: #ffc107; 
+    font-weight: 600;
+    font-size: 1.1rem; 
+    padding: 8px 15px;
+    border: 1px solid #ffc107;
+    border-radius: 20px;
+    transition: background 0.3s;
+    display: inline-flex;
+    align-items: center;
+}
+.hero-explore-link i {
+    margin-right: 8px;
+    color: var(--accent-color);
 }
 
-/* TRACKING BAR DESIGN */
-.status-tracker-card {
-    background: white; margin: -20px 15px 20px; padding: 15px; border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 4px solid var(--primary);
+
+/* --- 3. Services List Containers (Tier 1 and Tier 2) --- */
+.services-overview {
+    background-color: white;
+    padding-top: 20px;
 }
-.tracker-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 12px; }
-.badge { background: var(--primary); color: white; padding: 2px 8px; border-radius: 4px; }
 
-.steps-row { display: flex; justify-content: space-between; }
-.step-point { flex: 1; text-align: center; font-size: 0.6rem; color: #ccc; }
-.step-point.active { color: #28a745; font-weight: bold; }
-.step-point::before { content: '●'; display: block; font-size: 1.2rem; }
-
-/* CATEGORY GRID (Exactly like your image) */
-.category-icon-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
-.category-icon-card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
-.category-img { width: 100%; height: 100px; object-fit: contain; margin-bottom: 10px; }
-
-/* MODALS */
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; }
-.modal-content { background: white; width: 90%; max-width: 400px; margin: 20% auto; padding: 25px; border-radius: 15px; position: relative; }
-.close-btn { position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; }
-
-.input-group { display: flex; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin: 15px 0; }
-.prefix { background: #eee; padding: 10px; font-weight: bold; }
-.input-group input { border: none; padding: 10px; width: 100%; outline: none; }
-
-.btn-confirm { width: 100%; background: var(--primary); color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-.btn-location { width: 100%; background: #5bc0de; color: white; padding: 8px; border: none; border-radius: 8px; margin-bottom: 10px; font-size: 0.8rem; }
-/* --- TUMHARA PURA CSS PEHLE WALA YAHAN RAHEGA --- */
-
-/* --- ADDITIONAL CLASSES FOR FEATURES --- */
-.status-tracker-card {
-    background: #fff; margin: -20px 15px 20px; padding: 15px; border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 4px solid var(--primary-color);
-    position: relative; z-index: 10;
+/* TIER 1: Category Icons (3D Images) */
+.category-icon-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px;
+    padding: 15px 0;
 }
-.tracker-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.85rem; }
-.badge { background: var(--primary-color); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; }
-.steps-row { display: flex; justify-content: space-between; }
-.step-point { flex: 1; text-align: center; font-size: 0.65rem; color: #ccc; font-weight: 600; }
-.step-point.active { color: var(--success-color); }
-.step-point::before { content: '●'; display: block; font-size: 1.2rem; }
 
-/* Modal Button override for consistency */
-.btn-submit-modal { cursor:pointer; }
+.category-icon-card {
+    background: white;
+    border-radius: 12px; 
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: left; 
+}
+
+.category-icon-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.category-img {
+    width: 100%;
+    height: 100px; 
+    object-fit: contain; /* ⭐ 3D image fit 'contain' for best look ⭐ */
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.category-name {
+    font-size: 1.0rem; 
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+
+/* TIER 2: Service Cards (Video Embed) */
+.service-card-grid {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.service-card-v2 {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    position: relative; 
+    overflow: hidden;
+}
+
+/* Video Fit CSS */
+.service-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Video fills the entire container */
+}
+
+.card-title {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: flex-start; 
+    gap: 10px;
+}
+
+.btn-card-call, .btn-card-book {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    text-transform: none;
+    flex-grow: 0; 
+}
+.btn-card-call { background-color: var(--success-color); color: white; }
+.btn-card-book { background-color: var(--primary-color); color: white; }
+
+
+/* --- 4. Modal Styling --- (Location Feature Styles) */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); }
+.modal-content { background-color: #fefefe; margin: 10vh auto; padding: 25px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); position: relative; }
+.close-btn { color: #aaa; float: right; font-size: 30px; font-weight: bold; cursor: pointer; }
+#serviceModalForm input, #serviceModalForm textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; font-family: var(--font-family); font-size: 1rem; }
+.btn-submit-modal { width: 100%; background-color: var(--accent-color); color: white; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 1.1rem; }
+
+/* LOCATION BUTTON STYLE */
+.btn-location-fetch {
+    background-color: #5bc0de; 
+    color: white;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+.btn-location-fetch i { margin-right: 8px; }
+.location-status-text { font-size: 0.8rem; color: var(--primary-color); text-align: center; margin-bottom: 10px; min-height: 20px; }
+
+
+/* --- 5. Footer & Desktop Adjustments --- */
+.main-footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+@media (min-width: 769px) {
+    section { padding: 50px 40px; }
+    .hero-section { height: 45vh; } 
+    .hero-content { max-width: 800px; }
+    
+    .category-icon-grid { 
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 25px; 
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .service-card-grid { 
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+}
