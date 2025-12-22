@@ -1,52 +1,98 @@
-:root { --primary: #e03d4e; --dark: #1a1a1a; --light: #ffffff; --grey: #f5f7f9; }
+:root {
+    --blue-primary: #007bff;
+    --blue-dark: #0056b3;
+    --dark-bg: #1a1a1a;
+    --light-bg: #ffffff;
+    --grey-text: #6c757d;
+    --shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
 
-body { background: var(--grey); color: #333; }
+body { background: #f8f9fa; color: #333; }
 
 /* Header */
-.app-header { background: #fff; padding: 15px 20px; display: flex; justify-content: space-between; position: sticky; top:0; z-index: 999; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-.app-logo { font-weight: 800; font-size: 20px; color: var(--primary); letter-spacing: 1px; }
+.app-header { 
+    background: var(--light-bg); 
+    padding: 15px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    position: sticky; top:0; z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.app-logo { font-weight: 800; font-size: 22px; color: var(--blue-primary); }
 
-/* Hero */
-.hero-section { background: var(--dark); color: #fff; padding: 40px 20px; text-align: left; }
-.hero-section h1 { font-size: 22px; margin-bottom: 20px; font-weight: 700; }
-.search-wrapper { background: #fff; display: flex; align-items: center; padding: 12px; border-radius: 12px; }
-.search-wrapper input { border: none; outline: none; flex: 1; padding-left: 10px; font-size: 15px; }
-.loc-pin { color: var(--primary); }
+/* Hero Section (Match with your image) */
+.hero-section { 
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('hero-bg.jpg'); /* Make sure to have a bg image */
+    background-size: cover;
+    background-position: center;
+    color: #fff; 
+    padding: 60px 20px; 
+    text-align: center; 
+}
+.hero-section h1 { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
+.search-bar { 
+    display: flex; 
+    background: #fff; 
+    border-radius: 30px; 
+    overflow: hidden; 
+    max-width: 500px; 
+    margin: 0 auto;
+    padding: 5px;
+}
+.search-bar input { flex: 1; border: none; outline: none; padding: 12px 20px; font-size: 15px; }
+.search-bar button { background: var(--blue-primary); color: #fff; border: none; padding: 0 20px; border-radius: 25px; }
 
-/* Category Grid */
-.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 20px; }
-.cat-card { background: #fff; padding: 15px 10px; border-radius: 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-.cat-card img { width: 50px; margin-bottom: 8px; }
-.cat-card p { font-size: 12px; font-weight: 600; color: #444; }
+/* Booking Status (Exact Match with your screenshot) */
+.booking-status-card {
+    background: #fff;
+    margin: -30px 15px 20px;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 10;
+    border-top: 4px solid var(--blue-primary);
+}
+.status-title { font-size: 14px; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
+.status-title i { margin-right: 8px; color: var(--blue-primary); }
 
-/* Zomato Style Service List */
-.service-card { display: flex; background: #fff; margin: 10px 15px; padding: 15px; border-radius: 15px; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-.s-info { flex: 1; }
-.s-info h4 { font-size: 16px; margin-bottom: 5px; }
-.s-info p { font-size: 13px; color: #777; }
-.s-img-box { width: 80px; height: 80px; position: relative; }
-.s-img-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
-.book-btn-sm { position: absolute; bottom: -10px; left: 10%; width: 80%; background: #fff; color: var(--primary); border: 1px solid #ddd; border-radius: 5px; font-weight: 700; font-size: 12px; padding: 4px 0; }
+.stepper-wrapper { display: flex; justify-content: space-between; position: relative; }
+.step-item { text-align: center; flex: 1; font-size: 10px; color: #ccc; position: relative; }
+.step-item.active { color: #28a745; font-weight: bold; }
+.step-item::after { content: '✔'; display: block; width: 20px; height: 20px; border: 2px solid #ccc; border-radius: 50%; margin: 5px auto; line-height: 18px; }
+.step-item.active::after { border-color: #28a745; background: #28a745; color: white; }
 
-/* Modal & Full Screen Detail */
-.full-screen-modal { width: 100% !important; height: 100% !important; margin: 0 !important; border-radius: 0 !important; overflow-y: auto; padding-bottom: 80px !important; }
-.detail-hero-img { width: 100%; height: 250px; object-fit: cover; }
-.detail-body { padding: 20px; }
-.service-desc-text { color: #666; margin: 15px 0; line-height: 1.6; }
-.sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; padding: 15px 20px; border-top: 1px solid #eee; }
+/* Category Grid (Clean Look) */
+.section-head { text-align: center; margin: 30px 0 15px; color: var(--blue-primary); font-weight: 700; }
+.cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 15px; }
+.cat-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); text-align: center; padding-bottom: 15px; }
+.cat-card img { width: 100%; height: 120px; object-fit: cover; }
+.cat-card p { margin-top: 10px; font-weight: 600; font-size: 14px; }
 
-/* Order Status Bar */
-.order-status-card { background: #1a1a1a; color: #fff; padding: 15px; margin: 10px; border-radius: 12px; }
-.badge-live { color: #28a745; font-size: 12px; font-weight: bold; }
-.dot { height: 8px; width: 8px; background: #28a745; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1s infinite; }
-@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+/* Zomato Style List */
+.service-list-item { 
+    display: flex; background: #fff; margin: 10px 15px; padding: 15px; border-radius: 15px; 
+    align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.s-info { flex: 1; padding-right: 10px; }
+.s-info h4 { font-size: 15px; margin-bottom: 5px; }
+.s-info p { font-size: 12px; color: var(--grey-text); }
+.s-img-container { width: 90px; height: 90px; position: relative; }
+.s-img-container img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+.add-btn { 
+    position: absolute; bottom: -8px; left: 10%; width: 80%; 
+    background: #fff; color: var(--blue-primary); border: 1px solid #ddd; 
+    border-radius: 6px; font-weight: 700; font-size: 11px; padding: 5px 0; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
-/* Sidebar */
-.side-menu { height:100%; width:0; position:fixed; right:0; top:0; background:#fff; z-index:2000; transition:0.3s; padding-top:20px; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
-.side-menu a { padding: 15px 25px; color: #333; display: block; text-decoration: none; border-bottom: 1px solid #f9f9f9; }
-.logout-btn { width: 80%; margin: 20px auto; display: block; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; }
+/* Modals */
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; }
+.modal-content { background:#fff; width:90%; max-width:400px; margin:20% auto; padding:25px; border-radius:15px; position:relative; }
+.full-modal { width:100% !important; height:100% !important; margin:0 !important; border-radius:0 !important; overflow-y:auto; }
+.btn-blue { width:100%; background: var(--blue-primary); color:#fff; border:none; padding:15px; border-radius:10px; font-weight:700; font-size:16px; margin-top:15px; }
 
-.btn-main { width:100%; background:var(--primary); color:white; padding:15px; border:none; border-radius:12px; font-weight:bold; cursor:pointer; font-size: 16px; }
-.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:10000; }
-.modal-content { background:white; width:90%; max-width:400px; margin:20% auto; padding:25px; border-radius:20px; position:relative; }
+.close-x { position: absolute; right: 20px; top: 20px; font-size: 24px; cursor: pointer; color: #333; }
