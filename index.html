@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNIQUEOFY SERVICES - India's Trusted Professionals</title>
+    <title>UNIQUEOFY - India's Trusted Services</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -13,80 +13,90 @@
     <div id="sideMenu" class="side-menu">
         <div class="menu-profile">
             <i class="fas fa-user-circle fa-3x"></i>
-            <h4 id="sidebarName">Welcome, Guest</h4>
-            <p id="sidebarPhone" style="font-size: 0.8rem; opacity: 0.7;"></p>
-            <button id="logoutBtn" style="display:none; background:red; color:white; border:none; border-radius:4px; font-size:10px; margin-top:5px; padding:2px 5px;">Logout</button>
+            <h4 id="sidebarName">Guest User</h4>
+            <p id="sidebarPhone">Please Login</p>
+            <button id="authBtnSidebar" class="auth-btn-small">Login</button>
         </div>
-        <hr style="border: 0.5px solid #444; margin: 10px 0;">
+        <hr>
         <a href="#" onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
-        <a href="#" id="viewOrdersBtn"><i class="fas fa-history"></i> My Bookings</a>
-        <a href="https://wa.me/7870066085"><i class="fab fa-whatsapp"></i> Help & Support</a>
+        <a href="#" id="viewOrders"><i class="fas fa-box"></i> My Orders</a>
+        <a href="https://wa.me/7870066085"><i class="fab fa-whatsapp"></i> Support</a>
     </div>
+
+    <header class="app-header">
+        <span class="app-logo">UNIQUEOFY</span>
+        <i class="fas fa-bars" id="sidebarToggle"></i>
+    </header>
 
     <section class="hero-section">
-        <div class="hero-content">
-            <div class="app-header-mock">
-                <span class="app-logo">UNIQUEOFY</span>
-                <i class="fas fa-bars menu-icon" id="sidebarToggle"></i>
-            </div>
-            <h1>NEED SERVICES ? ..</h1>
-            <div class="hero-search-container">
-                <input type="text" placeholder="Search for any service..." class="search-input">
-                <button class="search-btn"><i class="fas fa-search"></i></button>
-            </div>
-            <a href="#services-list" class="hero-explore-link"><i class="fas fa-star"></i> Explore Categories</a>
+        <h1>What can we help you with?</h1>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for 'AC Repair'...">
+            <button><i class="fas fa-search"></i></button>
         </div>
     </section>
 
-    <div id="liveTrackingBox" class="status-card" style="display:none;">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h4><i class="fas fa-clock"></i> Booking Status</h4>
-            <span id="closeTracking" style="cursor:pointer; font-weight:bold;">&times;</span>
+    <div id="orderStatusCard" class="order-status-card" style="display:none;">
+        <div class="status-header">
+            <span>Order ID: <b id="displayOrderID"></b></span>
+            <span class="badge">In Progress</span>
         </div>
-        <p id="trackOrderID" style="font-size: 10px; color: #888; margin-bottom: 10px;"></p>
-        <div class="status-steps">
-            <div class="step active" id="s-placed">Placed</div>
-            <div class="step" id="s-confirm">Confirmed</div>
-            <div class="step" id="s-assigned">In Progress</div>
-            <div class="step" id="s-done">Done</div>
+        <div class="stepper">
+            <div class="step active">Placed</div>
+            <div class="step" id="stepConfirm">Confirmed</div>
+            <div class="step" id="stepAssigned">Assigned</div>
+            <div class="step" id="stepDone">Done</div>
         </div>
     </div>
 
-    <section class="services-overview" id="services-list">
+    <section id="services-list" class="main-container">
         <div id="service-list-title" class="section-title"></div>
-        <div id="services-list-container" class="category-icon-grid"></div>
+        <div id="services-list-container" class="grid-container"></div>
     </section>
 
-    <footer class="main-footer">
-        <p>CALL/WHATSAPP: <a href="tel:7870066085">7870066085</a></p>
-        <p>&copy; 2025 UNIQUEOFY SERVICES. All rights reserved.</p>
-    </footer>
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="loginSection">
+                <h3>Login / Signup</h3>
+                <p>Enter mobile number to get OTP</p>
+                <div class="input-group">
+                    <span>+91</span>
+                    <input type="tel" id="userMobile" placeholder="9876543210" maxlength="10">
+                </div>
+                <button id="sendOTP" class="btn-main">Send OTP</button>
+            </div>
+            <div id="otpSection" style="display:none;">
+                <h3>Verify OTP</h3>
+                <p>Sent to <span id="sentNumber"></span></p>
+                <input type="number" id="otpValue" placeholder="Enter 4-digit OTP" class="otp-input">
+                <button id="verifyOTP" class="btn-main">Verify & Continue</button>
+            </div>
+        </div>
+    </div>
 
     <div id="bookingModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <div id="loginStep">
-                <h3>Welcome to Uniqueofy</h3>
-                <p style="font-size: 12px; margin-bottom: 15px;">Please login to continue</p>
-                <input type="text" id="loginName" placeholder="Enter Your Name *" required>
-                <input type="tel" id="loginPhone" placeholder="Enter Mobile Number *" required>
-                <button type="button" id="proceedToBook" class="btn btn-submit-modal">PROCEED</button>
+            <span class="close-modal">&times;</span>
+            <h3>Booking: <span id="modalServiceName"></span></h3>
+            <div class="address-box">
+                <label>Service Address *</label>
+                <textarea id="fullAddress" placeholder="House No, Street, Landmark, City..." required></textarea>
+                <button id="fetchLoc" class="btn-loc"><i class="fas fa-location-arrow"></i> Use Current Location</button>
+            </div>
+            
+            <div class="payment-selection">
+                <label>Payment Mode</label>
+                <div class="pay-options">
+                    <label><input type="radio" name="pay" value="COD" checked> Cash After Service</label>
+                    <label><input type="radio" name="pay" value="ONLINE"> Online Payment</label>
+                </div>
             </div>
 
-            <div id="detailsStep" style="display:none;">
-                <h3>Book: <span id="modalServiceName"></span></h3>
-                <form id="serviceModalForm">
-                    <textarea id="userAddress" placeholder="Pura Address, Landmark, aur City Name *" rows="3" required></textarea>
-                    <button type="button" id="getLocationBtn" class="btn btn-location-fetch">
-                        <i class="fas fa-location-arrow"></i> Use My Current Location
-                    </button>
-                    <div id="locationStatus" class="location-status-text"></div> 
-                    <button type="submit" class="btn btn-submit-modal">CONFIRM BOOKING</button>
-                </form>
-            </div>
+            <button id="finalConfirmBtn" class="btn-main">CONFIRM & PAY</button>
         </div>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>
