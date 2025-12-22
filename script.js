@@ -1,82 +1,97 @@
 const CATEGORIES = [
     { id: 'home', name: 'Home Control', img: '3d-home-control.png' },
-    { id: 'repairing', name: 'Appliance Repair', img: '3d-repair-service.png' }
+    { id: 'repairing', name: 'Appliance Repair', img: '3d-repair-service.png' },
+    { id: 'painting', name: 'Painting & Civil', img: '3d-painting.png' }
 ];
 
-const SERVICES = {
+const SERVICES_BY_CATEGORY = {
     'repairing': [
-        { name: 'AC Repair & Service', desc: 'Gas charging, deep jet cleaning, and wiring fix with 30-day warranty.', img: 'ac-service.jpg', price: '₹499' },
-        { name: 'Washing Machine Repair', desc: 'Expert motor and drum repair for all brands.', img: 'wm-repair.jpg', price: '₹299' }
+        { name: 'AC Repair & Service', desc: 'Expert gas charging and cleaning.', fileUrl: 'ac-repair-video.mp4' },
+        { name: 'Washing Machine Repair', desc: 'Repair for all top brands.', fileUrl: 'wm-repair-video.mp4' }
     ]
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const catGrid = document.getElementById('category-grid');
-    const serviceSection = document.getElementById('service-list-area');
-    const serviceFeed = document.getElementById('services-feed');
+    const listContainer = document.getElementById('services-list-container');
+    const titleArea = document.getElementById('service-list-title');
 
-    // 1. Render Categories (Grid Style like your image)
-    catGrid.innerHTML = CATEGORIES.map(c => `
-        <div class="cat-card" onclick="openServices('${c.id}')">
-            <img src="${c.img}" onerror="this.src='https://via.placeholder.com/150'">
-            <p>${c.name}</p>
-        </div>
-    `).join('');
+    // 1. Initial Render
+    function renderCats() {
+        titleArea.innerHTML = '<h2>Choose a Category</h2>';
+        listContainer.className = 'category-icon-grid';
+        listContainer.innerHTML = CATEGORIES.map(c => `
+            <div class="category-icon-card" onclick="openCat('${c.id}')">
+                <img src="${c.img}" class="category-img" onerror="this.src='https://via.placeholder.com/100'">
+                <p style="color:var(--primary-color); font-weight:bold;">${c.name}</p>
+            </div>
+        `).join('');
+    }
 
-    // 2. Show Services List
-    window.openServices = (id) => {
-        const list = SERVICES[id] || [];
-        serviceFeed.innerHTML = list.map(s => `
-            <div class="service-list-item" onclick="showDetail('${s.name}', '${s.desc}', '${s.img}')">
-                <div class="s-info">
-                    <h4>${s.name}</h4>
-                    <p>${s.desc.substring(0, 45)}...</p>
-                    <b style="color:var(--blue-primary)">${s.price}</b>
+    // 2. Open Category
+    window.openCat = (id) => {
+        const services = SERVICES_BY_CATEGORY[id] || [];
+        titleArea.innerHTML = `<h2><i class="fas fa-arrow-left" onclick="location.reload()"></i> Services</h2>`;
+        listContainer.className = 'service-card-grid';
+        listContainer.innerHTML = services.map(s => `
+            <div class="service-card-v2">
+                <div class="card-image">
+                    <video class="service-video" autoplay loop muted playsinline>
+                        <source src="${s.fileUrl}" type="video/mp4">
+                    </video>
                 </div>
-                <div class="s-img-container">
-                    <img src="${s.img}" onerror="this.src='https://via.placeholder.com/90'">
-                    <button class="add-btn">ADD</button>
+                <div class="card-details">
+                    <h4>${s.name}</h4>
+                    <p style="font-size:0.8rem; color:#666;">${s.desc}</p>
+                    <button class="btn-card-book" onclick="attemptBook('${s.name}')">Book Now</button>
                 </div>
             </div>
         `).join('');
-        serviceSection.style.display = 'block';
-        serviceSection.scrollIntoView({ behavior: 'smooth' });
     };
 
-    // 3. Service Detail
-    window.showDetail = (name, desc, img) => {
-        document.getElementById('detName').innerText = name;
-        document.getElementById('detDesc').innerText = desc;
-        document.getElementById('detImg').src = img;
-        document.getElementById('detailModal').style.display = 'block';
-        window.tempService = name;
-    };
-
-    // 4. Booking Flow
-    document.getElementById('bookNowBtn').onclick = () => {
-        document.getElementById('detailModal').style.display = 'none';
-        if(localStorage.getItem('userIn')) {
-            document.getElementById('addressModal').style.display = 'block';
+    // 3. Login & Booking Flow
+    window.attemptBook = (name) => {
+        window.selectedService = name;
+        if (localStorage.getItem('isLogged') === 'true') {
+            openBookingModal(name);
         } else {
             document.getElementById('loginModal').style.display = 'block';
         }
     };
 
-    // 5. Final Confirm
-    window.placeOrder = () => {
-        const addr = document.getElementById('addrInput').value;
-        if(addr.length < 10) return alert("Please enter full address");
-        
-        const order = { id: 'UNIQ' + Math.floor(Math.random()*9000), service: window.tempService };
-        localStorage.setItem('activeOrder', JSON.stringify(order));
-        alert("Booking Confirmed!");
+    window.processLogin = () => {
+        const ph = document.getElementById('loginPhone').value;
+        if (ph.length === 10) {
+            localStorage.setItem('isLogged', 'true');
+            document.getElementById('loginModal').style.display = 'none';
+            openBookingModal(window.selectedService);
+        } else {
+            alert("Enter 10 digit number");
+        }
+    };
+
+    function openBookingModal(name) {
+        document.getElementById('modalServiceName').innerText = name;
+        document.getElementById('hiddenServiceName').value = name;
+        document.getElementById('bookingModal').style.display = 'block';
+    }
+
+    // 4. Form Submit & Status
+    document.getElementById('serviceModalForm').onsubmit = (e) => {
+        e.preventDefault();
+        const oid = 'UNIQ' + Math.floor(1000 + Math.random() * 9000);
+        localStorage.setItem('activeOrder', oid);
+        alert("Booking Done! ID: " + oid);
         location.reload();
     };
 
-    // Initial Order Check
-    const active = JSON.parse(localStorage.getItem('activeOrder'));
-    if(active) {
-        document.getElementById('bookingStatus').style.display = 'block';
-        document.getElementById('orderID').innerText = active.id;
+    // Check Active Order
+    const active = localStorage.getItem('activeOrder');
+    if (active) {
+        document.getElementById('orderStatusContainer').style.display = 'block';
+        document.getElementById('displayOrderID').innerText = active;
     }
+
+    renderCats();
 });
+
+function closeLogin() { document.getElementById('loginModal').style.display = 'none'; }
