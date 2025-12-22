@@ -1,106 +1,118 @@
-// Data remain the same as your code
-const CATEGORIES = [
-    { id: 'home', name: 'Home Control', img: '3d-home-control.png' },
-    { id: 'repairing', name: 'Appliance Repair', img: '3d-repair-service.png' }
-];
-
-const SERVICES = {
-    'repairing': [{ name: 'AC Repair', desc: 'Gas refilling & Service', fileUrl: 'ac.mp4' }]
+const DATA = {
+    categories: [
+        { id: 'ac', name: 'AC Repair', img: 'ac-3d.png' },
+        { id: 'clean', name: 'Cleaning', img: 'clean-3d.png' }
+    ],
+    services: {
+        'ac': [
+            { name: 'AC Jet Service', price: '₹499', img: 'ac-jet.jpg', desc: 'Deep cleaning of indoor and outdoor units with high-pressure jet pump.' },
+            { name: 'AC Gas Refill', price: '₹2500', img: 'ac-gas.jpg', desc: 'Full gas charging with leakage check.' }
+        ]
+    }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Check Login Status
-    let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    updateProfileUI();
+    renderCats();
+    checkActiveOrder();
 
-    // 2. Auth Logic (OTP Mockup)
-    const authModal = document.getElementById('authModal');
-    const sendOTPBtn = document.getElementById('sendOTP');
-    const verifyOTPBtn = document.getElementById('verifyOTP');
+    // 1. Show Categories
+    function renderCats() {
+        const grid = document.getElementById('category-grid');
+        grid.innerHTML = DATA.categories.map(c => `
+            <div class="cat-card" onclick="renderServices('${c.id}')">
+                <img src="${c.img}">
+                <p>${c.name}</p>
+            </div>
+        `).join('');
+    }
 
-    sendOTPBtn.onclick = () => {
-        const phone = document.getElementById('userMobile').value;
-        if(phone.length === 10) {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('otpSection').style.display = 'block';
-            document.getElementById('sentNumber').innerText = "+91 " + phone;
-            console.log("OTP Sent: 1234"); // For testing
-        } else { alert("Enter valid 10-digit number"); }
+    // 2. Show Services (Zomato List)
+    window.renderServices = (id) => {
+        const container = document.getElementById('services-container');
+        const services = DATA.services[id] || [];
+        container.innerHTML = services.map(s => `
+            <div class="service-list-item" onclick="openDetails('${s.name}', '${s.desc}', '${s.img}')">
+                <div class="s-info">
+                    <h4>${s.name}</h4>
+                    <span class="price">${s.price}</span>
+                    <p class="limit-text">${s.desc}</p>
+                </div>
+                <div class="s-img">
+                    <img src="${s.img}">
+                    <button class="add-btn">ADD</button>
+                </div>
+            </div>
+        `).join('');
     };
 
-    verifyOTPBtn.onclick = () => {
-        const otp = document.getElementById('otpValue').value;
-        if(otp === '1234') { // Mock OTP
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('uPhone', document.getElementById('userMobile').value);
-            location.reload();
-        } else { alert("Invalid OTP! Try 1234"); }
+    // 3. Open Detail Modal
+    window.openDetails = (name, desc, img) => {
+        document.getElementById('detailTitle').innerText = name;
+        document.getElementById('detailDesc').innerText = desc;
+        document.getElementById('detailImg').src = img;
+        document.getElementById('detailModal').style.display = 'block';
     };
 
-    // 3. Booking & Address Logic
-    const finalConfirmBtn = document.getElementById('finalConfirmBtn');
-    finalConfirmBtn.onclick = () => {
-        const address = document.getElementById('fullAddress').value;
-        if(address.length < 10) {
-            alert("Please enter a complete address for service.");
-            return;
-        }
-
-        const payMode = document.querySelector('input[name="pay"]:checked').value;
-        const orderID = "UNIQ-" + Date.now().toString().slice(-6);
-
-        if(payMode === 'ONLINE') {
-            alert("Redirecting to Secure Payment Gateway...");
-            // Integrate Razorpay here
-        }
+    // 4. Booking Logic
+    document.getElementById('startBookingBtn').onclick = () => {
+        document.getElementById('detailModal').style.display = 'none';
+        document.getElementById('checkoutModal').style.display = 'block';
         
-        // Save Order & Show Tracking
-        const order = { id: orderID, service: document.getElementById('modalServiceName').innerText, status: 'Placed' };
-        localStorage.setItem('activeOrder', JSON.stringify(order));
-        alert("Success! Your booking ID is " + orderID);
-        location.reload();
+        // Agar pehle se login hai toh seedha address par bhejo
+        if(localStorage.getItem('userLoggedIn')) {
+            showStep('stepBooking');
+        } else {
+            showStep('stepLogin');
+        }
     };
 
-    // UI Helpers
-    function updateProfileUI() {
-        if(isLoggedIn) {
-            document.getElementById('sidebarName').innerText = "Verified User";
-            document.getElementById('sidebarPhone').innerText = localStorage.getItem('uPhone');
-            document.getElementById('authBtnSidebar').innerText = "Logout";
-            document.getElementById('authBtnSidebar').onclick = () => { localStorage.clear(); location.reload(); };
+    // --- STEPS MANAGEMENT ---
+    window.sendOTP = () => {
+        const ph = document.getElementById('userPhone').value;
+        if(ph.length === 10) {
+            alert("OTP Sent: 1234");
+            localStorage.setItem('tempPhone', ph);
+            showStep('stepOTP');
+        }
+    };
+
+    // FINAL ORDER
+    window.confirmFinalOrder = () => {
+        const addr = document.getElementById('userAddress').value;
+        if(addr.length < 10) { alert("Please enter full address"); return; }
+        
+        // Yahan OTP mangenge confirm karne ke liye
+        showStep('stepOTP');
+    };
+
+    document.getElementById('finalVerifyBtn').onclick = () => {
+        const otp = document.getElementById('otpInp').value;
+        if(otp === '1234') {
+            const orderID = "UNIQ-" + Math.floor(1000 + Math.random() * 9000);
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('activeOrder', JSON.stringify({id: orderID, status: 'Placed'}));
+            alert("Booking Successful! Order ID: " + orderID);
+            location.reload();
         } else {
-            document.getElementById('authBtnSidebar').onclick = () => authModal.style.display = 'block';
+            alert("Invalid OTP");
+        }
+    };
+
+    function showStep(stepId) {
+        ['stepLogin', 'stepBooking', 'stepOTP'].forEach(s => document.getElementById(s).style.display = 'none');
+        document.getElementById(stepId).style.display = 'block';
+    }
+
+    function checkActiveOrder() {
+        const order = JSON.parse(localStorage.getItem('activeOrder'));
+        if(order) {
+            document.getElementById('activeOrderSection').style.display = 'block';
+            document.getElementById('miniStatus').innerText = order.status;
         }
     }
 
-    // --- RENDER CATEGORIES ---
-    const container = document.getElementById('services-list-container');
-    container.innerHTML = CATEGORIES.map(c => `
-        <div class="category-icon-card" onclick="openCat('${c.id}')">
-            <img src="${c.img}" class="category-img">
-            <p>${c.name}</p>
-        </div>
-    `).join('');
-
-    window.openCat = (id) => {
-        if(!isLoggedIn) { authModal.style.display = 'block'; return; }
-        // Service render logic...
-        const modal = document.getElementById('bookingModal');
-        document.getElementById('modalServiceName').innerText = "General Service";
-        modal.style.display = 'block';
-    };
-
-    // Sidebar
-    document.getElementById('sidebarToggle').onclick = () => document.getElementById('sideMenu').style.width = '250px';
-    document.querySelectorAll('.close-modal').forEach(b => b.onclick = () => {
-        authModal.style.display = 'none';
-        document.getElementById('bookingModal').style.display = 'none';
+    // Modal close logic
+    document.querySelectorAll('.close-btn').forEach(btn => {
+        btn.onclick = () => btn.closest('.modal').style.display = 'none';
     });
-    
-    // Check Active Order
-    const order = JSON.parse(localStorage.getItem('activeOrder'));
-    if(order) {
-        document.getElementById('orderStatusCard').style.display = 'block';
-        document.getElementById('displayOrderID').innerText = order.id;
-    }
 });
