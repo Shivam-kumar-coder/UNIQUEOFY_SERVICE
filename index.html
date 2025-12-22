@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNIQUEOFY SERVICES - India's Trusted Professionals</title>
+    <meta name="description" content="One Stop Solution For All Your Needs: Home, Industrial, Hospital, Repairing, Painting, and Cleaning Services across India.">
+    
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -16,72 +18,57 @@
                 <span class="app-logo">UNIQUEOFY</span>
                 <i class="fas fa-bars menu-icon"></i>
             </div>
+
             <h1>NEED SERVICES ? ..</h1>
+            
             <div class="hero-search-container">
                 <input type="text" placeholder="Search for any service..." class="search-input">
                 <button class="search-btn"><i class="fas fa-search"></i></button>
             </div>
+            
             <a href="#services-list" class="hero-explore-link">
                 <i class="fas fa-star"></i> Explore Categories
             </a>
         </div>
     </section>
 
-    <div id="orderStatusContainer" class="status-tracker-card" style="display: none;">
-        <div class="tracker-header">
-            <span><i class="fas fa-receipt"></i> Order: <b id="displayOrderID"></b></span>
-            <span class="badge">In Progress</span>
-        </div>
-        <div class="steps-row">
-            <div class="step-point active"><span>Placed</span></div>
-            <div class="step-point"><span>Confirmed</span></div>
-            <div class="step-point"><span>Assigned</span></div>
-            <div class="step-point"><span>Done</span></div>
-        </div>
-    </div>
-
     <section class="services-overview" id="services-list">
-        <div id="service-list-title" class="section-title"></div>
-        <div id="services-list-container" class="category-icon-grid"></div>
+        <div id="service-list-title" class="section-title">
+        </div>
+        
+        <div id="services-list-container" class="category-icon-grid">
+        </div>
     </section>
 
     <footer class="main-footer">
-        <p>CALL/WHATSAPP: <a href="tel:7870066085" style="color:#fff;">7870066085</a></p>
-        <p>&copy; 2025 UNIQUEOFY SERVICES.</p>
+        <p>CALL/WHATSAPP: <a href="tel:7870066085">7870066085</a></p>
+        <p>&copy; 2025 UNIQUEOFY SERVICES. All rights reserved.</p>
     </footer>
-
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeLogin()">&times;</span>
-            <div style="text-align:center; padding:10px;">
-                <h3>Login / Signup</h3>
-                <p style="font-size:0.8rem; color:#666; margin:10px 0;">Enter mobile to get OTP</p>
-                <div style="display:flex; border:1px solid #ddd; border-radius:8px; overflow:hidden; margin-bottom:15px;">
-                    <span style="padding:12px; background:#f4f4f4; font-weight:bold;">+91</span>
-                    <input type="tel" id="loginPhone" placeholder="Mobile Number" style="border:none; width:100%; padding:10px; outline:none;">
-                </div>
-                <button onclick="processLogin()" class="btn-submit-modal" style="width:100%; border:none;">SEND OTP</button>
-            </div>
-        </div>
-    </div>
 
     <div id="bookingModal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
             <h3>Book Service: <span id="modalServiceName"></span></h3>
-            <form id="serviceModalForm">
-                <input type="hidden" id="hiddenServiceName"> 
-                <input type="text" id="custName" placeholder="Apka Pura Naam *" required>
-                <textarea id="userAddress" placeholder="Pura Address, Landmark *" rows="3" required></textarea>
+            
+            <form id="serviceModalForm" action="YOUR_GOOGLE_FORM_URL" method="POST" target="_blank">
+                
+                <input type="hidden" name="serviceNameEntry" id="hiddenServiceName"> 
+
+                <input type="text" name="entry.406987541" placeholder="Apka Pura Naam *" required>
+                <input type="tel" name="entry.1596700010" placeholder="Mobile Number *" required>
+                
+                <textarea name="entry.1012170305" id="userAddress" placeholder="Pura Address, Landmark, aur City Name *" rows="3" required></textarea>
+                
                 <button type="button" id="getLocationBtn" class="btn btn-location-fetch">
                     <i class="fas fa-location-arrow"></i> Use My Current Location
                 </button>
                 <div id="locationStatus" class="location-status-text"></div> 
+                
                 <button type="submit" class="btn btn-submit-modal">CONFIRM BOOKING</button>
             </form>
         </div>
     </div>
-
+    
     <script src="script.js"></script>
 </body>
 </html>
