@@ -3,103 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNIQUEOFY - Premium Home Services</title>
+    <title>UNIQUEOFY - India's Trusted Services</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
     <div id="sideMenu" class="side-menu">
         <div class="menu-profile">
-            <h4 id="sidebarName">Guest</h4>
-            <button id="authBtn" class="auth-link">Login / Signup</button>
+            <i class="fas fa-user-circle fa-3x"></i>
+            <h4 id="sidebarName">Guest User</h4>
+            <p id="sidebarPhone">Please Login</p>
+            <button id="authBtnSidebar" class="auth-btn-small">Login</button>
         </div>
         <hr>
-        <a href="#" onclick="location.reload()">Home</a>
-        <a href="#" id="myOrdersLink">My Bookings</a>
+        <a href="#" onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
+        <a href="#" id="viewOrders"><i class="fas fa-box"></i> My Orders</a>
+        <a href="https://wa.me/7870066085"><i class="fab fa-whatsapp"></i> Support</a>
     </div>
 
-    <header class="main-nav">
-        <div class="logo">UNIQUEOFY</div>
-        <div class="nav-icons">
-            <i class="fas fa-search"></i>
-            <i class="fas fa-bars" id="menuToggle"></i>
-        </div>
+    <header class="app-header">
+        <span class="app-logo">UNIQUEOFY</span>
+        <i class="fas fa-bars" id="sidebarToggle"></i>
     </header>
 
-    <div id="activeOrderSection" style="display:none;">
-        <div class="tracking-mini-card">
-            <div class="track-info">
-                <span class="pulse"></span> Active Order: <b id="miniStatus">Processing</b>
-            </div>
-            <button onclick="showFullTracking()">View Details</button>
+    <section class="hero-section">
+        <h1>What can we help you with?</h1>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for 'AC Repair'...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+    </section>
+
+    <div id="orderStatusCard" class="order-status-card" style="display:none;">
+        <div class="status-header">
+            <span>Order ID: <b id="displayOrderID"></b></span>
+            <span class="badge">In Progress</span>
+        </div>
+        <div class="stepper">
+            <div class="step active">Placed</div>
+            <div class="step" id="stepConfirm">Confirmed</div>
+            <div class="step" id="stepAssigned">Assigned</div>
+            <div class="step" id="stepDone">Done</div>
         </div>
     </div>
 
-    <section class="category-header">
-        <h2>What's on your mind?</h2>
-        <div id="category-grid" class="cat-scroller">
-            </div>
+    <section id="services-list" class="main-container">
+        <div id="service-list-title" class="section-title"></div>
+        <div id="services-list-container" class="grid-container"></div>
     </section>
 
-    <section class="services-section">
-        <h3 id="section-title">Popular Services</h3>
-        <div id="services-container" class="service-list">
-            </div>
-    </section>
-
-    <div id="detailModal" class="modal">
-        <div class="modal-content full-screen">
-            <span class="close-btn">&times;</span>
-            <div id="detailContent">
-                <img id="detailImg" src="" alt="service">
-                <h2 id="detailTitle"></h2>
-                <div class="detail-info">
-                    <h4><i class="fas fa-check-circle"></i> What's Included</h4>
-                    <p id="detailDesc"></p>
-                    <ul id="termsList">
-                        <li>Professional Equipment used.</li>
-                        <li>Safe & Sanitized service.</li>
-                        <li>7 Days warranty on work.</li>
-                    </ul>
-                </div>
-                <button id="startBookingBtn" class="sticky-book-btn">Book This Service</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="checkoutModal" class="modal">
+    <div id="authModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            
-            <div id="stepLogin">
-                <h3>Enter Mobile Number</h3>
-                <div class="input-box">
+            <span class="close-modal">&times;</span>
+            <div id="loginSection">
+                <h3>Login / Signup</h3>
+                <p>Enter mobile number to get OTP</p>
+                <div class="input-group">
                     <span>+91</span>
-                    <input type="tel" id="userPhone" placeholder="10 Digit Number">
+                    <input type="tel" id="userMobile" placeholder="9876543210" maxlength="10">
                 </div>
-                <button onclick="sendOTP()" class="btn-block">Get OTP</button>
+                <button id="sendOTP" class="btn-main">Send OTP</button>
+            </div>
+            <div id="otpSection" style="display:none;">
+                <h3>Verify OTP</h3>
+                <p>Sent to <span id="sentNumber"></span></p>
+                <input type="number" id="otpValue" placeholder="Enter 4-digit OTP" class="otp-input">
+                <button id="verifyOTP" class="btn-main">Verify & Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Booking: <span id="modalServiceName"></span></h3>
+            <div class="address-box">
+                <label>Service Address *</label>
+                <textarea id="fullAddress" placeholder="House No, Street, Landmark, City..." required></textarea>
+                <button id="fetchLoc" class="btn-loc"><i class="fas fa-location-arrow"></i> Use Current Location</button>
+            </div>
+            
+            <div class="payment-selection">
+                <label>Payment Mode</label>
+                <div class="pay-options">
+                    <label><input type="radio" name="pay" value="COD" checked> Cash After Service</label>
+                    <label><input type="radio" name="pay" value="ONLINE"> Online Payment</label>
+                </div>
             </div>
 
-            <div id="stepBooking" style="display:none;">
-                <h3>Confirm Details</h3>
-                <input type="text" id="userName" placeholder="Your Full Name">
-                <textarea id="userAddress" placeholder="Full Address with Landmark"></textarea>
-                <div class="payment-modes">
-                    <p>Select Payment:</p>
-                    <label><input type="radio" name="pmode" value="COD" checked> Cash After Service</label>
-                    <label><input type="radio" name="pmode" value="ONLINE"> Pay Online</label>
-                </div>
-                <button onclick="confirmFinalOrder()" class="btn-block">Verify OTP & Place Order</button>
-            </div>
-
-            <div id="stepOTP" style="display:none;">
-                <h3>Verify Booking</h3>
-                <p>Sent to <span id="displayNum"></span></p>
-                <input type="number" id="otpInp" placeholder="Enter 4 Digit OTP">
-                <button id="finalVerifyBtn" class="btn-block">Confirm Order</button>
-            </div>
+            <button id="finalConfirmBtn" class="btn-main">CONFIRM & PAY</button>
         </div>
     </div>
 
