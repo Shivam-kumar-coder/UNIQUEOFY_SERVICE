@@ -12,12 +12,12 @@
 
     <div id="sideMenu" class="side-menu">
         <div class="menu-profile">
-            <h4 id="sidebarName">Guest User</h4>
+            <h4 id="sidebarName">Guest</h4>
             <button id="authBtn" class="auth-link">Login / Signup</button>
         </div>
         <hr>
-        <a href="#" onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
-        <a href="#"><i class="fas fa-box"></i> My Bookings</a>
+        <a href="#" onclick="location.reload()">Home</a>
+        <a href="#" id="myOrdersLink">My Bookings</a>
     </div>
 
     <header class="main-nav">
@@ -28,48 +28,44 @@
         </div>
     </header>
 
-    <div id="activeOrderSection" class="tracking-mini-card" style="display:none;">
-        <div class="track-info">
-            <span class="pulse"></span> Active Order: <b id="miniStatus">Placed</b>
-        </div>
-        <button class="view-det-btn">View Details</button>
-    </div>
-
-    <section class="hero-section">
-        <h1>What can we help you with?</h1>
-        <div class="search-container">
-            <div class="search-bar">
-                <input type="text" placeholder="Search for 'AC Repair'...">
-                <button><i class="fas fa-search"></i></button>
+    <div id="activeOrderSection" style="display:none;">
+        <div class="tracking-mini-card">
+            <div class="track-info">
+                <span class="pulse"></span> Active Order: <b id="miniStatus">Processing</b>
             </div>
+            <button onclick="showFullTracking()">View Details</button>
         </div>
-    </section>
+    </div>
 
     <section class="category-header">
         <h2>What's on your mind?</h2>
-        <div id="category-grid" class="cat-scroller"></div>
+        <div id="category-grid" class="cat-scroller">
+            </div>
     </section>
 
     <section class="services-section">
-        <h3 id="section-title" class="section-title">Popular Services</h3>
-        <div id="services-container" class="service-list"></div>
+        <h3 id="section-title">Popular Services</h3>
+        <div id="services-container" class="service-list">
+            </div>
     </section>
 
     <div id="detailModal" class="modal">
         <div class="modal-content full-screen">
             <span class="close-btn">&times;</span>
-            <img id="detailImg" src="" alt="service">
-            <div class="detail-info">
+            <div id="detailContent">
+                <img id="detailImg" src="" alt="service">
                 <h2 id="detailTitle"></h2>
-                <h4><i class="fas fa-check-circle"></i> What's Included</h4>
-                <p id="detailDesc"></p>
-                <ul class="terms">
-                    <li>Certified Professionals</li>
-                    <li>7 Days work warranty</li>
-                    <li>Genuine Spare Parts</li>
-                </ul>
+                <div class="detail-info">
+                    <h4><i class="fas fa-check-circle"></i> What's Included</h4>
+                    <p id="detailDesc"></p>
+                    <ul id="termsList">
+                        <li>Professional Equipment used.</li>
+                        <li>Safe & Sanitized service.</li>
+                        <li>7 Days warranty on work.</li>
+                    </ul>
+                </div>
+                <button id="startBookingBtn" class="sticky-book-btn">Book This Service</button>
             </div>
-            <button id="startBookingBtn" class="sticky-book-btn">Book Now</button>
         </div>
     </div>
 
@@ -78,30 +74,31 @@
             <span class="close-btn">&times;</span>
             
             <div id="stepLogin">
-                <h3>Login to Book</h3>
+                <h3>Enter Mobile Number</h3>
                 <div class="input-box">
                     <span>+91</span>
-                    <input type="tel" id="userPhone" placeholder="Mobile Number">
+                    <input type="tel" id="userPhone" placeholder="10 Digit Number">
                 </div>
-                <button onclick="sendOTP()" class="btn-block">Send OTP</button>
+                <button onclick="sendOTP()" class="btn-block">Get OTP</button>
             </div>
 
             <div id="stepBooking" style="display:none;">
-                <h3>Service Address</h3>
-                <input type="text" id="userName" placeholder="Full Name">
-                <textarea id="userAddress" rows="3" placeholder="House No, Landmark, City"></textarea>
-                <div class="pay-option">
-                    <p>Payment Mode:</p>
-                    <label><input type="radio" name="pay" value="COD" checked> Cash After Service</label>
+                <h3>Confirm Details</h3>
+                <input type="text" id="userName" placeholder="Your Full Name">
+                <textarea id="userAddress" placeholder="Full Address with Landmark"></textarea>
+                <div class="payment-modes">
+                    <p>Select Payment:</p>
+                    <label><input type="radio" name="pmode" value="COD" checked> Cash After Service</label>
+                    <label><input type="radio" name="pmode" value="ONLINE"> Pay Online</label>
                 </div>
-                <button onclick="confirmOrder()" class="btn-block">Confirm Booking</button>
+                <button onclick="confirmFinalOrder()" class="btn-block">Verify OTP & Place Order</button>
             </div>
 
             <div id="stepOTP" style="display:none;">
-                <h3>Verify OTP</h3>
+                <h3>Verify Booking</h3>
                 <p>Sent to <span id="displayNum"></span></p>
-                <input type="number" id="otpInp" placeholder="Enter 4-Digit OTP">
-                <button id="finalVerifyBtn" class="btn-block">Place Order</button>
+                <input type="number" id="otpInp" placeholder="Enter 4 Digit OTP">
+                <button id="finalVerifyBtn" class="btn-block">Confirm Order</button>
             </div>
         </div>
     </div>
