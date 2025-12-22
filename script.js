@@ -1,97 +1,61 @@
-const CATEGORIES = [
+const CAT_DATA = [
     { id: 'home', name: 'Home Control', img: '3d-home-control.png' },
-    { id: 'repairing', name: 'Appliance Repair', img: '3d-repair-service.png' },
-    { id: 'painting', name: 'Painting & Civil', img: '3d-painting.png' }
+    { id: 'repairing', name: 'Appliance Repair', img: '3d-repair-service.png' }
 ];
 
-const SERVICES_BY_CATEGORY = {
-    'repairing': [
-        { name: 'AC Repair & Service', desc: 'Expert gas charging and cleaning.', fileUrl: 'ac-repair-video.mp4' },
-        { name: 'Washing Machine Repair', desc: 'Repair for all top brands.', fileUrl: 'wm-repair-video.mp4' }
-    ]
-};
-
 document.addEventListener('DOMContentLoaded', () => {
-    const listContainer = document.getElementById('services-list-container');
-    const titleArea = document.getElementById('service-list-title');
+    const container = document.getElementById('services-list-container');
+    
+    // 1. Render Categories
+    container.innerHTML = CAT_DATA.map(c => `
+        <div class="category-icon-card" onclick="selectService('${c.name}')">
+            <img src="${c.img}" class="category-img" onerror="this.src='https://via.placeholder.com/100'">
+            <p style="font-weight:600; font-size:0.9rem; color:#333;">${c.name}</p>
+        </div>
+    `).join('');
 
-    // 1. Initial Render
-    function renderCats() {
-        titleArea.innerHTML = '<h2>Choose a Category</h2>';
-        listContainer.className = 'category-icon-grid';
-        listContainer.innerHTML = CATEGORIES.map(c => `
-            <div class="category-icon-card" onclick="openCat('${c.id}')">
-                <img src="${c.img}" class="category-img" onerror="this.src='https://via.placeholder.com/100'">
-                <p style="color:var(--primary-color); font-weight:bold;">${c.name}</p>
-            </div>
-        `).join('');
-    }
-
-    // 2. Open Category
-    window.openCat = (id) => {
-        const services = SERVICES_BY_CATEGORY[id] || [];
-        titleArea.innerHTML = `<h2><i class="fas fa-arrow-left" onclick="location.reload()"></i> Services</h2>`;
-        listContainer.className = 'service-card-grid';
-        listContainer.innerHTML = services.map(s => `
-            <div class="service-card-v2">
-                <div class="card-image">
-                    <video class="service-video" autoplay loop muted playsinline>
-                        <source src="${s.fileUrl}" type="video/mp4">
-                    </video>
-                </div>
-                <div class="card-details">
-                    <h4>${s.name}</h4>
-                    <p style="font-size:0.8rem; color:#666;">${s.desc}</p>
-                    <button class="btn-card-book" onclick="attemptBook('${s.name}')">Book Now</button>
-                </div>
-            </div>
-        `).join('');
-    };
-
-    // 3. Login & Booking Flow
-    window.attemptBook = (name) => {
-        window.selectedService = name;
+    // 2. Logic to handle Book/Login
+    window.selectService = (name) => {
+        window.tempService = name;
         if (localStorage.getItem('isLogged') === 'true') {
-            openBookingModal(name);
+            showBooking(name);
         } else {
             document.getElementById('loginModal').style.display = 'block';
         }
     };
 
-    window.processLogin = () => {
-        const ph = document.getElementById('loginPhone').value;
-        if (ph.length === 10) {
+    window.handleOTP = () => {
+        const ph = document.getElementById('userPhone').value;
+        if(ph.length === 10) {
             localStorage.setItem('isLogged', 'true');
+            localStorage.setItem('phone', ph);
             document.getElementById('loginModal').style.display = 'none';
-            openBookingModal(window.selectedService);
+            showBooking(window.tempService);
         } else {
-            alert("Enter 10 digit number");
+            alert("Enter valid mobile number");
         }
     };
 
-    function openBookingModal(name) {
+    function showBooking(name) {
         document.getElementById('modalServiceName').innerText = name;
-        document.getElementById('hiddenServiceName').value = name;
         document.getElementById('bookingModal').style.display = 'block';
     }
 
-    // 4. Form Submit & Status
-    document.getElementById('serviceModalForm').onsubmit = (e) => {
+    // 3. Final Form Submission
+    document.getElementById('finalBookingForm').onsubmit = (e) => {
         e.preventDefault();
-        const oid = 'UNIQ' + Math.floor(1000 + Math.random() * 9000);
-        localStorage.setItem('activeOrder', oid);
-        alert("Booking Done! ID: " + oid);
+        const orderId = 'UNIQ' + Math.floor(1000 + Math.random() * 9000);
+        localStorage.setItem('activeOrder', JSON.stringify({id: orderId, name: window.tempService}));
+        alert("Booking Confirmed!");
         location.reload();
     };
 
-    // Check Active Order
-    const active = localStorage.getItem('activeOrder');
-    if (active) {
+    // 4. Status Check
+    const active = JSON.parse(localStorage.getItem('activeOrder'));
+    if(active) {
         document.getElementById('orderStatusContainer').style.display = 'block';
-        document.getElementById('displayOrderID').innerText = active;
+        document.getElementById('displayOrderID').innerText = active.id;
     }
-
-    renderCats();
 });
 
-function closeLogin() { document.getElementById('loginModal').style.display = 'none'; }
+window.closeModal = (id) => document.getElementById(id).style.display = 'none';
