@@ -1,32 +1,52 @@
-:root { --primary: #007bff; --success: #28a745; --dark: #1a1a1a; --grey: #f4f4f4; }
+:root { --primary: #e03d4e; --dark: #1a1a1a; --light: #ffffff; --grey: #f5f7f9; }
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
 
-body { background: #fafafa; }
-.app-header { background: var(--dark); color:white; padding:15px 20px; display:flex; justify-content:space-between; position:sticky; top:0; z-index:100; }
+body { background: var(--grey); color: #333; }
 
-.side-menu { height:100%; width:0; position:fixed; left:0; top:0; background:#111; z-index:200; overflow-x:hidden; transition:0.3s; padding-top:60px; }
-.side-menu a { padding:12px 25px; color:#888; display:block; text-decoration:none; }
-.menu-profile { text-align:center; color:white; padding:10px; }
-.auth-btn-small { background:var(--primary); color:white; border:none; padding:5px 15px; border-radius:4px; margin-top:10px; cursor:pointer; }
+/* Header */
+.app-header { background: #fff; padding: 15px 20px; display: flex; justify-content: space-between; position: sticky; top:0; z-index: 999; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.app-logo { font-weight: 800; font-size: 20px; color: var(--primary); letter-spacing: 1px; }
 
-.hero-section { background:var(--dark); color:white; padding:40px 20px; text-align:center; }
-.search-bar { display:flex; background:white; border-radius:8px; overflow:hidden; margin-top:20px; }
-.search-bar input { flex:1; padding:12px; border:none; outline:none; }
-.search-bar button { background:var(--primary); color:white; border:none; padding:0 20px; }
+/* Hero */
+.hero-section { background: var(--dark); color: #fff; padding: 40px 20px; text-align: left; }
+.hero-section h1 { font-size: 22px; margin-bottom: 20px; font-weight: 700; }
+.search-wrapper { background: #fff; display: flex; align-items: center; padding: 12px; border-radius: 12px; }
+.search-wrapper input { border: none; outline: none; flex: 1; padding-left: 10px; font-size: 15px; }
+.loc-pin { color: var(--primary); }
 
-.grid-container { display:grid; grid-template-columns: repeat(2, 1fr); gap:15px; padding:20px; }
-.category-icon-card { background:white; padding:15px; border-radius:12px; text-align:center; box-shadow:0 4px 6px rgba(0,0,0,0.05); cursor:pointer; }
-.category-img { width:100%; height:80px; object-fit:contain; }
+/* Category Grid */
+.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 20px; }
+.cat-card { background: #fff; padding: 15px 10px; border-radius: 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+.cat-card img { width: 50px; margin-bottom: 8px; }
+.cat-card p { font-size: 12px; font-weight: 600; color: #444; }
 
-.order-status-card { background:white; margin:15px; padding:15px; border-radius:10px; border-left:5px solid var(--primary); box-shadow:0 4px 10px rgba(0,0,0,0.1); }
-.stepper { display:flex; justify-content:space-between; margin-top:15px; }
-.step { font-size:10px; color:#ccc; }
-.step.active { color:var(--success); font-weight:bold; }
+/* Zomato Style Service List */
+.service-card { display: flex; background: #fff; margin: 10px 15px; padding: 15px; border-radius: 15px; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.s-info { flex: 1; }
+.s-info h4 { font-size: 16px; margin-bottom: 5px; }
+.s-info p { font-size: 13px; color: #777; }
+.s-img-box { width: 80px; height: 80px; position: relative; }
+.s-img-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+.book-btn-sm { position: absolute; bottom: -10px; left: 10%; width: 80%; background: #fff; color: var(--primary); border: 1px solid #ddd; border-radius: 5px; font-weight: 700; font-size: 12px; padding: 4px 0; }
 
-.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; }
-.modal-content { background:white; width:90%; max-width:400px; margin:20% auto; padding:25px; border-radius:15px; position:relative; }
-.btn-main { width:100%; background:var(--primary); color:white; padding:12px; border:none; border-radius:8px; font-weight:bold; margin-top:15px; cursor:pointer; }
-.input-group { display:flex; border:1px solid #ddd; border-radius:8px; margin-top:10px; align-items:center; }
-.input-group span { padding:0 10px; font-weight:bold; }
-.input-group input { flex:1; padding:12px; border:none; outline:none; }
-.address-box textarea { width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; margin-top:5px; }
+/* Modal & Full Screen Detail */
+.full-screen-modal { width: 100% !important; height: 100% !important; margin: 0 !important; border-radius: 0 !important; overflow-y: auto; padding-bottom: 80px !important; }
+.detail-hero-img { width: 100%; height: 250px; object-fit: cover; }
+.detail-body { padding: 20px; }
+.service-desc-text { color: #666; margin: 15px 0; line-height: 1.6; }
+.sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; padding: 15px 20px; border-top: 1px solid #eee; }
+
+/* Order Status Bar */
+.order-status-card { background: #1a1a1a; color: #fff; padding: 15px; margin: 10px; border-radius: 12px; }
+.badge-live { color: #28a745; font-size: 12px; font-weight: bold; }
+.dot { height: 8px; width: 8px; background: #28a745; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1s infinite; }
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+/* Sidebar */
+.side-menu { height:100%; width:0; position:fixed; right:0; top:0; background:#fff; z-index:2000; transition:0.3s; padding-top:20px; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
+.side-menu a { padding: 15px 25px; color: #333; display: block; text-decoration: none; border-bottom: 1px solid #f9f9f9; }
+.logout-btn { width: 80%; margin: 20px auto; display: block; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; }
+
+.btn-main { width:100%; background:var(--primary); color:white; padding:15px; border:none; border-radius:12px; font-weight:bold; cursor:pointer; font-size: 16px; }
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:10000; }
+.modal-content { background:white; width:90%; max-width:400px; margin:20% auto; padding:25px; border-radius:20px; position:relative; }
