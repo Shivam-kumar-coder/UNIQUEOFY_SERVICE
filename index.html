@@ -3,73 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNIQUEOFY - India's Trusted Services</title>
+    <title>UNIQUEOFY - Premium Services</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <div id="sideMenu" class="side-menu">
-        <div class="menu-profile">
-            <i class="fas fa-user-circle fa-3x"></i>
-            <h4 id="sidebarName">Guest User</h4>
-            <p id="sidebarPhone">Please Login</p>
-            <button id="authBtnSidebar" class="auth-btn-small">Login</button>
-        </div>
-        <hr>
-        <a href="#" onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
-        <a href="#" id="viewOrders"><i class="fas fa-box"></i> My Orders</a>
-        <a href="https://wa.me/7870066085"><i class="fab fa-whatsapp"></i> Support</a>
-    </div>
-
     <header class="app-header">
-        <span class="app-logo">UNIQUEOFY</span>
-        <i class="fas fa-bars" id="sidebarToggle"></i>
+        <div class="header-left">
+            <span class="app-logo">UNIQUEOFY</span>
+        </div>
+        <div class="header-right">
+            <i class="fas fa-search search-icon-top"></i>
+            <i class="fas fa-bars" id="sidebarToggle"></i>
+        </div>
     </header>
 
-    <section class="hero-section">
-        <h1>What can we help you with?</h1>
-        <div class="search-bar">
-            <input type="text" placeholder="Search for 'AC Repair'...">
-            <button><i class="fas fa-search"></i></button>
+    <div id="sideMenu" class="side-menu">
+        <div class="menu-profile">
+            <h4 id="sidebarName">Guest User</h4>
+            <p id="sidebarPhone">Login to book services</p>
         </div>
-    </section>
+        <a href="#" onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
+        <a href="#" id="viewOrders"><i class="fas fa-history"></i> My Bookings</a>
+        <a href="https://wa.me/7870066085"><i class="fab fa-whatsapp"></i> Help & Support</a>
+        <button id="authBtnSidebar" class="logout-btn">Login / Signup</button>
+    </div>
 
     <div id="orderStatusCard" class="order-status-card" style="display:none;">
         <div class="status-header">
-            <span>Order ID: <b id="displayOrderID"></b></span>
-            <span class="badge">In Progress</span>
+            <span>Order <b id="displayOrderID"></b></span>
+            <span class="badge-live"><span class="dot"></span> In Progress</span>
         </div>
-        <div class="stepper">
-            <div class="step active">Placed</div>
-            <div class="step" id="stepConfirm">Confirmed</div>
-            <div class="step" id="stepAssigned">Assigned</div>
-            <div class="step" id="stepDone">Done</div>
+        <div class="mini-stepper">
+            <div class="m-step active">Placed</div>
+            <div class="m-step" id="stepConfirm">Confirm</div>
+            <div class="m-step" id="stepDone">Done</div>
         </div>
     </div>
 
-    <section id="services-list" class="main-container">
-        <div id="service-list-title" class="section-title"></div>
-        <div id="services-list-container" class="grid-container"></div>
+    <section class="hero-section">
+        <h1>Expert services at your doorstep</h1>
+        <div class="search-wrapper">
+            <i class="fas fa-map-marker-alt loc-pin"></i>
+            <input type="text" placeholder="Search for 'AC Repair', 'Cleaning'...">
+        </div>
     </section>
+
+    <section class="main-container">
+        <h3 class="section-title">What are you looking for?</h3>
+        <div id="category-container" class="cat-grid">
+            </div>
+    </section>
+
+    <section id="services-section" class="services-list-area" style="display:none;">
+        <h3 id="selected-cat-title" class="section-title">Services</h3>
+        <div id="services-feed">
+            </div>
+    </section>
+
+    <div id="detailModal" class="modal">
+        <div class="modal-content full-screen-modal">
+            <span class="close-modal">&times;</span>
+            <img id="detailImg" src="" class="detail-hero-img">
+            <div class="detail-body">
+                <h2 id="detailName"></h2>
+                <p id="detailDesc" class="service-desc-text"></p>
+                <div class="how-it-works">
+                    <h4>How it works?</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> High-quality genuine spare parts.</li>
+                        <li><i class="fas fa-check"></i> 30-day post-service warranty.</li>
+                        <li><i class="fas fa-check"></i> Background verified professionals.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sticky-footer">
+                <button id="proceedToBook" class="btn-main">Book This Service</button>
+            </div>
+        </div>
+    </div>
 
     <div id="authModal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <div id="loginSection">
-                <h3>Login / Signup</h3>
-                <p>Enter mobile number to get OTP</p>
+                <h3>Login to Continue</h3>
+                <p>We'll send an OTP to verify</p>
                 <div class="input-group">
                     <span>+91</span>
-                    <input type="tel" id="userMobile" placeholder="9876543210" maxlength="10">
+                    <input type="tel" id="userMobile" placeholder="Enter Mobile Number" maxlength="10">
                 </div>
-                <button id="sendOTP" class="btn-main">Send OTP</button>
+                <button id="sendOTP" class="btn-main">Get OTP</button>
             </div>
             <div id="otpSection" style="display:none;">
                 <h3>Verify OTP</h3>
-                <p>Sent to <span id="sentNumber"></span></p>
-                <input type="number" id="otpValue" placeholder="Enter 4-digit OTP" class="otp-input">
+                <input type="number" id="otpValue" placeholder="4-Digit OTP" class="otp-input">
                 <button id="verifyOTP" class="btn-main">Verify & Continue</button>
             </div>
         </div>
@@ -78,22 +108,20 @@
     <div id="bookingModal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <h3>Booking: <span id="modalServiceName"></span></h3>
+            <h3>Confirm Booking</h3>
             <div class="address-box">
-                <label>Service Address *</label>
-                <textarea id="fullAddress" placeholder="House No, Street, Landmark, City..." required></textarea>
-                <button id="fetchLoc" class="btn-loc"><i class="fas fa-location-arrow"></i> Use Current Location</button>
+                <label>Service Address</label>
+                <textarea id="fullAddress" placeholder="Flat No, Building, Landmark, City..."></textarea>
+                <button id="fetchLoc" class="btn-loc"><i class="fas fa-crosshairs"></i> Pin Current Location</button>
             </div>
-            
             <div class="payment-selection">
-                <label>Payment Mode</label>
+                <p>Select Payment Mode</p>
                 <div class="pay-options">
                     <label><input type="radio" name="pay" value="COD" checked> Cash After Service</label>
                     <label><input type="radio" name="pay" value="ONLINE"> Online Payment</label>
                 </div>
             </div>
-
-            <button id="finalConfirmBtn" class="btn-main">CONFIRM & PAY</button>
+            <button id="finalConfirmBtn" class="btn-main">Place Order</button>
         </div>
     </div>
 
