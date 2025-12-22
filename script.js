@@ -1,106 +1,126 @@
-// Data remain the same as your code
 const CATEGORIES = [
-    { id: 'home', name: 'Home Control', img: '3d-home-control.png' },
-    { id: 'repairing', name: 'Appliance Repair', img: '3d-repair-service.png' }
+    { id: 'repairing', name: 'Appliance Repair', img: 'https://cdn-icons-png.flaticon.com/512/900/900667.png' },
+    { id: 'home', name: 'Home Control', img: 'https://cdn-icons-png.flaticon.com/512/619/619153.png' },
+    { id: 'cleaning', name: 'Deep Cleaning', img: 'https://cdn-icons-png.flaticon.com/512/2954/2954893.png' }
 ];
 
 const SERVICES = {
-    'repairing': [{ name: 'AC Repair', desc: 'Gas refilling & Service', fileUrl: 'ac.mp4' }]
+    'repairing': [
+        { id: 101, name: 'AC Service & Repair', desc: 'Expert gas refilling, jet cleaning and component repair with 30 days warranty.', img: 'https://media.istockphoto.com/id/1152083162/photo/repairman-repairing-air-conditioning-business.jpg?s=612x612&w=0&k=20&c=qP9k8N9pG9I6Y_M_O_k0k8zI4k7p_Y_zX-o9_h1g1eE=' },
+        { id: 102, name: 'Washing Machine Repair', desc: 'Solution for all drum, motor and water leakage issues for all brands.', img: 'https://plus.unsplash.com/premium_photo-1664372599757-5e608226079c?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2FzaGluZyUyMG1hY2hpbmUlMjByZXBhaXJ8ZW58MHx8MHx8fDA%3D' }
+    ],
+    'cleaning': [
+        { id: 201, name: 'Full Home Cleaning', desc: 'Deep cleaning of bathrooms, kitchen and rooms using professional tools.', img: 'https://media.istockphoto.com/id/1144212973/photo/cleaning-service-concept.jpg?s=612x612&w=0&k=20&c=pP8X_7Kz9Z1-uY9p-G-U2D-qY-9zL8xI1O_X_eY_y0o=' }
+    ]
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Check Login Status
     let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    updateProfileUI();
+    let selectedService = null;
 
-    // 2. Auth Logic (OTP Mockup)
-    const authModal = document.getElementById('authModal');
-    const sendOTPBtn = document.getElementById('sendOTP');
-    const verifyOTPBtn = document.getElementById('verifyOTP');
-
-    sendOTPBtn.onclick = () => {
-        const phone = document.getElementById('userMobile').value;
-        if(phone.length === 10) {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('otpSection').style.display = 'block';
-            document.getElementById('sentNumber').innerText = "+91 " + phone;
-            console.log("OTP Sent: 1234"); // For testing
-        } else { alert("Enter valid 10-digit number"); }
-    };
-
-    verifyOTPBtn.onclick = () => {
-        const otp = document.getElementById('otpValue').value;
-        if(otp === '1234') { // Mock OTP
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('uPhone', document.getElementById('userMobile').value);
-            location.reload();
-        } else { alert("Invalid OTP! Try 1234"); }
-    };
-
-    // 3. Booking & Address Logic
-    const finalConfirmBtn = document.getElementById('finalConfirmBtn');
-    finalConfirmBtn.onclick = () => {
-        const address = document.getElementById('fullAddress').value;
-        if(address.length < 10) {
-            alert("Please enter a complete address for service.");
-            return;
-        }
-
-        const payMode = document.querySelector('input[name="pay"]:checked').value;
-        const orderID = "UNIQ-" + Date.now().toString().slice(-6);
-
-        if(payMode === 'ONLINE') {
-            alert("Redirecting to Secure Payment Gateway...");
-            // Integrate Razorpay here
-        }
-        
-        // Save Order & Show Tracking
-        const order = { id: orderID, service: document.getElementById('modalServiceName').innerText, status: 'Placed' };
-        localStorage.setItem('activeOrder', JSON.stringify(order));
-        alert("Success! Your booking ID is " + orderID);
-        location.reload();
-    };
-
-    // UI Helpers
-    function updateProfileUI() {
-        if(isLoggedIn) {
-            document.getElementById('sidebarName').innerText = "Verified User";
-            document.getElementById('sidebarPhone').innerText = localStorage.getItem('uPhone');
-            document.getElementById('authBtnSidebar').innerText = "Logout";
-            document.getElementById('authBtnSidebar').onclick = () => { localStorage.clear(); location.reload(); };
-        } else {
-            document.getElementById('authBtnSidebar').onclick = () => authModal.style.display = 'block';
-        }
-    }
-
-    // --- RENDER CATEGORIES ---
-    const container = document.getElementById('services-list-container');
-    container.innerHTML = CATEGORIES.map(c => `
-        <div class="category-icon-card" onclick="openCat('${c.id}')">
-            <img src="${c.img}" class="category-img">
+    // 1. Render Categories
+    const catContainer = document.getElementById('category-container');
+    catContainer.innerHTML = CATEGORIES.map(c => `
+        <div class="cat-card" onclick="showServices('${c.id}')">
+            <img src="${c.img}">
             <p>${c.name}</p>
         </div>
     `).join('');
 
-    window.openCat = (id) => {
-        if(!isLoggedIn) { authModal.style.display = 'block'; return; }
-        // Service render logic...
-        const modal = document.getElementById('bookingModal');
-        document.getElementById('modalServiceName').innerText = "General Service";
-        modal.style.display = 'block';
+    // 2. Show Services (Zomato Style)
+    window.showServices = (catId) => {
+        const section = document.getElementById('services-section');
+        const feed = document.getElementById('services-feed');
+        const title = document.getElementById('selected-cat-title');
+        
+        const list = SERVICES[catId] || [];
+        if(list.length === 0) return;
+
+        title.innerText = catId.toUpperCase() + " SERVICES";
+        feed.innerHTML = list.map(s => `
+            <div class="service-card" onclick="viewServiceDetail(${JSON.stringify(s).replace(/"/g, '&quot;')})">
+                <div class="s-info">
+                    <h4>${s.name}</h4>
+                    <p>${s.desc.substring(0, 50)}...</p>
+                    <span style="color:var(--primary); font-weight:700;">View Details</span>
+                </div>
+                <div class="s-img-box">
+                    <img src="${s.img}">
+                    <button class="book-btn-sm">VIEW</button>
+                </div>
+            </div>
+        `).join('');
+
+        section.style.display = 'block';
+        section.scrollIntoView({ behavior: 'smooth' });
     };
 
-    // Sidebar
-    document.getElementById('sidebarToggle').onclick = () => document.getElementById('sideMenu').style.width = '250px';
-    document.querySelectorAll('.close-modal').forEach(b => b.onclick = () => {
-        authModal.style.display = 'none';
-        document.getElementById('bookingModal').style.display = 'none';
-    });
-    
-    // Check Active Order
+    // 3. Service Details
+    window.viewServiceDetail = (service) => {
+        selectedService = service;
+        document.getElementById('detailName').innerText = service.name;
+        document.getElementById('detailDesc').innerText = service.desc;
+        document.getElementById('detailImg').src = service.img;
+        document.getElementById('detailModal').style.display = 'block';
+    };
+
+    // 4. Proceed to Book (Check Login)
+    document.getElementById('proceedToBook').onclick = () => {
+        if(!isLoggedIn) {
+            document.getElementById('authModal').style.display = 'block';
+        } else {
+            openBookingForm();
+        }
+    };
+
+    function openBookingForm() {
+        document.getElementById('detailModal').style.display = 'none';
+        document.getElementById('bookingModal').style.display = 'block';
+    }
+
+    // 5. Auth Logic
+    document.getElementById('sendOTP').onclick = () => {
+        const ph = document.getElementById('userMobile').value;
+        if(ph.length === 10) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('otpSection').style.display = 'block';
+        } else { alert("Enter valid number"); }
+    };
+
+    document.getElementById('verifyOTP').onclick = () => {
+        const otp = document.getElementById('otpValue').value;
+        if(otp === '1234') {
+            localStorage.setItem('isLoggedIn', 'true');
+            isLoggedIn = true;
+            document.getElementById('authModal').style.display = 'none';
+            openBookingForm();
+        } else { alert("Wrong OTP (Try 1234)"); }
+    };
+
+    // 6. Confirm Order
+    document.getElementById('finalConfirmBtn').onclick = () => {
+        const address = document.getElementById('fullAddress').value;
+        if(address.length < 10) { alert("Enter full address with Landmark"); return; }
+        
+        const orderID = "UNIQ-" + Math.floor(1000 + Math.random() * 9000);
+        const orderData = { id: orderID, name: selectedService.name, status: 'Placed' };
+        
+        localStorage.setItem('activeOrder', JSON.stringify(orderData));
+        alert("Success! Your booking ID: " + orderID);
+        location.reload();
+    };
+
+    // 7. Check Order on Load
     const order = JSON.parse(localStorage.getItem('activeOrder'));
     if(order) {
         document.getElementById('orderStatusCard').style.display = 'block';
         document.getElementById('displayOrderID').innerText = order.id;
     }
+
+    // Common UI Close
+    document.querySelectorAll('.close-modal').forEach(b => b.onclick = () => {
+        document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+    });
+
+    document.getElementById('sidebarToggle').onclick = () => document.getElementById('sideMenu').style.width = "260px";
 });
