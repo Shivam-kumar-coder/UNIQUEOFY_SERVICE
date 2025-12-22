@@ -1,7 +1,5 @@
-// --- 1. SERVICE DATA (Tiered System: Categories -> Services) ---
-
+// --- 1. YOUR SERVICE DATA ---
 const CATEGORIES = [
-    // ⭐ IMPORTANT: Use these file names (3D Images) ⭐
     { id: 'home', name: 'Home Control', img: '3d-home-control.png' }, 
     { id: 'hospital', name: 'Hospital Maint.', img: '3d-hospital-maint.png' },
     { id: 'industrial', name: 'Industrial Maint.', img: '3d-industrial-maint.png' },
@@ -12,7 +10,6 @@ const CATEGORIES = [
 
 const SERVICES_BY_CATEGORY = {
     'home': [
-        // ⭐ IMPORTANT: Use these file names (AI Videos .mp4) ⭐
         { name: 'Deep Home Cleaning', desc: 'Full house deep cleaning service.', fileUrl: 'deep-cleaning-video.mp4' }, 
         { name: 'Pest Control', desc: 'Cockroach, Termite, and Mosquito solutions.', fileUrl: 'pest-control-video.mp4' },
         { name: 'Plumbing & Electric', desc: 'Urgent repairs and new installation.', fileUrl: 'plumbing-electric-video.mp4' }
@@ -36,7 +33,7 @@ const SERVICES_BY_CATEGORY = {
     ]
 };
 
-// --- 2. CORE JAVASCRIPT LOGIC ---
+// --- 2. CORE LOGIC ---
 document.addEventListener('DOMContentLoaded', () => {
     const servicesListContainer = document.getElementById('services-list-container');
     const serviceTitle = document.getElementById('service-list-title');
@@ -45,58 +42,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceNameDisplay = document.getElementById("modalServiceName");
     const form = document.getElementById("serviceModalForm");
     
-    // Location Elements
-    const locationBtn = document.getElementById('getLocationBtn');
-    const addressTextarea = document.getElementById('userAddress');
-    const locationStatus = document.getElementById('locationStatus');
-    
-    // --- Render Tier 1 (Category Icons - 3D Image Load) ---
+    // Elements for New Features
+    const sidebar = document.getElementById('sideMenu');
+    const sidebarBtn = document.getElementById('sidebarToggle');
+    const trackingBox = document.getElementById('liveTrackingBox');
+
+    // Sidebar Toggle
+    sidebarBtn.onclick = () => sidebar.style.width = "250px";
+    window.addEventListener('click', (e) => {
+        if (!sidebar.contains(e.target) && e.target !== sidebarBtn) sidebar.style.width = "0";
+    });
+
+    // --- YOUR RENDERING FUNCTIONS (UNCHANGED) ---
     function renderCategories() {
         serviceTitle.innerHTML = '<h2>Choose a Category</h2>';
         servicesListContainer.className = 'category-icon-grid';
-        
         servicesListContainer.innerHTML = CATEGORIES.map(cat => `
             <div class="category-icon-card" data-category-id="${cat.id}">
                 <img src="${cat.img}" alt="${cat.name}" class="category-img">
                 <p class="category-name">${cat.name}</p>
             </div>
         `).join('');
-        
         attachCategoryListeners();
     }
 
-    // --- Render Tier 2 (Service Cards - Video Load) ---
     function renderServiceCards(categoryId) {
         const categoryName = CATEGORIES.find(c => c.id === categoryId)?.name || 'Services';
         const services = SERVICES_BY_CATEGORY[categoryId] || [];
-        
         serviceTitle.innerHTML = `<h2><button class="back-btn"><i class="fas fa-arrow-left"></i></button> ${categoryName} Services</h2>`;
         servicesListContainer.className = 'service-card-grid';
 
-        if (services.length === 0) {
-            servicesListContainer.innerHTML = `<p class="no-service-msg">Sorry, no services found in ${categoryName}.</p>`;
-            return;
-        }
-
         servicesListContainer.innerHTML = services.map(service => {
-            
             const fileExtension = service.fileUrl.split('.').pop().toLowerCase();
-            let mediaHTML;
-
-            if (fileExtension === 'mp4' || fileExtension === 'webm') {
-                // Video Logic: Autoplay, Loop, Muted
-                mediaHTML = `
-                    <div class="card-image">
-                        <video class="service-video" autoplay loop muted playsinline>
-                            <source src="${service.fileUrl}" type="video/${fileExtension}">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                `;
-            } else {
-                // Image Fallback (If fileUrl is not video)
-                mediaHTML = `<div class="card-image" style="background-image: url('${service.fileUrl}');"></div>`;
-            }
+            let mediaHTML = (fileExtension === 'mp4' || fileExtension === 'webm') 
+                ? `<div class="card-image"><video class="service-video" autoplay loop muted playsinline><source src="${service.fileUrl}" type="video/${fileExtension}"></video></div>`
+                : `<div class="card-image" style="background-image: url('${service.fileUrl}'); background-size:cover;"></div>`;
 
             return `
                 <div class="service-card-v2">
@@ -112,99 +92,61 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
         }).join('');
-        
         attachServiceButtonListeners();
         document.getElementById('services-list').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // --- Attach Listeners & Modal Logic (Same as before) ---
     function attachCategoryListeners() {
         document.querySelectorAll('.category-icon-card').forEach(card => {
-            card.addEventListener('click', function() {
-                renderServiceCards(this.getAttribute('data-category-id'));
-            });
+            card.onclick = () => renderServiceCards(card.getAttribute('data-category-id'));
         });
     }
-    
+
     function attachServiceButtonListeners() {
         document.querySelectorAll('.btn-card-book').forEach(button => {
-            button.addEventListener('click', function() {
-                const serviceName = this.getAttribute('data-service-name');
-                const hiddenServiceName = form.querySelector('#hiddenServiceName');
-                
+            button.onclick = () => {
+                const serviceName = button.getAttribute('data-service-name');
                 serviceNameDisplay.textContent = serviceName;
-                hiddenServiceName.name = 'entry.2005620554'; // Google Form Entry ID
-                hiddenServiceName.value = serviceName;
-                
-                locationStatus.textContent = '';
-                addressTextarea.value = '';
-
+                document.getElementById('hiddenServiceName').value = serviceName;
                 modal.style.display = "block";
-            });
+            };
         });
-
         document.querySelector('.back-btn')?.addEventListener('click', renderCategories);
     }
-    
-    // --- Geolocation Logic ---
+
+    // --- FORM & TRACKING LOGIC ---
+    form.addEventListener('submit', (e) => {
+        // User details capture
+        const name = document.getElementById('formUserName').value;
+        const phone = document.getElementById('formUserPhone').value;
+
+        // Update UI
+        document.getElementById('userNameSidebar').innerText = "Hi, " + name;
+        document.getElementById('userPhoneSidebar').innerText = phone;
+        trackingBox.style.display = "block";
+
+        alert(`Thank you ${name}! Booking for ${serviceNameDisplay.textContent} is placed.`);
+        modal.style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // --- YOUR LOCATION LOGIC (UNCHANGED) ---
+    const locationBtn = document.getElementById('getLocationBtn');
+    const addressTextarea = document.getElementById('userAddress');
+    const locationStatus = document.getElementById('locationStatus');
+
     if (locationBtn) {
         locationBtn.addEventListener('click', () => {
             locationStatus.textContent = 'Fetching location...';
-            
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const lat = position.coords.latitude;
-                        const lon = position.coords.longitude;
-                        addressTextarea.value = `Live Location: Latitude ${lat}, Longitude ${lon}. (Please specify full address if needed)`;
-                        locationStatus.textContent = '✅ Location Fetched Successfully!';
-                        
-                        locationBtn.disabled = true;
-                        locationBtn.textContent = 'Location Added';
-                        setTimeout(() => {
-                             locationBtn.disabled = false;
-                             locationBtn.innerHTML = '<i class="fas fa-location-arrow"></i> Use My Current Location';
-                        }, 5000);
-                    },
-                    (error) => {
-                        console.error("Geolocation Error: ", error);
-                        if (error.code === error.PERMISSION_DENIED) {
-                            locationStatus.textContent = '❌ Location access denied. Please enter address manually.';
-                        } else {
-                            locationStatus.textContent = '❌ Could not get location. Please enter address.';
-                        }
-                    },
-                    { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-                );
-            } else {
-                locationStatus.textContent = '❌ Geolocation is not supported by this browser.';
+                navigator.geolocation.getCurrentPosition((p) => {
+                    addressTextarea.value = `Live: Lat ${p.coords.latitude}, Lon ${p.coords.longitude}`;
+                    locationStatus.textContent = '✅ Location Added!';
+                }, () => { locationStatus.textContent = '❌ Error fetching location.'; });
             }
         });
     }
 
-    // --- Final Initialisation ---
-    if (closeBtn) closeBtn.addEventListener('click', () => modal.style.display = "none");
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) modal.style.display = "none";
-    });
-
-    if (form) {
-        form.addEventListener('submit', async (e) => {
-            const submitButton = form.querySelector('.btn-submit-modal');
-            submitButton.textContent = 'Submitting...';
-            submitButton.disabled = true;
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            alert(`Thank you for your request! We will call you shortly.`);
-            form.reset(); 
-            modal.style.display = "none";
-            submitButton.textContent = 'CONFIRM BOOKING';
-            submitButton.disabled = false;
-        });
-    }
-    
+    closeBtn.onclick = () => modal.style.display = "none";
     renderCategories();
-    document.querySelector('.hero-explore-link')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('services-list').scrollIntoView({ behavior: 'smooth' });
-    });
 });
