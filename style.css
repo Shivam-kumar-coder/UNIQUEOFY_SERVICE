@@ -1,71 +1,32 @@
-/* --- Base Styles (Keep your original root) --- */
-:root {
-    --primary-color: #007bff; 
-    --accent-color: #ff6f00; 
-    --success-color: #28a745; 
-    --font-family: 'Poppins', sans-serif;
-}
+:root { --primary: #007bff; --success: #28a745; --dark: #1a1a1a; --grey: #f4f4f4; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--font-family); line-height: 1.6; background-color: white; }
-a { text-decoration: none; color: var(--primary-color); }
-section { padding: 30px 15px; text-align: center; }
+body { background: #fafafa; }
+.app-header { background: var(--dark); color:white; padding:15px 20px; display:flex; justify-content:space-between; position:sticky; top:0; z-index:100; }
 
-/* Sidebar and Status steps fix */
-.side-menu { height: 100%; width: 0; position: fixed; z-index: 5000; top: 0; left: 0; background-color: #111; overflow-x: hidden; transition: 0.3s; padding-top: 60px; }
-.side-menu a { padding: 8px 32px; text-decoration: none; font-size: 18px; color: #818181; display: block; }
-.menu-profile { color: white; padding: 20px; text-align: center; }
+.side-menu { height:100%; width:0; position:fixed; left:0; top:0; background:#111; z-index:200; overflow-x:hidden; transition:0.3s; padding-top:60px; }
+.side-menu a { padding:12px 25px; color:#888; display:block; text-decoration:none; }
+.menu-profile { text-align:center; color:white; padding:10px; }
+.auth-btn-small { background:var(--primary); color:white; border:none; padding:5px 15px; border-radius:4px; margin-top:10px; cursor:pointer; }
 
-.status-card { margin: 15px; padding: 15px; background: #fff; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 4px solid var(--primary-color); }
-.status-steps { display: flex; justify-content: space-between; margin-top: 15px; }
-.step { font-size: 10px; color: #ccc; text-align: center; flex: 1; }
-.step.active { color: var(--success-color); font-weight: bold; }
-.step::before { content: '\f058'; font-family: 'Font Awesome 5 Free'; display: block; margin-bottom: 5px; font-size: 14px; }
+.hero-section { background:var(--dark); color:white; padding:40px 20px; text-align:center; }
+.search-bar { display:flex; background:white; border-radius:8px; overflow:hidden; margin-top:20px; }
+.search-bar input { flex:1; padding:12px; border:none; outline:none; }
+.search-bar button { background:var(--primary); color:white; border:none; padding:0 20px; }
 
-/* --- Your Original Hero Section --- */
-.hero-section {
-    padding: 20px; height: auto;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('hero-bg.jpg') no-repeat center center;
-    background-size: cover; display: flex; flex-direction: column; align-items: center; color: white; text-align: left;
-}
-.hero-content { max-width: 400px; width: 100%; text-align: center; }
-.app-header-mock { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.app-logo { font-weight: 700; font-size: 1.2rem; }
-.menu-icon { font-size: 1.5rem; }
+.grid-container { display:grid; grid-template-columns: repeat(2, 1fr); gap:15px; padding:20px; }
+.category-icon-card { background:white; padding:15px; border-radius:12px; text-align:center; box-shadow:0 4px 6px rgba(0,0,0,0.05); cursor:pointer; }
+.category-img { width:100%; height:80px; object-fit:contain; }
 
-h1 { font-size: 2rem; color: white; margin-bottom: 25px; font-weight: 700; text-align: left; line-height: 1.2; }
-h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--primary-color); }
+.order-status-card { background:white; margin:15px; padding:15px; border-radius:10px; border-left:5px solid var(--primary); box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+.stepper { display:flex; justify-content:space-between; margin-top:15px; }
+.step { font-size:10px; color:#ccc; }
+.step.active { color:var(--success); font-weight:bold; }
 
-.hero-search-container { display: flex; background: white; border-radius: 10px; overflow: hidden; margin: 15px 0 20px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.2); width: 100%; }
-.search-input { flex: 1; padding: 12px 15px; border: none; font-size: 1rem; outline: none; }
-.search-btn { background-color: var(--primary-color); color: white; padding: 12px 18px; border: none; cursor: pointer; }
-
-/* --- Category and Card Grids (Your Logic) --- */
-.category-icon-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px 0; }
-.category-icon-card { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); cursor: pointer; text-align: left; }
-.category-img { width: 100%; height: 100px; object-fit: contain; margin-bottom: 10px; }
-.category-name { font-size: 1rem; font-weight: 600; color: var(--primary-color); }
-
-.service-card-grid { display: grid; grid-template-columns: 1fr; gap: 20px; padding: 10px 0; }
-.service-card-v2 { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
-.card-image { width: 100%; height: 200px; overflow: hidden; }
-.service-video { width: 100%; height: 100%; object-fit: cover; }
-.card-title { font-size: 1.2rem; color: var(--primary-color); padding: 10px 15px 5px; }
-.card-description { padding: 0 15px 10px; font-size: 0.9rem; color: #666; }
-.card-actions { display: flex; gap: 10px; padding: 0 15px 15px; }
-
-/* --- Modal & Buttons --- */
-.modal { display: none; position: fixed; z-index: 4000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7); }
-.modal-content { background-color: #fff; margin: 10vh auto; padding: 25px; border-radius: 15px; width: 90%; max-width: 400px; position: relative; }
-.btn { padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; }
-.btn-card-call { background: var(--success-color); color: white; }
-.btn-card-book { background: var(--primary-color); color: white; }
-.btn-submit-modal { width: 100%; background-color: var(--accent-color); color: white; padding: 14px; border-radius: 8px; font-weight: 700; }
-.btn-location-fetch { background-color: #5bc0de; color: white; width: 100%; margin-bottom: 15px; }
-
-.main-footer { background-color: #333; color: white; padding: 20px; text-align: center; }
-
-@media (min-width: 769px) {
-    .category-icon-grid { grid-template-columns: repeat(4, 1fr); max-width: 900px; margin: 0 auto; }
-    .service-card-grid { grid-template-columns: repeat(2, 1fr); max-width: 900px; margin: 0 auto; }
-}
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; }
+.modal-content { background:white; width:90%; max-width:400px; margin:20% auto; padding:25px; border-radius:15px; position:relative; }
+.btn-main { width:100%; background:var(--primary); color:white; padding:12px; border:none; border-radius:8px; font-weight:bold; margin-top:15px; cursor:pointer; }
+.input-group { display:flex; border:1px solid #ddd; border-radius:8px; margin-top:10px; align-items:center; }
+.input-group span { padding:0 10px; font-weight:bold; }
+.input-group input { flex:1; padding:12px; border:none; outline:none; }
+.address-box textarea { width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; margin-top:5px; }
