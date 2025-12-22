@@ -1,118 +1,41 @@
-const DATA = {
-    categories: [
-        { id: 'ac', name: 'AC Repair', img: 'ac-3d.png' },
-        { id: 'clean', name: 'Cleaning', img: 'clean-3d.png' }
-    ],
-    services: {
-        'ac': [
-            { name: 'AC Jet Service', price: '₹499', img: 'ac-jet.jpg', desc: 'Deep cleaning of indoor and outdoor units with high-pressure jet pump.' },
-            { name: 'AC Gas Refill', price: '₹2500', img: 'ac-gas.jpg', desc: 'Full gas charging with leakage check.' }
-        ]
-    }
-};
+/* Zomato Style List */
+.service-list-item {
+    display: flex; justify-content: space-between;
+    padding: 20px; border-bottom: 1px solid #eee; background: #fff;
+}
+.s-info { flex: 1; padding-right: 15px; }
+.s-info h4 { font-size: 1.1rem; color: #1c1c1c; margin-bottom: 4px; }
+.price { font-weight: 700; color: #333; display: block; margin-bottom: 8px; }
+.limit-text { font-size: 0.85rem; color: #666; line-height: 1.4; }
 
-document.addEventListener('DOMContentLoaded', () => {
-    renderCats();
-    checkActiveOrder();
+.s-img { position: relative; width: 110px; height: 110px; }
+.s-img img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; }
+.add-btn {
+    position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+    background: #fff; color: var(--primary); border: 1px solid #ddd;
+    padding: 5px 25px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
 
-    // 1. Show Categories
-    function renderCats() {
-        const grid = document.getElementById('category-grid');
-        grid.innerHTML = DATA.categories.map(c => `
-            <div class="cat-card" onclick="renderServices('${c.id}')">
-                <img src="${c.img}">
-                <p>${c.name}</p>
-            </div>
-        `).join('');
-    }
+/* Detail Modal Full Screen */
+.modal-content.full-screen {
+    width: 100%; height: 100%; margin: 0; border-radius: 0; overflow-y: auto;
+}
+#detailImg { width: 100%; height: 250px; object-fit: cover; }
+.detail-info { padding: 20px; }
+.sticky-book-btn {
+    position: fixed; bottom: 20px; left: 5%; width: 90%;
+    background: #e03d4e; color: #fff; padding: 15px; border: none;
+    border-radius: 12px; font-size: 1.1rem; font-weight: bold;
+}
 
-    // 2. Show Services (Zomato List)
-    window.renderServices = (id) => {
-        const container = document.getElementById('services-container');
-        const services = DATA.services[id] || [];
-        container.innerHTML = services.map(s => `
-            <div class="service-list-item" onclick="openDetails('${s.name}', '${s.desc}', '${s.img}')">
-                <div class="s-info">
-                    <h4>${s.name}</h4>
-                    <span class="price">${s.price}</span>
-                    <p class="limit-text">${s.desc}</p>
-                </div>
-                <div class="s-img">
-                    <img src="${s.img}">
-                    <button class="add-btn">ADD</button>
-                </div>
-            </div>
-        `).join('');
-    };
-
-    // 3. Open Detail Modal
-    window.openDetails = (name, desc, img) => {
-        document.getElementById('detailTitle').innerText = name;
-        document.getElementById('detailDesc').innerText = desc;
-        document.getElementById('detailImg').src = img;
-        document.getElementById('detailModal').style.display = 'block';
-    };
-
-    // 4. Booking Logic
-    document.getElementById('startBookingBtn').onclick = () => {
-        document.getElementById('detailModal').style.display = 'none';
-        document.getElementById('checkoutModal').style.display = 'block';
-        
-        // Agar pehle se login hai toh seedha address par bhejo
-        if(localStorage.getItem('userLoggedIn')) {
-            showStep('stepBooking');
-        } else {
-            showStep('stepLogin');
-        }
-    };
-
-    // --- STEPS MANAGEMENT ---
-    window.sendOTP = () => {
-        const ph = document.getElementById('userPhone').value;
-        if(ph.length === 10) {
-            alert("OTP Sent: 1234");
-            localStorage.setItem('tempPhone', ph);
-            showStep('stepOTP');
-        }
-    };
-
-    // FINAL ORDER
-    window.confirmFinalOrder = () => {
-        const addr = document.getElementById('userAddress').value;
-        if(addr.length < 10) { alert("Please enter full address"); return; }
-        
-        // Yahan OTP mangenge confirm karne ke liye
-        showStep('stepOTP');
-    };
-
-    document.getElementById('finalVerifyBtn').onclick = () => {
-        const otp = document.getElementById('otpInp').value;
-        if(otp === '1234') {
-            const orderID = "UNIQ-" + Math.floor(1000 + Math.random() * 9000);
-            localStorage.setItem('userLoggedIn', 'true');
-            localStorage.setItem('activeOrder', JSON.stringify({id: orderID, status: 'Placed'}));
-            alert("Booking Successful! Order ID: " + orderID);
-            location.reload();
-        } else {
-            alert("Invalid OTP");
-        }
-    };
-
-    function showStep(stepId) {
-        ['stepLogin', 'stepBooking', 'stepOTP'].forEach(s => document.getElementById(s).style.display = 'none');
-        document.getElementById(stepId).style.display = 'block';
-    }
-
-    function checkActiveOrder() {
-        const order = JSON.parse(localStorage.getItem('activeOrder'));
-        if(order) {
-            document.getElementById('activeOrderSection').style.display = 'block';
-            document.getElementById('miniStatus').innerText = order.status;
-        }
-    }
-
-    // Modal close logic
-    document.querySelectorAll('.close-btn').forEach(btn => {
-        btn.onclick = () => btn.closest('.modal').style.display = 'none';
-    });
-});
+/* Tracking Mini Card */
+.tracking-mini-card {
+    background: #1c1c1c; color: #fff; padding: 15px;
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 100;
+}
+.pulse {
+    height: 10px; width: 10px; background: #4caf50; border-radius: 50%;
+    display: inline-block; margin-right: 8px; animation: blink 1s infinite;
+}
+@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
