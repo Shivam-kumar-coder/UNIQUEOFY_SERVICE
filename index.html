@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNIQUEOFY SERVICES - India's Trusted Professionals</title>
-    <meta name="description" content="One Stop Solution For All Your Needs: Home, Industrial, Hospital, Repairing, Painting, and Cleaning Services across India.">
-    
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -15,12 +13,13 @@
     <div id="sideMenu" class="side-menu">
         <div class="menu-profile">
             <i class="fas fa-user-circle fa-3x"></i>
-            <h4 id="userNameSidebar">Welcome, Guest</h4>
-            <p id="userPhoneSidebar" style="font-size: 0.8rem; opacity: 0.7;"></p>
+            <h4 id="sidebarName">Welcome, Guest</h4>
+            <p id="sidebarPhone" style="font-size: 0.8rem; opacity: 0.7;"></p>
+            <button id="logoutBtn" style="display:none; background:red; color:white; border:none; border-radius:4px; font-size:10px; margin-top:5px; padding:2px 5px;">Logout</button>
         </div>
         <hr style="border: 0.5px solid #444; margin: 10px 0;">
         <a href="#" onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
-        <a href="#"><i class="fas fa-history"></i> My Bookings</a>
+        <a href="#" id="viewOrdersBtn"><i class="fas fa-history"></i> My Bookings</a>
         <a href="https://wa.me/7870066085"><i class="fab fa-whatsapp"></i> Help & Support</a>
     </div>
 
@@ -28,29 +27,28 @@
         <div class="hero-content">
             <div class="app-header-mock">
                 <span class="app-logo">UNIQUEOFY</span>
-                <i class="fas fa-bars menu-icon" id="sidebarToggle" style="cursor:pointer;"></i>
+                <i class="fas fa-bars menu-icon" id="sidebarToggle"></i>
             </div>
-
             <h1>NEED SERVICES ? ..</h1>
-            
             <div class="hero-search-container">
                 <input type="text" placeholder="Search for any service..." class="search-input">
                 <button class="search-btn"><i class="fas fa-search"></i></button>
             </div>
-            
-            <a href="#services-list" class="hero-explore-link">
-                <i class="fas fa-star"></i> Explore Categories
-            </a>
+            <a href="#services-list" class="hero-explore-link"><i class="fas fa-star"></i> Explore Categories</a>
         </div>
     </section>
 
     <div id="liveTrackingBox" class="status-card" style="display:none;">
-        <h4><i class="fas fa-clock"></i> Current Booking Status</h4>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h4><i class="fas fa-clock"></i> Booking Status</h4>
+            <span id="closeTracking" style="cursor:pointer; font-weight:bold;">&times;</span>
+        </div>
+        <p id="trackOrderID" style="font-size: 10px; color: #888; margin-bottom: 10px;"></p>
         <div class="status-steps">
-            <div class="step active">Placed</div>
-            <div class="step" id="step-confirm">Confirmed</div>
-            <div class="step" id="step-assigned">In Progress</div>
-            <div class="step" id="step-done">Done</div>
+            <div class="step active" id="s-placed">Placed</div>
+            <div class="step" id="s-confirm">Confirmed</div>
+            <div class="step" id="s-assigned">In Progress</div>
+            <div class="step" id="s-done">Done</div>
         </div>
     </div>
 
@@ -67,22 +65,25 @@
     <div id="bookingModal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
-            <h3>Book Service: <span id="modalServiceName"></span></h3>
-            
-            <form id="serviceModalForm" action="YOUR_GOOGLE_FORM_URL" method="POST" target="_blank">
-                <input type="hidden" name="serviceNameEntry" id="hiddenServiceName"> 
+            <div id="loginStep">
+                <h3>Welcome to Uniqueofy</h3>
+                <p style="font-size: 12px; margin-bottom: 15px;">Please login to continue</p>
+                <input type="text" id="loginName" placeholder="Enter Your Name *" required>
+                <input type="tel" id="loginPhone" placeholder="Enter Mobile Number *" required>
+                <button type="button" id="proceedToBook" class="btn btn-submit-modal">PROCEED</button>
+            </div>
 
-                <input type="text" id="formUserName" name="entry.406987541" placeholder="Apka Pura Naam *" required>
-                <input type="tel" id="formUserPhone" name="entry.1596700010" placeholder="Mobile Number *" required>
-                <textarea name="entry.1012170305" id="userAddress" placeholder="Pura Address, Landmark, aur City Name *" rows="3" required></textarea>
-                
-                <button type="button" id="getLocationBtn" class="btn btn-location-fetch">
-                    <i class="fas fa-location-arrow"></i> Use My Current Location
-                </button>
-                <div id="locationStatus" class="location-status-text"></div> 
-                
-                <button type="submit" class="btn btn-submit-modal">CONFIRM BOOKING</button>
-            </form>
+            <div id="detailsStep" style="display:none;">
+                <h3>Book: <span id="modalServiceName"></span></h3>
+                <form id="serviceModalForm">
+                    <textarea id="userAddress" placeholder="Pura Address, Landmark, aur City Name *" rows="3" required></textarea>
+                    <button type="button" id="getLocationBtn" class="btn btn-location-fetch">
+                        <i class="fas fa-location-arrow"></i> Use My Current Location
+                    </button>
+                    <div id="locationStatus" class="location-status-text"></div> 
+                    <button type="submit" class="btn btn-submit-modal">CONFIRM BOOKING</button>
+                </form>
+            </div>
         </div>
     </div>
     
