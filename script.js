@@ -1,4 +1,3 @@
-// --- 1. YOUR SERVICE DATA ---
 const CATEGORIES = [
     { id: 'home', name: 'Home Control', img: '3d-home-control.png' }, 
     { id: 'hospital', name: 'Hospital Maint.', img: '3d-hospital-maint.png' },
@@ -11,142 +10,134 @@ const CATEGORIES = [
 const SERVICES_BY_CATEGORY = {
     'home': [
         { name: 'Deep Home Cleaning', desc: 'Full house deep cleaning service.', fileUrl: 'deep-cleaning-video.mp4' }, 
-        { name: 'Pest Control', desc: 'Cockroach, Termite, and Mosquito solutions.', fileUrl: 'pest-control-video.mp4' },
-        { name: 'Plumbing & Electric', desc: 'Urgent repairs and new installation.', fileUrl: 'plumbing-electric-video.mp4' }
-    ],
-    'hospital': [
-        { name: 'Equipment AMC', desc: 'Annual Maintenance Contracts for devices.', fileUrl: 'hosp-amc-video.mp4' },
-        { name: 'Sanitization Service', desc: 'High-grade hospital sanitization.', fileUrl: 'hosp-sanit-video.mp4' }
-    ],
-    'industrial': [
-        { name: 'Heavy Machinery Repair', desc: 'Specialized machine maintenance.', fileUrl: 'ind-mach-repair.mp4' },
-        { name: 'Facility Management', desc: 'Complete industrial facility upkeep.', fileUrl: 'ind-mgmt-video.mp4' }
+        { name: 'Pest Control', desc: 'Cockroach, Termite solutions.', fileUrl: 'pest-control-video.mp4' }
     ],
     'repairing': [
         { name: 'AC Repair & Service', desc: 'All types of AC repair and gas refilling.', fileUrl: 'ac-repair-video.mp4' }
     ],
     'painting': [
-        { name: 'Interior Painting', desc: 'Professional wall painting and texture work.', fileUrl: 'interior-paint-video.mp4' }
-    ],
-    'cleaning': [
-        { name: 'Commercial Cleaning', desc: 'Office and store deep cleaning.', fileUrl: 'commercial-clean-video.mp4' }
+        { name: 'Interior Painting', desc: 'Professional wall painting.', fileUrl: 'interior-paint-video.mp4' }
     ]
 };
 
-// --- 2. CORE LOGIC ---
 document.addEventListener('DOMContentLoaded', () => {
     const servicesListContainer = document.getElementById('services-list-container');
     const serviceTitle = document.getElementById('service-list-title');
     const modal = document.getElementById("bookingModal");
-    const closeBtn = document.querySelector(".close-btn");
-    const serviceNameDisplay = document.getElementById("modalServiceName");
-    const form = document.getElementById("serviceModalForm");
-    
-    // Elements for New Features
     const sidebar = document.getElementById('sideMenu');
-    const sidebarBtn = document.getElementById('sidebarToggle');
+    const loginStep = document.getElementById('loginStep');
+    const detailsStep = document.getElementById('detailsStep');
     const trackingBox = document.getElementById('liveTrackingBox');
 
-    // Sidebar Toggle
-    sidebarBtn.onclick = () => sidebar.style.width = "250px";
-    window.addEventListener('click', (e) => {
-        if (!sidebar.contains(e.target) && e.target !== sidebarBtn) sidebar.style.width = "0";
-    });
+    // --- INITIAL CHECK: Is User Logged In? ---
+    function checkAuth() {
+        const savedName = localStorage.getItem('uName');
+        const savedPhone = localStorage.getItem('uPhone');
+        if(savedName && savedPhone) {
+            document.getElementById('sidebarName').innerText = "Hi, " + savedName;
+            document.getElementById('sidebarPhone').innerText = savedPhone;
+            document.getElementById('logoutBtn').style.display = "block";
+            return true;
+        }
+        return false;
+    }
 
-    // --- YOUR RENDERING FUNCTIONS (UNCHANGED) ---
+    // --- SIDEBAR ---
+    document.getElementById('sidebarToggle').onclick = () => sidebar.style.width = "250px";
+    document.getElementById('logoutBtn').onclick = () => {
+        localStorage.clear();
+        location.reload();
+    };
+
+    // --- RENDERING (Your Original Logic) ---
     function renderCategories() {
         serviceTitle.innerHTML = '<h2>Choose a Category</h2>';
         servicesListContainer.className = 'category-icon-grid';
         servicesListContainer.innerHTML = CATEGORIES.map(cat => `
-            <div class="category-icon-card" data-category-id="${cat.id}">
+            <div class="category-icon-card" data-id="${cat.id}">
                 <img src="${cat.img}" alt="${cat.name}" class="category-img">
                 <p class="category-name">${cat.name}</p>
             </div>
         `).join('');
-        attachCategoryListeners();
-    }
-
-    function renderServiceCards(categoryId) {
-        const categoryName = CATEGORIES.find(c => c.id === categoryId)?.name || 'Services';
-        const services = SERVICES_BY_CATEGORY[categoryId] || [];
-        serviceTitle.innerHTML = `<h2><button class="back-btn"><i class="fas fa-arrow-left"></i></button> ${categoryName} Services</h2>`;
-        servicesListContainer.className = 'service-card-grid';
-
-        servicesListContainer.innerHTML = services.map(service => {
-            const fileExtension = service.fileUrl.split('.').pop().toLowerCase();
-            let mediaHTML = (fileExtension === 'mp4' || fileExtension === 'webm') 
-                ? `<div class="card-image"><video class="service-video" autoplay loop muted playsinline><source src="${service.fileUrl}" type="video/${fileExtension}"></video></div>`
-                : `<div class="card-image" style="background-image: url('${service.fileUrl}'); background-size:cover;"></div>`;
-
-            return `
-                <div class="service-card-v2">
-                    ${mediaHTML}
-                    <div class="card-details">
-                        <h4 class="card-title">${service.name}</h4>
-                        <p class="card-description">${service.desc}</p>
-                        <div class="card-actions">
-                            <a href="tel:7870066085" class="btn btn-card-call"><i class="fas fa-phone-alt"></i> Call</a>
-                            <button class="btn btn-card-book" data-service-name="${service.name}">Book</button> 
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-        attachServiceButtonListeners();
-        document.getElementById('services-list').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function attachCategoryListeners() {
+        
         document.querySelectorAll('.category-icon-card').forEach(card => {
-            card.onclick = () => renderServiceCards(card.getAttribute('data-category-id'));
+            card.onclick = () => renderServices(card.getAttribute('data-id'));
         });
     }
 
-    function attachServiceButtonListeners() {
-        document.querySelectorAll('.btn-card-book').forEach(button => {
-            button.onclick = () => {
-                const serviceName = button.getAttribute('data-service-name');
-                serviceNameDisplay.textContent = serviceName;
-                document.getElementById('hiddenServiceName').value = serviceName;
+    function renderServices(catId) {
+        const services = SERVICES_BY_CATEGORY[catId] || [];
+        serviceTitle.innerHTML = `<h2><button class="back-btn"><i class="fas fa-arrow-left"></i></button> ${catId.toUpperCase()}</h2>`;
+        servicesListContainer.className = 'service-card-grid';
+        servicesListContainer.innerHTML = services.map(s => `
+            <div class="service-card-v2">
+                <div class="card-image"><video autoplay loop muted playsinline><source src="${s.fileUrl}"></video></div>
+                <div class="card-details" style="padding:15px;">
+                    <h4 class="card-title">${s.name}</h4>
+                    <p style="font-size:12px; color:#666;">${s.desc}</p>
+                    <button class="btn btn-card-book" data-name="${s.name}" style="margin-top:10px; background:var(--primary-color); color:white; width:100%;">Book Now</button>
+                </div>
+            </div>
+        `).join('');
+
+        document.querySelector('.back-btn').onclick = renderCategories;
+        document.querySelectorAll('.btn-card-book').forEach(btn => {
+            btn.onclick = () => {
+                document.getElementById('modalServiceName').innerText = btn.getAttribute('data-name');
                 modal.style.display = "block";
+                if(checkAuth()) {
+                    loginStep.style.display = "none";
+                    detailsStep.style.display = "block";
+                } else {
+                    loginStep.style.display = "block";
+                    detailsStep.style.display = "none";
+                }
             };
         });
-        document.querySelector('.back-btn')?.addEventListener('click', renderCategories);
     }
 
-    // --- FORM & TRACKING LOGIC ---
-    form.addEventListener('submit', (e) => {
-        // User details capture
-        const name = document.getElementById('formUserName').value;
-        const phone = document.getElementById('formUserPhone').value;
+    // --- LOGIN & BOOKING ---
+    document.getElementById('proceedToBook').onclick = () => {
+        const name = document.getElementById('loginName').value;
+        const phone = document.getElementById('loginPhone').value;
+        if(name && phone) {
+            localStorage.setItem('uName', name);
+            localStorage.setItem('uPhone', phone);
+            checkAuth();
+            loginStep.style.display = "none";
+            detailsStep.style.display = "block";
+        } else { alert("Please fill all details"); }
+    };
 
-        // Update UI
-        document.getElementById('userNameSidebar').innerText = "Hi, " + name;
-        document.getElementById('userPhoneSidebar').innerText = phone;
-        trackingBox.style.display = "block";
-
-        alert(`Thank you ${name}! Booking for ${serviceNameDisplay.textContent} is placed.`);
+    document.getElementById('serviceModalForm').onsubmit = (e) => {
+        e.preventDefault();
+        const orderID = "UNIQ" + Math.floor(1000 + Math.random() * 9000);
+        const orderData = {
+            id: orderID,
+            service: document.getElementById('modalServiceName').innerText,
+            address: document.getElementById('userAddress').value,
+            status: 'placed'
+        };
+        localStorage.setItem('activeOrder', JSON.stringify(orderData));
         modal.style.display = "none";
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+        showTracking(orderData);
+        alert("Booking Confirmed! ID: " + orderID);
+    };
 
-    // --- YOUR LOCATION LOGIC (UNCHANGED) ---
-    const locationBtn = document.getElementById('getLocationBtn');
-    const addressTextarea = document.getElementById('userAddress');
-    const locationStatus = document.getElementById('locationStatus');
-
-    if (locationBtn) {
-        locationBtn.addEventListener('click', () => {
-            locationStatus.textContent = 'Fetching location...';
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((p) => {
-                    addressTextarea.value = `Live: Lat ${p.coords.latitude}, Lon ${p.coords.longitude}`;
-                    locationStatus.textContent = '✅ Location Added!';
-                }, () => { locationStatus.textContent = '❌ Error fetching location.'; });
-            }
-        });
+    function showTracking(data) {
+        if(!data) return;
+        trackingBox.style.display = "block";
+        document.getElementById('trackOrderID').innerText = "Order ID: " + data.id;
     }
 
-    closeBtn.onclick = () => modal.style.display = "none";
+    // Initializations
+    document.querySelector('.close-btn').onclick = () => modal.style.display = "none";
+    document.getElementById('closeTracking').onclick = () => trackingBox.style.display = "none";
+    
+    // Check for existing orders on load
+    const activeOrder = JSON.parse(localStorage.getItem('activeOrder'));
+    if(activeOrder) showTracking(activeOrder);
+    
+    checkAuth();
     renderCategories();
 });
