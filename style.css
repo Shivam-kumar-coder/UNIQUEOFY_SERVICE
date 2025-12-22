@@ -1,290 +1,84 @@
-/* --- 1. Global Styles and Reset --- */
+/* --- Base Styles (Keep your original root) --- */
 :root {
     --primary-color: #007bff; 
     --accent-color: #ff6f00; 
     --success-color: #28a745; 
-    --light-bg: #f5f7f9; 
     --font-family: 'Poppins', sans-serif;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: var(--font-family);
-    line-height: 1.6;
-    background-color: white;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-family); line-height: 1.6; background-color: white; }
 a { text-decoration: none; color: var(--primary-color); }
-
 section { padding: 30px 15px; text-align: center; }
 
-h1 { 
-    font-size: 2rem; 
-    color: white; 
-    margin-bottom: 25px; 
-    font-weight: 700; 
-    text-align: left;
-    line-height: 1.2;
+/* --- [NEW] Sidebar Styling --- */
+.side-menu {
+    height: 100%; width: 0; position: fixed; z-index: 3000;
+    top: 0; left: 0; background-color: #1a1a1a; overflow-x: hidden;
+    transition: 0.3s; padding-top: 60px;
 }
+.side-menu a { padding: 15px 25px; text-decoration: none; font-size: 1.1rem; color: #bbb; display: block; }
+.side-menu a:hover { color: white; background: #333; }
+.menu-profile { color: white; text-align: center; padding: 0 15px; margin-bottom: 20px; }
+
+/* --- [NEW] Tracking Status Bar --- */
+.status-card {
+    margin: 15px; padding: 20px; background: #fdfdfd; border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 4px solid var(--primary-color);
+}
+.status-steps { display: flex; justify-content: space-between; margin-top: 15px; position: relative; }
+.step { font-size: 0.7rem; color: #ccc; text-align: center; flex: 1; position: relative; }
+.step.active { color: var(--success-color); font-weight: bold; }
+.step::before {
+    content: ''; width: 12px; height: 12px; background: #eee;
+    border-radius: 50%; display: block; margin: 0 auto 5px;
+}
+.step.active::before { background: var(--success-color); border: 2px solid #fff; outline: 2px solid var(--success-color); }
+
+/* --- Your Original Hero Section --- */
+.hero-section {
+    padding: 20px; height: auto;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('hero-bg.jpg') no-repeat center center;
+    background-size: cover; display: flex; flex-direction: column; align-items: center; color: white; text-align: left;
+}
+.hero-content { max-width: 400px; width: 100%; text-align: center; }
+.app-header-mock { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.app-logo { font-weight: 700; font-size: 1.2rem; }
+.menu-icon { font-size: 1.5rem; }
+
+h1 { font-size: 2rem; color: white; margin-bottom: 25px; font-weight: 700; text-align: left; line-height: 1.2; }
 h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; color: var(--primary-color); }
 
-/* --- Button Global Finish --- */
-.btn {
-    padding: 10px 18px; 
-    border-radius: 8px; 
-    font-weight: 600;
-    text-transform: uppercase;
-    transition: all 0.3s ease; 
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+.hero-search-container { display: flex; background: white; border-radius: 10px; overflow: hidden; margin: 15px 0 20px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.2); width: 100%; }
+.search-input { flex: 1; padding: 12px 15px; border: none; font-size: 1rem; outline: none; }
+.search-btn { background-color: var(--primary-color); color: white; padding: 12px 18px; border: none; cursor: pointer; }
 
-.btn:hover { 
-    transform: translateY(-2px); 
-    opacity: 0.95;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+/* --- Category and Card Grids (Your Logic) --- */
+.category-icon-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px 0; }
+.category-icon-card { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); cursor: pointer; text-align: left; }
+.category-img { width: 100%; height: 100px; object-fit: contain; margin-bottom: 10px; }
+.category-name { font-size: 1rem; font-weight: 600; color: var(--primary-color); }
 
+.service-card-grid { display: grid; grid-template-columns: 1fr; gap: 20px; padding: 10px 0; }
+.service-card-v2 { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+.card-image { width: 100%; height: 200px; overflow: hidden; }
+.service-video { width: 100%; height: 100%; object-fit: cover; }
+.card-title { font-size: 1.2rem; color: var(--primary-color); padding: 10px 15px 5px; }
+.card-description { padding: 0 15px 10px; font-size: 0.9rem; color: #666; }
+.card-actions { display: flex; gap: 10px; padding: 0 15px 15px; }
 
-/* --- 2. Hero Section (Fitted and Focused) --- */
-.hero-section {
-    padding: 20px 20px 30px 20px; 
-    height: auto; 
-    
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('hero-bg.jpg') no-repeat center center; 
-    background-size: cover;
-    background-position: center; 
-    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-    text-align: left;
-}
+/* --- Modal & Buttons --- */
+.modal { display: none; position: fixed; z-index: 4000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7); }
+.modal-content { background-color: #fff; margin: 10vh auto; padding: 25px; border-radius: 15px; width: 90%; max-width: 400px; position: relative; }
+.btn { padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; }
+.btn-card-call { background: var(--success-color); color: white; }
+.btn-card-book { background: var(--primary-color); color: white; }
+.btn-submit-modal { width: 100%; background-color: var(--accent-color); color: white; padding: 14px; border-radius: 8px; font-weight: 700; }
+.btn-location-fetch { background-color: #5bc0de; color: white; width: 100%; margin-bottom: 15px; }
 
-.hero-content {
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-}
-
-/* Mock Header */
-.app-header-mock {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    margin-bottom: 20px;
-}
-.app-logo {
-    font-weight: 700;
-    font-size: 1.2rem;
-}
-.menu-icon {
-    font-size: 1.5rem;
-}
-
-
-/* Search Bar Finish */
-.hero-search-container {
-    display: flex;
-    background: white;
-    border-radius: 10px; 
-    overflow: hidden;
-    margin: 15px 0 20px 0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
-    width: 100%;
-}
-
-.search-input {
-    flex: 1;
-    padding: 12px 15px;
-    border: none;
-    font-size: 1rem;
-    outline: none;
-}
-
-.search-btn {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 12px 18px;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    border-radius: 0;
-}
-
-/* Explore Link */
-.hero-explore-link {
-    color: #ffc107; 
-    font-weight: 600;
-    font-size: 1.1rem; 
-    padding: 8px 15px;
-    border: 1px solid #ffc107;
-    border-radius: 20px;
-    transition: background 0.3s;
-    display: inline-flex;
-    align-items: center;
-}
-.hero-explore-link i {
-    margin-right: 8px;
-    color: var(--accent-color);
-}
-
-
-/* --- 3. Services List Containers (Tier 1 and Tier 2) --- */
-.services-overview {
-    background-color: white;
-    padding-top: 20px;
-}
-
-/* TIER 1: Category Icons (3D Images) */
-.category-icon-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 15px;
-    padding: 15px 0;
-}
-
-.category-icon-card {
-    background: white;
-    border-radius: 12px; 
-    padding: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    text-align: left; 
-}
-
-.category-icon-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-.category-img {
-    width: 100%;
-    height: 100px; 
-    object-fit: contain; /* ⭐ 3D image fit 'contain' for best look ⭐ */
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.category-name {
-    font-size: 1.0rem; 
-    font-weight: 600;
-    color: var(--primary-color);
-}
-
-
-/* TIER 2: Service Cards (Video Embed) */
-.service-card-grid {
-    display: grid;
-    grid-template-columns: 1fr; 
-    gap: 20px;
-    padding: 10px 0;
-}
-
-.service-card-v2 {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-}
-
-.card-image {
-    width: 100%;
-    height: 200px;
-    position: relative; 
-    overflow: hidden;
-}
-
-/* Video Fit CSS */
-.service-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Video fills the entire container */
-}
-
-.card-title {
-    font-size: 1.2rem;
-    color: var(--primary-color);
-    margin-bottom: 5px;
-}
-
-.card-actions {
-    display: flex;
-    justify-content: flex-start; 
-    gap: 10px;
-}
-
-.btn-card-call, .btn-card-book {
-    padding: 8px 15px;
-    font-size: 0.85rem;
-    text-transform: none;
-    flex-grow: 0; 
-}
-.btn-card-call { background-color: var(--success-color); color: white; }
-.btn-card-book { background-color: var(--primary-color); color: white; }
-
-
-/* --- 4. Modal Styling --- (Location Feature Styles) */
-.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); }
-.modal-content { background-color: #fefefe; margin: 10vh auto; padding: 25px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); position: relative; }
-.close-btn { color: #aaa; float: right; font-size: 30px; font-weight: bold; cursor: pointer; }
-#serviceModalForm input, #serviceModalForm textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; font-family: var(--font-family); font-size: 1rem; }
-.btn-submit-modal { width: 100%; background-color: var(--accent-color); color: white; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 1.1rem; }
-
-/* LOCATION BUTTON STYLE */
-.btn-location-fetch {
-    background-color: #5bc0de; 
-    color: white;
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-}
-.btn-location-fetch i { margin-right: 8px; }
-.location-status-text { font-size: 0.8rem; color: var(--primary-color); text-align: center; margin-bottom: 10px; min-height: 20px; }
-
-
-/* --- 5. Footer & Desktop Adjustments --- */
-.main-footer {
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    font-size: 0.9rem;
-    text-align: center;
-}
+.main-footer { background-color: #333; color: white; padding: 20px; text-align: center; }
 
 @media (min-width: 769px) {
-    section { padding: 50px 40px; }
-    .hero-section { height: 45vh; } 
-    .hero-content { max-width: 800px; }
-    
-    .category-icon-grid { 
-        grid-template-columns: repeat(4, 1fr); 
-        gap: 25px; 
-        max-width: 900px;
-        margin: 0 auto;
-    }
-    
-    .service-card-grid { 
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
-        max-width: 900px;
-        margin: 0 auto;
-    }
+    .category-icon-grid { grid-template-columns: repeat(4, 1fr); max-width: 900px; margin: 0 auto; }
+    .service-card-grid { grid-template-columns: repeat(2, 1fr); max-width: 900px; margin: 0 auto; }
 }
