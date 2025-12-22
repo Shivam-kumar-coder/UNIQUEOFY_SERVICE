@@ -55,3 +55,20 @@
 
 .btn-confirm { width: 100%; background: var(--primary); color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
 .btn-location { width: 100%; background: #5bc0de; color: white; padding: 8px; border: none; border-radius: 8px; margin-bottom: 10px; font-size: 0.8rem; }
+/* --- TUMHARA PURA CSS PEHLE WALA YAHAN RAHEGA --- */
+
+/* --- ADDITIONAL CLASSES FOR FEATURES --- */
+.status-tracker-card {
+    background: #fff; margin: -20px 15px 20px; padding: 15px; border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 4px solid var(--primary-color);
+    position: relative; z-index: 10;
+}
+.tracker-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.85rem; }
+.badge { background: var(--primary-color); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; }
+.steps-row { display: flex; justify-content: space-between; }
+.step-point { flex: 1; text-align: center; font-size: 0.65rem; color: #ccc; font-weight: 600; }
+.step-point.active { color: var(--success-color); }
+.step-point::before { content: '●'; display: block; font-size: 1.2rem; }
+
+/* Modal Button override for consistency */
+.btn-submit-modal { cursor:pointer; }
