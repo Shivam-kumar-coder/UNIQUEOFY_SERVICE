@@ -1,4 +1,3 @@
-<!-- User Website - Complete HTML (Based on your provided code, expanded with all features: Login/Signup via form (backend OTP), Categories (hardcoded examples, backend can populate), Search, Order Booking Modal with Payment Placeholder, Order Monitoring (separate section, shown post-booking via backend), Order History Page, Help & Support Page) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,150 +6,345 @@
     <title>UNIQUEFY SERVICES - India's Trusted Professionals</title>
     <meta name="description" content="One Stop Solution For All Your Needs: Home, Industrial, Hospital, Repairing, Painting, and Cleaning Services across India.">
 
-    <link rel="stylesheet" href="user-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #007bff;
+            --accent: #ff6f00;
+            --success: #28a745;
+            --text: #333;
+            --light: #f8f9fa;
+            --font: 'Poppins', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font); background: white; color: var(--text); }
+        a { text-decoration: none; }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('hero-bg.jpg') center/cover no-repeat;
+            padding: 20px;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 700; }
+
+        .hero-content { text-align: center; margin-top: 40px; }
+        .hero-content h1 { font-size: 2.5rem; margin-bottom: 20px; }
+
+        .search-container {
+            max-width: 500px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: flex;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .search-btn {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            font-size: 1.2rem;
+        }
+
+        .explore-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ffc107;
+            font-weight: 600;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border: 2px solid #ffc107;
+            border-radius: 30px;
+        }
+
+        /* Categories Section */
+        .categories-section {
+            padding: 30px 15px;
+            background: var(--light);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        /* Horizontal Scroll for Categories */
+        .category-scroll {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .category-card {
+            display: inline-block;
+            width: 180px;
+            background: white;
+            border-radius: 12px;
+            margin-right: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 15px;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .category-name {
+            margin-top: 10px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Services under Category - Horizontal Scroll */
+        .services-scroll {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 15px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .service-card {
+            display: inline-block;
+            width: 220px;
+            background: white;
+            border-radius: 12px;
+            margin-right: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .service-card img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .service-title { font-weight: 600; }
+        .service-price { color: var(--accent); font-size: 1.2rem; margin: 8px 0; }
+        .view-details { color: var(--primary); font-weight: 600; }
+
+        /* Service Details Section */
+        .service-details {
+            padding: 30px 15px;
+            text-align: center;
+        }
+
+        .service-details img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .book-now-btn {
+            background: var(--accent);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .modal input, .modal textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .location-btn {
+            background: #17a2b8;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+
+        .submit-btn {
+            background: var(--accent);
+            color: white;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .hero-content h1 { font-size: 3.5rem; }
+            .category-scroll, .services-scroll { padding: 20px; }
+        }
+    </style>
 </head>
 <body>
 
+    <!-- Hero Section -->
     <section class="hero-section">
-        <div class="hero-content">
-            <div class="app-header-mock">
-                <span class="app-logo">UNIQUEFY</span>
-                <i class="fas fa-bars menu-icon"></i>
-            </div>
+        <div class="header">
+            <div class="logo">UNIQUEFY</div>
+            <i class="fas fa-bars" style="font-size: 1.8rem;"></i>
+        </div>
 
+        <div class="hero-content">
             <h1>NEED SERVICES ? ..</h1>
 
-            <div class="hero-search-container">
-                <form action="/search" method="GET" class="search-form">
-                    <input type="text" name="query" placeholder="Search for any service..." class="search-input" required>
+            <div class="search-container">
+                <form action="/search" method="GET" style="width:100%; display:flex;">
+                    <input type="text" name="q" class="search-input" placeholder="Search for any service...">
                     <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
                 </form>
             </div>
 
-            <a href="#services-list" class="hero-explore-link">
+            <a href="#categories" class="explore-link">
                 <i class="fas fa-star"></i> Explore Categories
             </a>
-
-            <!-- User Profile/Login Section (Form for Login/Signup with OTP - Backend Handles Verification) -->
-            <div class="user-profile">
-                <form action="/login" method="POST" class="login-form">
-                    <input type="text" name="name" placeholder="Name" required>
-                    <input type="tel" name="mobile" placeholder="Mobile Number" required>
-                    <button type="submit">Send OTP</button>
-                </form>
-                <!-- After login, backend can display: <p>User ID: XXXX</p> -->
-            </div>
         </div>
     </section>
 
-    <section class="services-overview" id="services-list">
-        <div id="service-list-title" class="section-title">
-            <h2>Categories</h2>
+    <!-- Categories Section -->
+    <section class="categories-section" id="categories">
+        <h2 class="section-title">Categories</h2>
+
+        <!-- Example Category: Home Control -->
+        <h3 style="text-align:left; padding:0 15px; margin:15px 0 10px; font-size:1.4rem;">Home Control</h3>
+        <div class="services-scroll">
+            <!-- Service 1 -->
+            <div class="service-card">
+                <img src="cleaning-icon.png" alt="Cleaning">
+                <div class="service-title">Cleaning</div>
+                <div class="service-price">₹500</div>
+                <div>Deep cleaning service.</div>
+                <a href="#cleaning-details" class="view-details">View Details →</a>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-card">
+                <img src="painting-icon.png" alt="Painting">
+                <div class="service-title">Painting</div>
+                <div class="service-price">₹1000</div>
+                <div>Wall painting service.</div>
+                <a href="#painting-details" class="view-details">View Details →</a>
+            </div>
+
+            <!-- Add more services -->
         </div>
 
-        <div id="services-list-container" class="category-icon-grid">
-            <!-- Layer 1: Categories (Backend can populate dynamically, hardcoded examples) -->
-            <div class="category-item">
-                <h3>Home Control</h3>
-                <!-- Layer 2: Services under category (Scroll model like Swiggy) -->
-                <div class="service-list scroll-container">
-                    <div class="service">
-                        <img src="cleaning.jpg" alt="Cleaning">
-                        <p>Cleaning - ₹500</p>
-                        <p>Deep cleaning service.</p>
-                        <a href="#service-details-cleaning">View Details</a>
-                    </div>
-                    <div class="service">
-                        <img src="painting.jpg" alt="Painting">
-                        <p>Painting - ₹1000</p>
-                        <p>Wall painting service.</p>
-                        <a href="#service-details-painting">View Details</a>
-                    </div>
-                    <!-- More services... -->
-                </div>
-            </div>
-            <!-- More categories... -->
-        </div>
+        <!-- Add more categories here with same structure -->
     </section>
 
-    <!-- Service Details Section (Layer 3: Full details like Flipkart) -->
-    <section id="service-details-cleaning" class="service-details">
+    <!-- Service Details Example -->
+    <section class="service-details" id="cleaning-details">
         <h2>Cleaning Service</h2>
         <img src="cleaning-large.jpg" alt="Cleaning">
-        <p>Description: Full deep cleaning including floors, windows, etc.</p>
-        <p>Terms & Conditions: Standard terms apply.</p>
-        <p>Price: ₹500</p>
-        <button class="book-now-btn">Book Now</button> <!-- Form opens modal or submits to /book -->
-    </section>
-    <!-- Similar for other services -->
-
-    <!-- Order Monitoring Section (Shown only after booking, backend controls visibility) -->
-    <section id="order-monitoring" class="order-section">
-        <h2>Live Order Monitoring</h2>
-        <div class="order-status">
-            <!-- Backend populates: Processing / Forwarded / Accepted -->
-            <p>Status: Processing...</p>
-        </div>
+        <p><strong>Description:</strong> Full deep cleaning including floors, windows, kitchen, bathroom etc.</p>
+        <p><strong>Terms & Conditions:</strong> Standard terms apply. Advance payment required.</p>
+        <p><strong>Price:</strong> ₹500 onwards</p>
+        <button class="book-now-btn" onclick="document.getElementById('bookingModal').style.display='flex'">Book Now</button>
     </section>
 
-    <!-- Order History Section -->
-    <section id="order-history" class="order-section">
-        <h2>Order History</h2>
-        <ul class="history-list">
-            <!-- Backend populates list items -->
-            <li>Order #1: Cleaning - Completed</li>
-            <!-- More... -->
-        </ul>
-    </section>
-
-    <!-- Help & Support Section -->
-    <section id="help-support" class="support-section">
-        <h2>Help & Support</h2>
-        <form action="/support" method="POST">
-            <textarea name="query" placeholder="Raise your query or ticket..." required></textarea>
-            <button type="submit">Submit Ticket</button>
-        </form>
-    </section>
-
-    <footer class="main-footer">
-        <p>CALL/WHATSAPP: <a href="tel:7870066085">7870066085</a></p>
-        <p>&copy; 2025 UNIQUEFY SERVICES. All rights reserved.</p>
-    </footer>
-
-    <!-- Booking Modal (Expanded with Payment Gateway Placeholder - Backend integrates real gateway like Razorpay) -->
-    <div id="bookingModal" class="modal">
+    <!-- Booking Modal -->
+    <div class="modal" id="bookingModal">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3>Book Service: <span id="modalServiceName"></span></h3>
+            <span class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+            <h3>Book Service: Cleaning</h3>
 
-            <form action="/book" method="POST">
-                <input type="hidden" name="serviceName" id="hiddenServiceName">
-
-                <input type="text" name="name" placeholder="Apka Pura Naam *" required>
+            <form action="/book-order" method="POST">
+                <input type="text" name="name" placeholder="Your Full Name *" required>
                 <input type="tel" name="mobile" placeholder="Mobile Number *" required>
-                <textarea name="address" placeholder="Pura Address, Landmark, aur City Name *" rows="3" required></textarea>
+                <textarea name="address" placeholder="Full Address, Landmark, City *" rows="4" required></textarea>
 
-                <button type="button" class="btn btn-location-fetch">
+                <button type="button" class="location-btn">
                     <i class="fas fa-location-arrow"></i> Use My Current Location
                 </button>
-                <div class="location-status-text"></div>
+                <div style="text-align:center; color:var(--primary); margin:10px 0;">Location will be auto-filled</div>
 
-                <!-- Payment Section (Backend handles real gateway) -->
-                <div class="payment-section">
-                    <h4>Payment</h4>
-                    <select name="paymentMethod">
-                        <option value="card">Credit/Debit Card</option>
-                        <option value="upi">UPI</option>
-                        <option value="netbanking">Net Banking</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn btn-submit-modal">CONFIRM & PAY</button>
+                <!-- Backend will handle payment after this -->
+                <button type="submit" class="submit-btn">CONFIRM BOOKING</button>
             </form>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>CALL/WHATSAPP: <a href="tel:7870066085" style="color:white;">7870066085</a></p>
+        <p>&copy; 2025 UNIQUEFY SERVICES. All rights reserved.</p>
+    </footer>
 
 </body>
 </html>
