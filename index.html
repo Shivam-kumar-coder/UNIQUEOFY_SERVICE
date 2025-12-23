@@ -3,72 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNIQUEOFY SERVICES - India's Trusted Professionals</title>
-    <meta name="description" content="One Stop Solution For All Your Needs: Home, Industrial, Hospital, Repairing, Painting, and Cleaning Services across India.">
-    
+    <title>UNIQUEFY SERVICES - India's Trusted Professionals</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <section class="hero-section">
-        <div class="hero-content">
-            <div class="app-header-mock">
-                <span class="app-logo">UNIQUEOFY</span>
-                <i class="fas fa-bars menu-icon"></i>
+    <div id="sideMenu" class="sidebar">
+        <div class="sidebar-header">
+            <div id="userProfileArea">
+                <i class="fas fa-user-circle"></i>
+                <span id="userNameDisplay">Guest User</span>
             </div>
+            <span class="close-menu">&times;</span>
+        </div>
+        <nav class="menu-links">
+            <a href="#" id="loginBtnNav"><i class="fas fa-sign-in-alt"></i> Login / Signup</a>
+            <a href="#"><i class="fas fa-history"></i> Order History</a>
+            <a href="#"><i class="fas fa-headset"></i> Help & Support (Ticket)</a>
+        </nav>
+    </div>
 
-            <h1>NEED SERVICES ? ..</h1>
-            
+    <section class="hero-section">
+        <header class="app-header-mock">
+            <span class="app-logo">UNIQUEFY</span>
+            <i class="fas fa-bars menu-icon" id="menuToggle"></i>
+        </header>
+
+        <div class="hero-content">
+            <h1>NEED SERVICES? <br><span>Reliable & Fast</span></h1>
             <div class="hero-search-container">
-                <input type="text" placeholder="Search for any service..." class="search-input">
+                <input type="text" placeholder="Search for cleaning, painting..." class="search-input">
                 <button class="search-btn"><i class="fas fa-search"></i></button>
             </div>
-            
-            <a href="#services-list" class="hero-explore-link">
-                <i class="fas fa-star"></i> Explore Categories
-            </a>
         </div>
     </section>
 
-    <section class="services-overview" id="services-list">
-        <div id="service-list-title" class="section-title">
+    <div class="order-monitoring-bar">
+        <div class="monitoring-content">
+            <i class="fas fa-truck-loading pulse"></i>
+            <span>Live Order: Cleaning in Progress...</span>
+            <a href="#">Track</a>
         </div>
-        
-        <div id="services-list-container" class="category-icon-grid">
-        </div>
+    </div>
+
+    <section class="services-overview">
+        <h2 class="section-title">Top Categories</h2>
+        <div id="category-grid" class="category-icon-grid">
+            <div class="category-icon-card" onclick="showSubCategories()">
+                <img src="https://cdn-icons-png.flaticon.com/512/1243/1243911.png" class="category-img" alt="Home">
+                <p class="category-name">Home Control</p>
+            </div>
+            </div>
     </section>
 
-    <footer class="main-footer">
-        <p>CALL/WHATSAPP: <a href="tel:7870066085">7870066085</a></p>
-        <p>&copy; 2025 UNIQUEOFY SERVICES. All rights reserved.</p>
-    </footer>
+    <section class="sub-services-section">
+        <h3 class="sub-title">Popular Services</h3>
+        <div class="horizontal-scroll">
+            <div class="service-mini-card">
+                <img src="cleaning.jpg" alt="">
+                <p>Deep Cleaning</p>
+                <span>₹499</span>
+            </div>
+            </div>
+    </section>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-login">&times;</span>
+            <h3>Login to Uniquefy</h3>
+            <div id="phoneInputStep">
+                <input type="text" id="custName" placeholder="Full Name">
+                <input type="tel" id="custPhone" placeholder="Mobile Number">
+                <button class="btn btn-submit-modal" onclick="sendOTP()">Verify Number</button>
+            </div>
+            <div id="otpStep" style="display:none;">
+                <input type="text" placeholder="Enter 6-digit OTP">
+                <button class="btn btn-submit-modal">Login</button>
+            </div>
+        </div>
+    </div>
 
     <div id="bookingModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content detail-view">
             <span class="close-btn">&times;</span>
-            <h3>Book Service: <span id="modalServiceName"></span></h3>
-            
-            <form id="serviceModalForm" action="YOUR_GOOGLE_FORM_URL" method="POST" target="_blank">
-                
-                <input type="hidden" name="serviceNameEntry" id="hiddenServiceName"> 
-
-                <input type="text" name="entry.406987541" placeholder="Apka Pura Naam *" required>
-                <input type="tel" name="entry.1596700010" placeholder="Mobile Number *" required>
-                
-                <textarea name="entry.1012170305" id="userAddress" placeholder="Pura Address, Landmark, aur City Name *" rows="3" required></textarea>
-                
-                <button type="button" id="getLocationBtn" class="btn btn-location-fetch">
-                    <i class="fas fa-location-arrow"></i> Use My Current Location
-                </button>
-                <div id="locationStatus" class="location-status-text"></div> 
-                
-                <button type="submit" class="btn btn-submit-modal">CONFIRM BOOKING</button>
+            <img src="service-banner.jpg" class="detail-img">
+            <h3 id="modalServiceName">House Painting</h3>
+            <p class="price-tag">Starts from ₹2,999</p>
+            <div class="description-box">
+                <h4>Description:</h4>
+                <p>We provide high-quality painting with 2 years warranty. Terms: 50% Advance.</p>
+            </div>
+            <form id="orderForm">
+                <input type="text" placeholder="Full Address (House No, Area)">
+                <button type="button" class="btn-location-fetch"><i class="fas fa-map-marker-alt"></i> Use Pin Drop</button>
+                <button type="submit" class="btn btn-confirm">BOOK NOW</button>
             </form>
         </div>
     </div>
-    
+
+    <footer class="main-footer">
+        <p>CALL: 7870066085 | WHATSAPP</p>
+        <p>&copy; 2025 UNIQUEFY SERVICES</p>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
