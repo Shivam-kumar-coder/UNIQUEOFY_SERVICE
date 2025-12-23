@@ -1,113 +1,156 @@
+<!-- User Website - Complete HTML (Based on your provided code, expanded with all features: Login/Signup via form (backend OTP), Categories (hardcoded examples, backend can populate), Search, Order Booking Modal with Payment Placeholder, Order Monitoring (separate section, shown post-booking via backend), Order History Page, Help & Support Page) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNIQUEFY SERVICES - India's Trusted Professionals</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="One Stop Solution For All Your Needs: Home, Industrial, Hospital, Repairing, Painting, and Cleaning Services across India.">
+
+    <link rel="stylesheet" href="user-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <div id="sideMenu" class="sidebar">
-        <div class="sidebar-header">
-            <div id="userProfileArea">
-                <i class="fas fa-user-circle"></i>
-                <span id="userNameDisplay">Guest User</span>
-            </div>
-            <span class="close-menu">&times;</span>
-        </div>
-        <nav class="menu-links">
-            <a href="#" id="loginBtnNav"><i class="fas fa-sign-in-alt"></i> Login / Signup</a>
-            <a href="#"><i class="fas fa-history"></i> Order History</a>
-            <a href="#"><i class="fas fa-headset"></i> Help & Support (Ticket)</a>
-        </nav>
-    </div>
-
     <section class="hero-section">
-        <header class="app-header-mock">
-            <span class="app-logo">UNIQUEFY</span>
-            <i class="fas fa-bars menu-icon" id="menuToggle"></i>
-        </header>
-
         <div class="hero-content">
-            <h1>NEED SERVICES? <br><span>Reliable & Fast</span></h1>
+            <div class="app-header-mock">
+                <span class="app-logo">UNIQUEFY</span>
+                <i class="fas fa-bars menu-icon"></i>
+            </div>
+
+            <h1>NEED SERVICES ? ..</h1>
+
             <div class="hero-search-container">
-                <input type="text" placeholder="Search for cleaning, painting..." class="search-input">
-                <button class="search-btn"><i class="fas fa-search"></i></button>
+                <form action="/search" method="GET" class="search-form">
+                    <input type="text" name="query" placeholder="Search for any service..." class="search-input" required>
+                    <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+            <a href="#services-list" class="hero-explore-link">
+                <i class="fas fa-star"></i> Explore Categories
+            </a>
+
+            <!-- User Profile/Login Section (Form for Login/Signup with OTP - Backend Handles Verification) -->
+            <div class="user-profile">
+                <form action="/login" method="POST" class="login-form">
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="tel" name="mobile" placeholder="Mobile Number" required>
+                    <button type="submit">Send OTP</button>
+                </form>
+                <!-- After login, backend can display: <p>User ID: XXXX</p> -->
             </div>
         </div>
     </section>
 
-    <div class="order-monitoring-bar">
-        <div class="monitoring-content">
-            <i class="fas fa-truck-loading pulse"></i>
-            <span>Live Order: Cleaning in Progress...</span>
-            <a href="#">Track</a>
+    <section class="services-overview" id="services-list">
+        <div id="service-list-title" class="section-title">
+            <h2>Categories</h2>
         </div>
-    </div>
 
-    <section class="services-overview">
-        <h2 class="section-title">Top Categories</h2>
-        <div id="category-grid" class="category-icon-grid">
-            <div class="category-icon-card" onclick="showSubCategories()">
-                <img src="https://cdn-icons-png.flaticon.com/512/1243/1243911.png" class="category-img" alt="Home">
-                <p class="category-name">Home Control</p>
+        <div id="services-list-container" class="category-icon-grid">
+            <!-- Layer 1: Categories (Backend can populate dynamically, hardcoded examples) -->
+            <div class="category-item">
+                <h3>Home Control</h3>
+                <!-- Layer 2: Services under category (Scroll model like Swiggy) -->
+                <div class="service-list scroll-container">
+                    <div class="service">
+                        <img src="cleaning.jpg" alt="Cleaning">
+                        <p>Cleaning - ₹500</p>
+                        <p>Deep cleaning service.</p>
+                        <a href="#service-details-cleaning">View Details</a>
+                    </div>
+                    <div class="service">
+                        <img src="painting.jpg" alt="Painting">
+                        <p>Painting - ₹1000</p>
+                        <p>Wall painting service.</p>
+                        <a href="#service-details-painting">View Details</a>
+                    </div>
+                    <!-- More services... -->
+                </div>
             </div>
-            </div>
+            <!-- More categories... -->
+        </div>
     </section>
 
-    <section class="sub-services-section">
-        <h3 class="sub-title">Popular Services</h3>
-        <div class="horizontal-scroll">
-            <div class="service-mini-card">
-                <img src="cleaning.jpg" alt="">
-                <p>Deep Cleaning</p>
-                <span>₹499</span>
-            </div>
-            </div>
+    <!-- Service Details Section (Layer 3: Full details like Flipkart) -->
+    <section id="service-details-cleaning" class="service-details">
+        <h2>Cleaning Service</h2>
+        <img src="cleaning-large.jpg" alt="Cleaning">
+        <p>Description: Full deep cleaning including floors, windows, etc.</p>
+        <p>Terms & Conditions: Standard terms apply.</p>
+        <p>Price: ₹500</p>
+        <button class="book-now-btn">Book Now</button> <!-- Form opens modal or submits to /book -->
+    </section>
+    <!-- Similar for other services -->
+
+    <!-- Order Monitoring Section (Shown only after booking, backend controls visibility) -->
+    <section id="order-monitoring" class="order-section">
+        <h2>Live Order Monitoring</h2>
+        <div class="order-status">
+            <!-- Backend populates: Processing / Forwarded / Accepted -->
+            <p>Status: Processing...</p>
+        </div>
     </section>
 
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close-login">&times;</span>
-            <h3>Login to Uniquefy</h3>
-            <div id="phoneInputStep">
-                <input type="text" id="custName" placeholder="Full Name">
-                <input type="tel" id="custPhone" placeholder="Mobile Number">
-                <button class="btn btn-submit-modal" onclick="sendOTP()">Verify Number</button>
-            </div>
-            <div id="otpStep" style="display:none;">
-                <input type="text" placeholder="Enter 6-digit OTP">
-                <button class="btn btn-submit-modal">Login</button>
-            </div>
-        </div>
-    </div>
+    <!-- Order History Section -->
+    <section id="order-history" class="order-section">
+        <h2>Order History</h2>
+        <ul class="history-list">
+            <!-- Backend populates list items -->
+            <li>Order #1: Cleaning - Completed</li>
+            <!-- More... -->
+        </ul>
+    </section>
 
+    <!-- Help & Support Section -->
+    <section id="help-support" class="support-section">
+        <h2>Help & Support</h2>
+        <form action="/support" method="POST">
+            <textarea name="query" placeholder="Raise your query or ticket..." required></textarea>
+            <button type="submit">Submit Ticket</button>
+        </form>
+    </section>
+
+    <footer class="main-footer">
+        <p>CALL/WHATSAPP: <a href="tel:7870066085">7870066085</a></p>
+        <p>&copy; 2025 UNIQUEFY SERVICES. All rights reserved.</p>
+    </footer>
+
+    <!-- Booking Modal (Expanded with Payment Gateway Placeholder - Backend integrates real gateway like Razorpay) -->
     <div id="bookingModal" class="modal">
-        <div class="modal-content detail-view">
+        <div class="modal-content">
             <span class="close-btn">&times;</span>
-            <img src="service-banner.jpg" class="detail-img">
-            <h3 id="modalServiceName">House Painting</h3>
-            <p class="price-tag">Starts from ₹2,999</p>
-            <div class="description-box">
-                <h4>Description:</h4>
-                <p>We provide high-quality painting with 2 years warranty. Terms: 50% Advance.</p>
-            </div>
-            <form id="orderForm">
-                <input type="text" placeholder="Full Address (House No, Area)">
-                <button type="button" class="btn-location-fetch"><i class="fas fa-map-marker-alt"></i> Use Pin Drop</button>
-                <button type="submit" class="btn btn-confirm">BOOK NOW</button>
+            <h3>Book Service: <span id="modalServiceName"></span></h3>
+
+            <form action="/book" method="POST">
+                <input type="hidden" name="serviceName" id="hiddenServiceName">
+
+                <input type="text" name="name" placeholder="Apka Pura Naam *" required>
+                <input type="tel" name="mobile" placeholder="Mobile Number *" required>
+                <textarea name="address" placeholder="Pura Address, Landmark, aur City Name *" rows="3" required></textarea>
+
+                <button type="button" class="btn btn-location-fetch">
+                    <i class="fas fa-location-arrow"></i> Use My Current Location
+                </button>
+                <div class="location-status-text"></div>
+
+                <!-- Payment Section (Backend handles real gateway) -->
+                <div class="payment-section">
+                    <h4>Payment</h4>
+                    <select name="paymentMethod">
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="upi">UPI</option>
+                        <option value="netbanking">Net Banking</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-submit-modal">CONFIRM & PAY</button>
             </form>
         </div>
     </div>
 
-    <footer class="main-footer">
-        <p>CALL: 7870066085 | WHATSAPP</p>
-        <p>&copy; 2025 UNIQUEFY SERVICES</p>
-    </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
